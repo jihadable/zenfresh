@@ -1,0 +1,14 @@
+ZenFresh
+
+Zenfresh is a refreshing laundry service that prioritizes cleanliness and quality.
+
+colors:
+lightBlue: #b2e5fd
+darkBlue: #546c7c
+red: #ef5251
+green: #66bb6a
+
+tagline: Unwind in Pristine Comfort
+
+pages:
+home, about, contact, pricing, orders, login, signup
