@@ -11,6 +11,10 @@ export default {
         "darkBlue": "#546c7c",
         "redCustome": "#ef5251",
         "greenCustome": "#66bb6a"
+      },
+      screens: {
+        "mobile": {"max": "480px"},
+        "tablet": {"min": "481px", "max": "1023px"}
       }
     },
   },
