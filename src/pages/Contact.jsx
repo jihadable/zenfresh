@@ -2,12 +2,11 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 
-export default function Home(){
-
+export default function Contact(){
     return (
         <>
         <Navbar />
-        <Hero page={"home"} header={"Unwind in Pristine Comfort"} headerColor={"text-greenCustome"} />
+        <Hero page={"contact"} header={"Contact Us"} headerColor={"text-lightBlue"} />
         <Footer />
         </>
     )

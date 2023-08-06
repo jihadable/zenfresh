@@ -1,9 +1,7 @@
-// import logo from "../assets"
-
-export default function Hero(){
+export default function Hero({page, header, headerColor}){
     return (
-        <div className="hero bg-[url('../assets/home.jpg')] bg-cover">
-            <div className="tagline">Unwind in Pristine Comfort</div>
+        <div className={`${page}-hero flex justify-center items-center bg-center bg-cover w-full h-[80vh] bg-fixed`}>
+            <div className={`tagline font-bold text-5xl ${headerColor} mobile:text-2xl`}>{header}</div>
         </div>
     )
 }

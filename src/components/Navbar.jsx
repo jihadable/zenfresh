@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import logo from "../assets/logo.png"
 
 export default function Navbar(){
@@ -70,14 +71,14 @@ export default function Navbar(){
     ]
 
     return (
-        <div className="navbar fixed top-0 bg-[rgb(255,255,255,3)] backdrop-blur-[5px] mobile:justify-between">
+        <div className="navbar fixed z-10 top-0 bg-[rgb(255,255,255,.2)] backdrop-blur-lg mobile:justify-between">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-side">
                 <label htmlFor="my-drawer" className="drawer-overlay"></label>
                 <ul className="menu flex flex-col gap-2 p-2 h-full bg-white mobile:w-full">
                     <li className="flex p-0 pr-4 flex-row gap-4 items-center justify-start mobile:w-full mobile:justify-between">
                         <div className="flex p-0">
-                            <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none hover:text-redCustome">
+                            <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                             </label>
                         </div>
@@ -103,7 +104,7 @@ export default function Navbar(){
                 </ul>
             </div>
             <div className="">
-                <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none hover:text-redCustome">
+                <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </label>
             </div>

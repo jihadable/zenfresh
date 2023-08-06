@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.home-hero{
+    background-image: url("./assets/home.jpg");
+}
+
+.about-hero{
+    background-image: url("./assets/about.jpg");
+}
+
+.services-hero{
+    background-image: url("./assets/services.jpg");
+}
+
+.pricing-hero{
+    background-image: url("./assets/pricing.jpg");
+}
+
+.contact-hero{
+    background-image: url("./assets/contact.jpg");
+}
+
+.hero-tagline{
+    text-shadow: 0 5px 30px rgb(0,0,0,.5);
+}

@@ -2,13 +2,13 @@ import logo from "../assets/logo.png"
 
 export default function Footer(){
     return (
-        <footer className="footer bg-greenCustome flex flex-col p-8 mt-20 text-base">
-            <div className="top flex w-full justify-between">
+        <footer className="footer bg-[#15191e] flex flex-col p-8 text-base text-[#ddd]">
+            <div className="top flex w-full justify-between mobile:flex-col mobile:items-center mobile:gap-8">
                 <div className="flex flex-col gap-2 items-center">
                     <img src={logo} alt="Logo" className="w-16" />
-                    <div className="tagline font-bold text-xl text-darkBlue">Unwind in Pristine Comfort</div>
+                    <div className="footer-tagline font-bold text-xl text-darkBlue">Unwind in Pristine Comfort</div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mobile:items-center">
                     <span className="footer-title">Services</span> 
                     <a className="link link-hover">Drop off Laundry</a>
                     <a className="link link-hover">Free Pick-Up and Delivery</a> 
@@ -17,7 +17,7 @@ export default function Footer(){
                 </div> 
                 <div className="flex flex-col">
                     <span className="footer-title">Social Media</span> 
-                    <div className="sosmed-links flex gap-4 text-darkBlue">
+                    <div className="sosmed-links flex gap-4">
                         <a className="link link-hover">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -41,9 +41,9 @@ export default function Footer(){
                     </div>
                 </div> 
             </div>
-            <div className="bottom flex justify-between w-full border-t pt-4">
+            <div className="bottom flex justify-between w-full border-t pt-4 mobile:flex-col mobile:items-center">
                 <div>© 2023 ZenFresh</div>
-                <div className="flex gap-8">
+                <div className="flex gap-8 mobile:gap-0 mobile:justify-between mobile:w-full">
                     <a className="link link-hover">Privacy policy</a>
                     <a className="link link-hover">Terms of service</a>
                 </div>
