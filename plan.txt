@@ -13,12 +13,14 @@ tagline: Unwind in Pristine Comfort
 constant components
 navbar: sidebar, logo, informations: phone, location, opening hours
 footer: 
+top:
 left: logo, tagline
-right: service's links: 
+mid: service's links: 
 Drop off Laundry
 Free Pick-Up and Delivery
 Eco-Friendly Products
 Fast & High Quality
+right: sosmed: ig, tiktok, yt
 bottom: 
 left: copyright: © 2020 ZenFresh
 right: Privacy policy Terms of service

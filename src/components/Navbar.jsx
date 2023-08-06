@@ -70,7 +70,7 @@ export default function Navbar(){
     ]
 
     return (
-        <div className="navbar fixed bg-[rgb(255,255,255,3)] backdrop-blur-[5px] mobile:justify-between">
+        <div className="navbar fixed top-0 bg-[rgb(255,255,255,3)] backdrop-blur-[5px] mobile:justify-between">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-side">
                 <label htmlFor="my-drawer" className="drawer-overlay"></label>
