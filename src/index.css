@@ -25,3 +25,11 @@
 .hero-tagline{
     text-shadow: 0 5px 30px rgb(0,0,0,.5);
 }
+
+.login, .signup{
+    background-image: url("./assets/login.jpg");
+}
+
+.login form,.signup form{
+    backdrop-filter: blur(5px);
+}
