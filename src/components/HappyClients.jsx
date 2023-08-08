@@ -19,15 +19,16 @@ export default function HappyClients(){
     ]
 
     return (
-        <section className="happy-clients flex flex-col items-center gap-8 py-8">
+        <section className="happy-clients flex flex-col items-center gap-8 py-8 mobile:px-4">
             <div className="header text-3xl">Happy Clients</div>
-            <div className="content flex justify-evenly mobile:flex-col mobile:gap-4 mobile:px-4">
+            <div className="text w-1/2 text-center mobile:w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto officiis laboriosam voluptates itaque deleniti quibusdam aliquid provident recusandae obcaecati hic.</div>
+            <div className="content flex justify-evenly mobile:flex-col mobile:gap-4 mobile:mt-6">
             {
                 clients.map((client, index) => {
                     return (
-                        <div className="client flex flex-col gap-6 w-[45%] bg-darkBlue p-4 rounded-sm mobile:w-full" key={index}>
+                        <div className="client flex flex-col gap-6 w-[45%] p-4 rounded-sm mobile:w-full mobile:p-0" key={index}>
                             <div className="chat chat-start p-0">
-                                <div className="chat-bubble bg-lightBlue">{client.text}</div>
+                                <div className="chat-bubble bg-lightBlue text-black">{client.text}</div>
                             </div>
                             <div className="info flex gap-4">
                                 <div className="img">
@@ -35,7 +36,7 @@ export default function HappyClients(){
                                 </div>
                                 <div className="name-job flex flex-col gap-2">
                                     <div className="name text-xl">{client.name}</div>
-                                    <div className="job text-lightBlue">{client.job}</div>
+                                    <div className="job text-darkBlue">{client.job}</div>
                                 </div>
                             </div>
                         </div>

@@ -76,40 +76,41 @@ export default function Navbar(){
             <div className="drawer-side">
                 <label htmlFor="my-drawer" className="drawer-overlay"></label>
                 <ul className="menu flex flex-col gap-2 p-2 h-full bg-white mobile:w-full">
-                    <li className="flex p-0 pr-4 flex-row gap-4 items-center justify-start mobile:w-full mobile:justify-between">
-                        <div className="flex p-0">
-                            <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <div className="flex p-0 pr-4 flex-row gap-4 items-center justify-start mobile:w-full mobile:justify-between">
+                        <div className="flex p-0 bg-transparent hover:bg-transparent">
+                            <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none bg-transparent hover:bg-transparent">
+                                <span className="h-6 w-6 text-xl hidden justify-center items-center mobile:flex">✕</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current mobile:hidden"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                             </label>
                         </div>
                         <div className="p-0">
-                            <a href="/" className="btn p-0 flex items-center justify-center border-none normal-case text-xl">
+                            <a href="/" className="btn p-0 flex items-center justify-center border-none normal-case text-xl bg-transparent hover:bg-transparent">
                                 <img src={logo} alt="Logo" className="w-8" />
                                 <span>ZenFresh</span>
                             </a>
                         </div>
-                    </li>
+                    </div>
                     {
                         navLinks.map((link, index) => {
                             return (
-                                <li className={`${link.name === "Home" ? "mt-2" : ""}`} key={index}>
-                                    <a className="p-0 pl-4 py-2 hover:bg-[rgb(0,0,0,.1)]" href={`/${link.name.toLowerCase() === "home" ? "" : link.name.toLowerCase()}`}>
+                                <div className={`${link.name === "Home" ? "mt-2" : ""}`} key={index}>
+                                    <a className="flex gap-4 p-0 pl-2 rounded-md py-2 hover:bg-[rgb(0,0,0,.1)]" href={`/${link.name.toLowerCase() === "home" ? "" : link.name.toLowerCase()}`}>
                                         {link.svg}
                                         <span className="text-base">{link.name}</span>
                                     </a>
-                                </li>
+                                </div>
                             )
                         })
                     }
                 </ul>
             </div>
-            <div className="">
-                <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none">
+            <div>
+                <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none bg-transparent hover:bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </label>
             </div>
             <div className="flex-1 mobile:flex-none">
-                <a href="/" className="btn border-none normal-case text-xl">
+                <a href="/" className="btn border-none normal-case text-xl bg-transparent hover:bg-transparent">
                     <img src={logo} alt="Logo" className="w-8" />
                     <span>ZenFresh</span>
                 </a>

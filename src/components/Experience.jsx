@@ -39,7 +39,7 @@ export default function Experience(){
     ]
 
     return (
-        <section className="exp flex justify-evenly py-8 my-12 bg-darkBlue mobile:flex-col mobile:gap-6">
+        <section className="exp flex justify-evenly py-8 mobile:flex-col mobile:gap-6">
         {
             expItems.map((exp, index) => {
                 return (

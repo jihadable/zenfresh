@@ -1,4 +1,5 @@
 import Experience from "../components/Experience";
+import Features from "../components/Features";
 import Footer from "../components/Footer";
 import HappyClients from "../components/HappyClients";
 import Hero from "../components/Hero";
@@ -11,6 +12,7 @@ export default function Home(){
         <>
         <Navbar />
         <Hero page={"home"} header={"Unwind in Pristine Comfort"} headerColor={"text-greenCustome"} />
+        <Features />
         <HowItWorks />
         <Experience />
         <HappyClients />
