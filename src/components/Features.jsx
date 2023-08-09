@@ -30,7 +30,7 @@ export default function Features(){
             {
                 features.map((feature, index) => {
                     return (
-                        <div className="card w-72 shadow-xl mobile:w-full" key={index}>
+                        <div className="card w-72 shadow-xl mobile:w-full tablet:w-[30%]" key={index}>
                             <figure><img src={feature.img} alt="Image" /></figure>
                             <div className="card-body p-6">
                                 <h2 className="card-title">{feature.title}</h2>
