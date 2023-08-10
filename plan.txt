@@ -29,8 +29,10 @@ pages:
 home, about, contact, pricing, services, login, signup
 
 home page:
+hero: tagline, features, how it works, experience, happy clients
 about page:
 services page:
+our services
 pricing page:
 contact page:
 

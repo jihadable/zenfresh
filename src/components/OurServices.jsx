@@ -69,7 +69,7 @@ export default function OurServices(){
                         <div className="card w-72 shadow-xl mobile:w-full tablet:w-[30%]" key={index}>
                             <figure><img src={service.img} alt="Image" /></figure>
                             <div className="card-body p-6">
-                                <h2 className="card-title justify-center">{service.title}</h2>
+                                <h2 className="card-title justify-center text-center">{service.title}</h2>
                                 <p className="text-center">{service.text}</p>
                             </div>
                         </div>
