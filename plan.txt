@@ -30,10 +30,16 @@ home, about, contact, pricing, services, login, signup
 
 home page:
 hero: tagline, features, how it works, experience, happy clients
+
 about page:
+who we are, what we do, our history, our target
+
 services page:
 our services
+
 pricing page:
+our pricing: basic(100), standard(250), exclusive(375)
+
 contact page:
 
 login page: 

@@ -23,10 +23,10 @@ export default function Signup(){
                         <input type="password" placeholder="Password" className="w-full p-3 border-b-2 outline-none rounded-t-2xl border-b-darkBlue" />
                     </div>
                     <button type="submit" className="btn bg-greenCustome border-none hover:bg-greenCustome shadow-2xl">Sign up</button>
-                    <div className="login-with-google flex items-center p-2 bg-white justify-center gap-4 rounded-lg cursor-pointer">
+                    <button className="login-with-google btn flex items-center p-2 bg-white justify-center gap-4 rounded-lg cursor-pointer">
                         <img src={googleIcon} alt="Google Icon" className="w-8" />
                         <span>Sign up with Google</span>
-                    </div>
+                    </button>
                     <div className="already self-center">
                         Already have an account? <a href="/signup" className="link link-hover">Login</a>
                     </div>

@@ -21,10 +21,10 @@ export default function Login(){
                     </div>
                     <a href="" className="link link-hover self-end">Forget password?</a>
                     <button type="submit" className="btn bg-greenCustome border-none hover:bg-greenCustome shadow-2xl">Login</button>
-                    <div className="login-with-google flex items-center p-2 bg-white justify-center gap-4 rounded-lg cursor-pointer">
+                    <button className="login-with-google btn flex items-center p-2 bg-white justify-center gap-4 rounded-lg cursor-pointer">
                         <img src={googleIcon} alt="Google Icon" className="w-8" />
                         <span>Login with Google</span>
-                    </div>
+                    </button>
                     <div className="not-yet self-center">
                         Don't have an account? <a href="/signup" className="link link-hover">Sign up</a>
                     </div>
