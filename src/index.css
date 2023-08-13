@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    background-color: #f3f4f6;
+}
+
+.drawer-side > .drawer-overlay{
+    cursor: auto;
+}
+
 .home-hero{
     background-image: url("./assets/home.jpg");
 }
