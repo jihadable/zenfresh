@@ -1,6 +1,6 @@
 export default function ContactUs(){
     return (
-        <section className="contact w-[50vw] flex flex-col mx-auto my-12 items-center gap-8">
+        <section className="contact w-[50vw] flex flex-col mx-auto my-12 items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="header flex flex-col gap-2">
                 <div className="phone flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

@@ -71,12 +71,12 @@ export default function Navbar(){
     ]
 
     return (
-        <div className="navbar fixed z-10 top-0 bg-[rgb(255,255,255,.2)] backdrop-blur-lg mobile:justify-between">
+        <div className="navbar fixed z-10 top-0 bg-[rgb(255,255,255,.2)] backdrop-blur-lg mobile:justify-between mobile:flex-row-reverse">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-side">
                 <label htmlFor="my-drawer" className="drawer-overlay"></label>
                 <ul className="menu flex flex-col gap-2 p-2 h-full bg-white mobile:w-full">
-                    <div className="flex p-0 pr-4 flex-row gap-4 items-center justify-start mobile:w-full mobile:justify-between">
+                    <div className="flex p-0 pr-4 flex-row items-center justify-start mobile:w-full mobile:justify-between mobile:flex-row-reverse mobile:pr-0">
                         <div className="flex p-0 bg-transparent hover:bg-transparent">
                             <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none bg-transparent hover:bg-transparent">
                                 <span className="h-6 w-6 text-xl hidden justify-center items-center mobile:flex">✕</span>
@@ -104,13 +104,13 @@ export default function Navbar(){
                     }
                 </ul>
             </div>
-            <div>
+            <div className="">
                 <label htmlFor="my-drawer" className="btn drawer-button btn-square border-none bg-transparent hover:bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </label>
             </div>
             <div className="flex-1 mobile:flex-none">
-                <a href="/" className="btn border-none normal-case text-xl bg-transparent hover:bg-transparent">
+                <a href="/" className="btn border-none normal-case text-xl bg-transparent hover:bg-transparent px-0">
                     <img src={logo} alt="Logo" className="w-8" />
                     <span>ZenFresh</span>
                 </a>
