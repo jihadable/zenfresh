@@ -18,9 +18,9 @@ export default function AboutUs(){
                 </div>
             </div>
         </section>
-        <div className="history-target flex flex-col w-[80vw] overflow-hidden mx-auto my-12 mt-24 bg-lightBlue rounded-br-2xl rounded-tl-2xl mobile:w-full mobile:rounded-none tablet:w-[90vw]">
+        <div className="history-target flex flex-col w-[80vw] overflow-hidden mx-auto my-32 rounded-br-2xl rounded-tl-2xl mobile:w-full mobile:rounded-none tablet:w-[90vw]">
             <div className="history flex mobile:flex-col">
-                <div className="header w-1/2 flex flex-col justify-center items-center bg-lightBlue mobile:w-full mobile:py-6">
+                <div className="header w-1/2 flex flex-col justify-center items-center mobile:w-full mobile:py-6">
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-history text-redCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M12 8l0 4l2 2"></path>
@@ -28,10 +28,10 @@ export default function AboutUs(){
                     </svg>
                     <div className="text-xl font-bold">Our History {">"}</div>
                 </div>
-                <div className="content w-1/2 bg-darkBlue px-4 py-2 rounded-bl-lg text-justify mobile:w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, quis! Sunt cum repudiandae laudantium itaque, illo earum nemo excepturi libero quos dolore quibusdam, nesciunt sed natus consequuntur sit architecto ipsam officia, pariatur rerum facilis commodi assumenda exercitationem officiis. Soluta sunt qui debitis obcaecati molestiae dolorem accusantium eos veniam cupiditate quae.</div>
+                <div className="content w-1/2 bg-lightBlue px-4 py-2 rounded-bl-lg text-justify mobile:w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, quis! Sunt cum repudiandae laudantium itaque, illo earum nemo excepturi libero quos dolore quibusdam, nesciunt sed natus consequuntur sit architecto ipsam officia, pariatur rerum facilis commodi assumenda exercitationem officiis. Soluta sunt qui debitis obcaecati molestiae dolorem accusantium eos veniam cupiditate quae.</div>
             </div>
             <div className="target flex flex-row-reverse mobile:flex-col">
-                <div className="header w-1/2 flex flex-col justify-center items-center bg-lightBlue mobile:w-full mobile:py-6">
+                <div className="header w-1/2 flex flex-col justify-center items-center mobile:w-full mobile:py-6">
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-target-arrow text-redCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
@@ -42,7 +42,7 @@ export default function AboutUs(){
                     </svg>
                     <div className="text-xl font-bold">{"<"} Our Target</div>
                 </div>
-                <div className="content w-1/2 bg-darkBlue px-4 py-2 rounded-tr-lg text-justify mobile:w-full">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt magni facere nobis, earum dicta, molestias in suscipit fugit officiis consequuntur maxime nam modi ratione incidunt assumenda? Dignissimos, possimus! Reiciendis, dignissimos suscipit praesentium nam perspiciatis cupiditate non atque pariatur hic eius voluptas impedit nihil saepe in. Sunt, possimus exercitationem. In, commodi.</div>
+                <div className="content w-1/2 bg-lightBlue px-4 py-2 rounded-tr-lg text-justify mobile:w-full">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt magni facere nobis, earum dicta, molestias in suscipit fugit officiis consequuntur maxime nam modi ratione incidunt assumenda? Dignissimos, possimus! Reiciendis, dignissimos suscipit praesentium nam perspiciatis cupiditate non atque pariatur hic eius voluptas impedit nihil saepe in. Sunt, possimus exercitationem. In, commodi.</div>
             </div>
         </div>
         </>

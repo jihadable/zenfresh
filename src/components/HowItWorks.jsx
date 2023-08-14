@@ -5,7 +5,7 @@ export default function HowItWorks(){
     const items = ["Choose Any Time For Delivery", "We Can Wash And Dry Dirty Laundry", "We Return Your Clean Laundry", "Relax And Enjoy Clean Clothes"]
 
     return (
-        <section className="how-it-works flex pb-8 mobile:flex-col tablet:flex-col">
+        <section className="how-it-works flex mt-32 mobile:flex-col tablet:flex-col">
             <div className="img">
                 <img src={howItWorks} alt="Image" className="w-full" />
             </div>

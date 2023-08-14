@@ -2,6 +2,9 @@ import logo from "../assets/logo.png"
 import googleIcon from "../assets/google_icon.png"
 
 export default function Login(){
+
+    document.title = "ZenFresh | Login"
+
     return (
         <sction className="login flex justify-center items-center w-full h-[100vh] bg-cover mobile:bg-center mobile:px-4">
             <form action="" className="flex flex-col gap-4 p-8 rounded-2xl bg-[rgb(255,255,255,.1)] border-2 border-[rgb(255,255,255,.3)] shadow-2xl mobile:p-6 mobile:w-full">

@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 import OurServices from "../components/OurServices";
 
 export default function Services(){
+
+    document.title = "ZenFresh | Services"
+
     return (
         <>
         <Navbar />

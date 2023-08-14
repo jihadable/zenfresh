@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 import OurPricing from "../components/OurPricing";
 
 export default function Pricing(){
+
+    document.title = "ZenFresh | Pricing"
+
     return (
         <>
         <Navbar />

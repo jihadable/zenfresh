@@ -2,6 +2,9 @@ import logo from "../assets/logo.png"
 import googleIcon from "../assets/google_icon.png"
 
 export default function Signup(){
+
+    document.title = "ZenFresh | Sign Up"
+
     return (
         <section className="signup flex justify-center items-center w-full h-[100vh] bg-cover mobile:bg-center mobile:px-4">
             <form action="" className="flex flex-col gap-4 p-8 rounded-2xl bg-[rgb(255,255,255,.1)] border-2 border-[rgb(255,255,255,.3)] shadow-2xl mobile:p-6 mobile:w-full">
@@ -28,7 +31,7 @@ export default function Signup(){
                         <span>Sign up with Google</span>
                     </button>
                     <div className="already self-center">
-                        Already have an account? <a href="/signup" className="link link-hover">Login</a>
+                        Already have an account? <a href="/login" className="link link-hover">Login</a>
                     </div>
                 </div>
             </form>
