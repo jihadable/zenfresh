@@ -10,7 +10,7 @@ export default function Pricing(){
     return (
         <>
         <Navbar />
-        <Hero page={"pricing"} header={"Pricing"} headerColor={"text-darkBlue"} />
+        <Hero page={"pricing"} header={"Pricing"} />
         <OurPricing />
         <Footer />
         </>

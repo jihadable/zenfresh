@@ -10,7 +10,7 @@ export default function HowItWorks(){
                 <img src={howItWorks} alt="Image" className="w-full" />
             </div>
             <div className="explanations p-6 bg-lightBlue flex flex-col gap-2">
-                <div className="header text-3xl">How It Works</div>
+                <div className="header text-3xl font-bold">How It Works</div>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam temporibus cumque officia quia est, nemo nam voluptatem consequatur. Similique commodi placeat deserunt consequuntur laudantium non minima maxime, illum architecto aspernatur.</p>
                 <div className="content flex flex-wrap">
                     <ul className="steps steps-vertical">

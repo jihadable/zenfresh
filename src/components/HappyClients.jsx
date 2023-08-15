@@ -20,7 +20,7 @@ export default function HappyClients(){
 
     return (
         <section className="happy-clients flex flex-col items-center gap-8 py-8 mobile:px-4">
-            <div className="header text-3xl">Happy Clients</div>
+            <div className="header text-3xl font-bold">Happy Clients</div>
             <div className="text w-1/2 text-center mobile:w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto officiis laboriosam voluptates itaque deleniti quibusdam aliquid provident recusandae obcaecati hic.</div>
             <div className="content flex justify-evenly mobile:flex-col mobile:gap-4 mobile:mt-6">
             {

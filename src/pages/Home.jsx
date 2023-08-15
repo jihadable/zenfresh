@@ -11,7 +11,7 @@ export default function Home(){
     return (
         <>
         <Navbar />
-        <Hero page={"home"} header={"Unwind in Pristine Comfort"} headerColor={"text-greenCustome"} />
+        <Hero page={"home"} header={"Unwind in Pristine Comfort"} />
         <Features />
         <HowItWorks />
         <Experience />

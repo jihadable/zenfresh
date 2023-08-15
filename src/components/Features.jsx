@@ -24,7 +24,7 @@ export default function Features(){
 
     return (
         <section className="features flex flex-col items-center gap-8 my-16 mobile:px-4">
-            <div className="header text-3xl">Features</div>
+            <div className="header text-3xl font-bold">Features</div>
             <div className="text w-1/2 text-center mobile:w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi ducimus sunt ea molestiae provident. Est ea nisi officia nostrum excepturi.</div>
             <div className="content flex w-full justify-evenly mobile:flex-col mobile:gap-10">
             {

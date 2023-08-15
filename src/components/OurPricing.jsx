@@ -24,7 +24,7 @@ export default function OurPricing(){
                 return (
                     <div className="price card flex flex-col items-center gap-6 p-8 border-2 border-lightBlue mobile:p-4 mobile:w-full" key={index}>
                         <div className="title uppercase font-bold">{price.title}</div>
-                        <div className="price"><span className="font-bold text-3xl text-redCustome">${price.price}</span>/mo</div>
+                        <div className="price"><span className="font-bold text-3xl text-darkBlue">${price.price}</span>/mo</div>
                         <div className="items flex flex-col gap-2">
                         {
                             priceItems.map((item, index) => {

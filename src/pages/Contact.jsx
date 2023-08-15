@@ -10,7 +10,7 @@ export default function Contact(){
     return (
         <>
         <Navbar />
-        <Hero page={"contact"} header={"Contact Us"} headerColor={"text-lightBlue"} />
+        <Hero page={"contact"} header={"Contact Us"} />
         <ContactUs />
         <Footer />
         </>

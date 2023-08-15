@@ -9,7 +9,6 @@ export default {
       colors: {
         "lightBlue": "#b2e5fd",
         "darkBlue": "#546c7c",
-        "redCustome": "#ef5251",
         "greenCustome": "#66bb6a"
       },
       screens: {
@@ -18,19 +17,6 @@ export default {
       }
     },
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
-          "primary": "#66bb6a",
-          "darkBlue": "#546c7c",
-          "redCustome": "#ef5251",
-          "greenCustome": "#66bb6a"
-        }
-      },
-      "light"
-    ],
-  }
+  plugins: [require("daisyui")]
 }
 

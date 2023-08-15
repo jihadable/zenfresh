@@ -60,7 +60,7 @@ export default function OurServices(){
 
     return (
         <section className="services flex flex-col gap-8 my-16 items-center mobile:px-4">
-            <div className="header text-3xl">Our Services</div>
+            <div className="header text-3xl font-bold">Our Services</div>
             <div className="text w-1/2 text-center mobile:w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure officiis ab sapiente repudiandae ea molestias voluptatum illo aspernatur esse quo.</div>
             <div className="content w-full grid justify-items-center grid-cols-3 gap-y-12 mobile:flex mobile:flex-col mobile:gap-6 tablet:flex tablet:flex-wrap tablet:justify-center tablet:gap-4">
             {

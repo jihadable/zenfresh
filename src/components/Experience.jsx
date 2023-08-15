@@ -3,7 +3,7 @@ export default function Experience(){
     const expItems = [
         {
             svg:
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-heart-filled text-redCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-heart-filled text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" stroke-width="0" fill="currentColor"></path>
             </svg>,
@@ -12,7 +12,7 @@ export default function Experience(){
         },
         {
             svg:
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-address-book text-lightBlue" width="64" height="64" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-address-book text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z"></path>
                 <path d="M10 16h6"></path>
@@ -26,7 +26,7 @@ export default function Experience(){
         },
         {
             svg:
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
                 <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
@@ -39,11 +39,11 @@ export default function Experience(){
     ]
 
     return (
-        <section className="exp flex justify-evenly py-8 my-32 mobile:flex-col mobile:gap-6">
+        <section className="exp flex justify-evenly py-8 my-32 mobile:flex-col mobile:items-center mobile:gap-10">
         {
             expItems.map((exp, index) => {
                 return (
-                    <div className="item flex flex-col gap-2 items-center" key={index}>
+                    <div className="item flex flex-col gap-2 items-center bg-[rgb(102,187,106,.3)] p-8 rounded-[74%_26%_72%_28%_/_27%_69%_31%_73%] w-fit" key={index}>
                         {exp.svg}
                         <div className="nums text-4xl">{exp.nums}</div>
                         <div className="title">{exp.title}</div>

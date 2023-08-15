@@ -10,7 +10,7 @@ export default function About(){
     return (
         <>
         <Navbar />
-        <Hero page={"about"} header={"About Us"} headerColor={"text-redCustome"} />
+        <Hero page={"about"} header={"About Us"} />
         <AboutUs />
         <Footer />
         </>

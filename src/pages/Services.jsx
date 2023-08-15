@@ -10,7 +10,7 @@ export default function Services(){
     return (
         <>
         <Navbar />
-        <Hero page={"services"} header={"Our Services"} headerColor={"text-redCustome"} />
+        <Hero page={"services"} header={"Services"} />
         <OurServices />
         <Footer />
         </>
