@@ -45,7 +45,7 @@ export default function Experience(){
                 return (
                     <div className="item flex flex-col gap-2 items-center bg-[rgb(102,187,106,.3)] p-8 rounded-[74%_26%_72%_28%_/_27%_69%_31%_73%] w-fit" key={index}>
                         {exp.svg}
-                        <div className="nums text-4xl">{exp.nums}</div>
+                        <div className="nums text-3xl font-bold">{exp.nums}</div>
                         <div className="title">{exp.title}</div>
                     </div>
                 )

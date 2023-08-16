@@ -34,6 +34,14 @@ body{
     text-shadow: 0 5px 30px rgb(0,0,0,.5);
 }
 
+.client1{
+    transform: translateX(calc(-85vw - 1.5rem));
+}
+
+.client2{
+    transform: translateX(calc(2*(-85vw) - 3rem));
+}
+
 .login, .signup{
     background-image: url("./assets/login.jpg");
 }

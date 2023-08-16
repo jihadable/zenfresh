@@ -57,9 +57,9 @@ export default function AboutUs(){
                 </div>
             </div>
         </section>
-        <div className="about-company w-[80vw] mx-auto my-32 flex gap-8 mobile:w-full mobile:px-4 mobile:flex-col">
+        <div className="about-company w-[80vw] mx-auto my-32 flex gap-8 mobile:w-full mobile:px-4 mobile:flex-col tablet:w-[90vw]">
             <div className="img flex w-2/5 mobile:w-full">
-                <img src={aboutUs2} alt="Image" className="w-full" />
+                <img src={aboutUs2} alt="Image" className="w-full h-fit" />
             </div>
             <div className="content w-3/5 flex flex-col justify-between mobile:w-full">
                 <div className="header flex flex-col gap-4">

@@ -34,7 +34,11 @@ export default function ContactUs(){
                     <span>Mon - Sat: 08:00 - 16:00</span>
                 </div>
             </div>
-            <div className="content flex w-full">
+            <div className="content flex flex-col w-full">
+                <div className="header text-2xl font-bold text-center">
+                    <div>Your thoughts are important to us</div>
+                    <div>Feel free to drop us a message</div>
+                </div>
                 <form action="" className="w-full flex flex-col gap-6">
                     <div className="name flex flex-col">
                         <label htmlFor="name">Full Name</label>
