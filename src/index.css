@@ -34,6 +34,10 @@ body{
     text-shadow: 0 5px 30px rgb(0,0,0,.5);
 }
 
+.steps .step{
+    text-align: start;
+}
+
 .client1{
     transform: translateX(calc(-85vw - 1.5rem));
 }
