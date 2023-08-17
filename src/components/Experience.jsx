@@ -1,7 +1,12 @@
+import blob1 from "../assets/blob1.svg"
+import blob2 from "../assets/blob2.svg"
+import blob3 from "../assets/blob3.svg"
+
 export default function Experience(){
 
     const expItems = [
         {
+            blob: blob1,
             svg:
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-heart-filled text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -11,6 +16,7 @@ export default function Experience(){
             title: "Happy Clients"
         },
         {
+            blob: blob2,
             svg:
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-address-book text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -25,6 +31,7 @@ export default function Experience(){
             title: "Years of experience"
         },
         {
+            blob: blob3,
             svg:
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -43,10 +50,17 @@ export default function Experience(){
         {
             expItems.map((exp, index) => {
                 return (
-                    <div className="item flex flex-col gap-2 items-center bg-[rgb(102,187,106,.3)] p-8 rounded-[74%_26%_72%_28%_/_27%_69%_31%_73%] w-fit" key={index}>
-                        {exp.svg}
-                        <div className="nums text-3xl font-bold">{exp.nums}</div>
-                        <div className="title">{exp.title}</div>
+                    <div className="item flex flex-col items-center w-fit relative" key={index}>
+                        <div className="item-blob relative flex justify-center items-center">
+                            <img src={exp.blob} alt="Blob" className="w-36" />
+                            <div className="svg absolute flex justify-center items-center">
+                                {exp.svg}
+                            </div>
+                        </div>
+                        <div className="item-info flex flex-col items-center gap-2">
+                            <div className="nums text-3xl font-bold">{exp.nums}</div>
+                            <div className="title">{exp.title}</div>
+                        </div>
                     </div>
                 )
             })
