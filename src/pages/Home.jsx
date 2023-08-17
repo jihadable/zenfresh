@@ -5,6 +5,7 @@ import HappyClients from "../components/HappyClients";
 import Hero from "../components/Hero";
 import HowItWorks from "../components/HowItWorks";
 import Navbar from "../components/Navbar";
+import Payment from "../components/Payment";
 
 export default function Home(){
 
@@ -16,6 +17,7 @@ export default function Home(){
         <HowItWorks />
         <Experience />
         <HappyClients />
+        <Payment />
         <Footer />
         </>
     )

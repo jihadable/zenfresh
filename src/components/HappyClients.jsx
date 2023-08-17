@@ -81,7 +81,7 @@ export default function HappyClients(){
             <div className="btns flex gap-2 mobile:hidden tablet:hidden">
             {
                 btns.map((btn, index) => {
-                    return <div className={`w-3 h-3 rounded-full ${clientShowIndex === btn ? "bg-darkBlue" : "bg-[#ccc]"} cursor-pointer`} key={index} onClick={() => setClientShowIndex(btn)}></div>
+                    return <div className={`w-4 h-2 rounded-full ${clientShowIndex === btn ? "bg-darkBlue" : "bg-[#ccc]"} cursor-pointer`} key={index} onClick={() => setClientShowIndex(btn)}></div>
                 })
             }
             </div>
