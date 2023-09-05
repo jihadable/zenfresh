@@ -7,7 +7,7 @@ export default function AboutUs(){
         {
             title: "Wash Machines",
             number: 80,
-            svg: <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-wash-machine text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            svg: <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-wash-machine text-greenCustome" width="64" height="64" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
             <path d="M12 14m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
@@ -20,7 +20,7 @@ export default function AboutUs(){
         {
             title: "Outlets",
             number: 3,
-            svg: <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-warehouse text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            svg: <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-building-warehouse text-greenCustome" width="64" height="64" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M3 21v-13l9 -4l9 4v13"></path>
             <path d="M13 13h4v8h-10v-6h6"></path>
@@ -30,7 +30,7 @@ export default function AboutUs(){
         {
             title: "Employees",
             number: 20,
-            svg: <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users text-greenCustome" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            svg: <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users text-greenCustome" width="64" height="64" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
             <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
