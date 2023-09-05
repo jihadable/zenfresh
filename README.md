@@ -1,6 +1,6 @@
 # ZenFresh 🧼 
 
-Zenfresh is a refreshing laundry service that prioritizes cleanliness and quality.
+ZenFresh is a laundry business. The website showcases a landing page, the range of services provided, how to utilize ZenFresh's services, and the pricing details.
 
 👉 [Live Demo](https://zenfresh.netlify.app/)
 
