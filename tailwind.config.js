@@ -7,9 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        "lightBlue": "#b2e5fd",
-        "darkBlue": "#546c7c",
-        "greenCustome": "#66bb6a"
+        "boldPurple": "#6c35de"
       },
       screens: {
         "mobile": {"max": "480px"},
@@ -17,6 +15,15 @@ export default {
       }
     },
   },
+  daisyui: {
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["[data-theme=light]"],
+          "primary": "#6c35de"
+        },
+      },
+    ]
+  },
   plugins: [require("daisyui")]
 }
-

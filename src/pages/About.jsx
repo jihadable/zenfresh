@@ -1,7 +1,8 @@
-import AboutUs from "../components/AboutUs";
-import Footer from "../components/Footer";
-import Hero from "../components/Hero";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar"
+import Footer from "../components/Footer"
+import Hero from "../components/Hero"
+import WhatAndWho from "../components/WhatAndWho"
+import AboutCompany from "../components/AboutCompany"
 
 export default function About(){
 
@@ -10,8 +11,9 @@ export default function About(){
     return (
         <>
         <Navbar />
-        <Hero page={"about"} header={"About Us"} />
-        <AboutUs />
+        <Hero page={"About"} path={"/about"} />
+        <WhatAndWho />
+        <AboutCompany />
         <Footer />
         </>
     )

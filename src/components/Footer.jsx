@@ -1,51 +1,62 @@
-import logo from "../assets/logo.png"
+import { IconMapPinFilled } from "@tabler/icons-react"
+import { IconClockHour3 } from "@tabler/icons-react"
+import { IconMail } from "@tabler/icons-react"
+import { IconPhoneCall } from "@tabler/icons-react"
 
 export default function Footer(){
+
+    const infoData = [
+        {
+            title: "0812 3456 7890",
+            svg: <IconPhoneCall stroke={1.5} />
+        },
+        {
+            title: "zenfresh@mail.com",
+            svg: <IconMail stroke={1.5} />
+        },
+        {
+            title: "Mon - Sun: 08:00 - 17:00",
+            svg: <IconClockHour3 stroke={1.5} />
+        }
+    ]
+
     return (
-        <footer className="footer bg-[#15191e] flex flex-col p-8 text-base text-[#ddd]">
-            <div className="top flex w-full justify-between mobile:flex-col mobile:items-center mobile:gap-8">
-                <div className="flex flex-col gap-2 items-center">
-                    <img src={logo} alt="Logo" className="w-16" />
-                    <div className="footer-tagline font-bold text-xl text-darkBlue">Unwind in Pristine Comfort</div>
+        <footer className="w-full bg-[#111] flex flex-col px-[10vw] py-8 text-[#eee] mobile:px-4 tablet:px-[5vw]">
+            <div className="top flex justify-between items-end mb-8 mobile:flex-col mobile:items-center mobile:gap-8">
+                <div className="info flex flex-col gap-4">
+                {
+                    infoData.map((item, index) => {
+                        return (
+                            <div className="item flex items-center gap-2" key={index}>
+                                <div className="svg flex text-boldPurple">
+                                    {item.svg}
+                                </div>
+                                <span>{item.title}</span>
+                            </div>
+                        )
+                    })
+                }
                 </div>
-                <div className="flex flex-col gap-2 mobile:items-center">
-                    <span className="footer-title">Services</span> 
-                    <a className="link link-hover">Drop off Laundry</a>
-                    <a className="link link-hover">Free Pick-Up and Delivery</a> 
-                    <a className="link link-hover">Eco-Friendly Products</a> 
-                    <a className="link link-hover">Fast & High Quality</a>
-                </div> 
-                <div className="flex flex-col">
-                    <span className="footer-title">Social Media</span> 
-                    <div className="sosmed-links flex gap-4">
-                        <a className="link link-hover">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-instagram" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"></path>
-                                <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                                <path d="M16.5 7.5l0 .01"></path>
-                            </svg>
-                        </a> 
-                        <a className="link link-hover">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-tikto-filled" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M16.083 2h-4.083a1 1 0 0 0 -1 1v11.5a1.5 1.5 0 1 1 -2.519 -1.1l.12 -.1a1 1 0 0 0 .399 -.8v-4.326a1 1 0 0 0 -1.23 -.974a7.5 7.5 0 0 0 1.73 14.8l.243 -.005a7.5 7.5 0 0 0 7.257 -7.495v-2.7l.311 .153c1.122 .53 2.333 .868 3.59 .993a1 1 0 0 0 1.099 -.996v-4.033a1 1 0 0 0 -.834 -.986a5.005 5.005 0 0 1 -4.097 -4.096a1 1 0 0 0 -.986 -.835z" strokeWidth="0" fill="currentColor"></path>
-                            </svg>
-                        </a>
-                        <a className="link link-hover">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-youtube-filled" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M18 3a5 5 0 0 1 5 5v8a5 5 0 0 1 -5 5h-12a5 5 0 0 1 -5 -5v-8a5 5 0 0 1 5 -5zm-9 6v6a1 1 0 0 0 1.514 .857l5 -3a1 1 0 0 0 0 -1.714l-5 -3a1 1 0 0 0 -1.514 .857z" strokeWidth="0" fill="currentColor"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div> 
+                <div className="links flex flex-col gap-2 items-end mobile:items-center">
+                    <div className="footer-title">outlets</div> 
+                    <a className="link link-hover">Yogyakarta</a>
+                    <a className="link link-hover">Sleman</a>
+                    <a className="link link-hover">Bantul</a>
+                    <a className="link link-hover">Kulon Progo</a>
+                </div>
+                <div className="links flex flex-col gap-2 items-end mobile:items-center">
+                    <div className="footer-title">others</div> 
+                    <a className="link link-hover">Blog</a>
+                    <a className="link link-hover">Careers</a>
+                    <a className="link link-hover">Contact</a>
+                    <a className="link link-hover">Help Center</a>
+                </div>
             </div>
-            <div className="bottom flex justify-between w-full border-t pt-4 mobile:flex-col mobile:items-center">
-                <div>© 2023 ZenFresh</div>
-                <div className="flex gap-8 mobile:gap-0 mobile:justify-between mobile:w-full">
-                    <a className="link link-hover">Privacy policy</a>
-                    <a className="link link-hover">Terms of service</a>
+            <div className="bottom w-full flex justify-between border-t pt-8 mobile:flex-col-reverse mobile:gap-4">
+                <div className="copyright mobile:text-center">© 2023 ZenFresh</div>
+                <div className="bottom-links flex gap-4 items-center mobile:justify-between">
+                    <div>Privacy policy</div>
+                    <div>Terms of service</div>
                 </div>
             </div>
         </footer>

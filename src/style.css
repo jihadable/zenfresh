@@ -1,0 +1,48 @@
+body{
+    background-color: #f3f4f6;
+}
+
+#root{
+    width: 100%;
+    height: 100%;
+    background-color: #f3f4f6;
+}
+
+.home-hero, .hero-page{
+    background-image: url("../src/assets/home.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.item .answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s cubic-bezier(0,1,0,1);
+}
+
+.item .answer.active{
+    max-height: 999px;
+    transition: .3s cubic-bezier(1,0,1,0);
+}
+
+.login-signup{
+    background-image: url("../src/assets/login.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+@media screen and (max-width: 480px) {
+    .navbar .links{
+        right: -100%;
+        transition: all .3s;
+    }
+
+    .navbar .links.active{
+        right: 0;
+    }
+
+    .overlay.active{
+        display: block;
+    }
+}

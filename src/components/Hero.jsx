@@ -1,8 +1,9 @@
-export default function Hero({page, header}){
+import BreadCrumbs from "./BreadCrumbs";
 
+export default function Hero({ page, path }){
     return (
-        <div className={`${page}-hero flex justify-center items-center bg-center bg-cover w-full h-[100vh] bg-fixed`}>
-            <div className={`tagline font-bold text-5xl text-greenCustome mobile:text-2xl`}>{header}</div>
-        </div>
+        <header className="hero-page h-[50vh] w-full px-[10vw] flex items-center mobile:px-4">
+            <BreadCrumbs page={page} path={path} />
+        </header>
     )
 }
