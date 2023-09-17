@@ -6,7 +6,7 @@ export default function BreadCrumbs({ page, path }){
             <ul>
                 <li>
                     <a href="/" className="flex gap-2">
-                        <IconHome stroke={1.5} className="text-black" />
+                        <IconHome stroke={1.5} />
                     </a>
                 </li> 
                 <li>

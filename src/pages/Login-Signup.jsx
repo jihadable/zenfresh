@@ -1,13 +1,14 @@
 import { IconChevronLeft } from "@tabler/icons-react"
 import { IconHome } from "@tabler/icons-react"
+import googleLogo from "../assets/google_icon.png"
 
 export default function LoginSignup({ page }){
 
     document.title = "ZenFresh | " + page
 
     return (
-        <div className="login-signup w-full h-[100vh] flex flex-col gap-4 items-center justify-center">
-            <form action="" className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md">
+        <div className="login-signup w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
+            <form action="" className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]">
                 {
                     page === "Signup" &&
                     <div className="full-name w-full">
@@ -23,13 +24,17 @@ export default function LoginSignup({ page }){
                 <button className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
                     {page === "Login" ? "Login" : "Signup"}
                 </button>
+                <div className="google w-full flex items-center justify-center gap-4 cursor-pointer px-4 py-2 bg-white rounded-md">
+                    <img src={googleLogo} alt="Google" className="w-8" />
+                    <span>{page === "Login" ? "Login" : "Signup"} with google</span>
+                </div>
                 <div className="extra">
                     Don't have an account yet? <a href={page === "Login" ? "/signup" : "/login"} className="text-white link-hover">{page === "Login" ? "Signup" : "Login"}</a>
                 </div>
             </form>
-            <a href="/" className="flex gap-2 items-center link-hover text-white">
-                <IconChevronLeft stroke={1.5} />
-                <IconHome stroke={1.5} className="text-black" />
+            <a href="/" className="flex gap-2 items-center link-hover text-black">
+                <IconChevronLeft stroke={1.5} width={20} height={20} />
+                <IconHome stroke={1.5} />
                 <span>Home</span>
             </a>
         </div>

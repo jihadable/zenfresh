@@ -29,7 +29,7 @@ export default function OurServices(){
             {
                 servicesData.map((item, index) => {
                     return (
-                        <div className="card w-full shadow-xl" key={index}>
+                        <div className="card w-full shadow-xl bg-white" key={index}>
                             <figure>
                                 <img src={item.img} alt="Image" />    
                             </figure>
