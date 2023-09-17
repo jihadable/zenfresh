@@ -1,6 +1,8 @@
 import { IconChevronLeft } from "@tabler/icons-react"
 import { IconHome } from "@tabler/icons-react"
 import googleLogo from "../assets/google_icon.png"
+import { Link } from "react-router-dom"
+import goTop from "../components/goTop"
 
 export default function LoginSignup({ page }){
 
@@ -29,14 +31,14 @@ export default function LoginSignup({ page }){
                     <span>{page === "Login" ? "Login" : "Signup"} with google</span>
                 </div>
                 <div className="extra">
-                    Don't have an account yet? <a href={page === "Login" ? "/signup" : "/login"} className="text-white link-hover">{page === "Login" ? "Signup" : "Login"}</a>
+                    Don't have an account yet? <Link to={page === "Login" ? "/signup" : "/login"} className="text-white link-hover">{page === "Login" ? "Signup" : "Login"}</Link>
                 </div>
             </form>
-            <a href="/" className="flex gap-2 items-center link-hover text-black">
+            <Link to="/" onClick={goTop} className="flex gap-2 items-center link-hover text-black">
                 <IconChevronLeft stroke={1.5} width={20} height={20} />
                 <IconHome stroke={1.5} />
                 <span>Home</span>
-            </a>
+            </Link>
         </div>
     )
 }

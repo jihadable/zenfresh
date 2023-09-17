@@ -2,6 +2,8 @@ import { IconPlant } from "@tabler/icons-react";
 import { IconShoppingBag } from "@tabler/icons-react";
 import { IconTruckDelivery } from "@tabler/icons-react";
 import { IconWashMachine } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
+import goTop from "./goTop";
 
 export default function WhyChooseUs(){
 
@@ -28,10 +30,10 @@ export default function WhyChooseUs(){
             <div className="left flex flex-col gap-4 w-3/5 mobile:w-full mobile:items-center tablet:w-2/5">
                 <div className="title font-bold text-3xl mobile:text-center">Why Choose Us</div>
                 <div className="text text-black/[.7] mobile:text-center">At ZenFresh, we take pride in being your go-to laundry service for a myriad of reasons. Our laundry experts bring years of experience to the table, ensuring your clothes receive the best care possible. We understand the importance of convenience in your life, which is why we offer easy scheduling and delivery options.</div>
-                <a href="/order" className="flex w-fit rounded-md gap-2 items-center px-4 py-2 bg-boldPurple text-white">
+                <Link to="/order" onClick={goTop} className="flex w-fit rounded-md gap-2 items-center px-4 py-2 bg-boldPurple text-white">
                     <span>Order now</span>
                     <IconShoppingBag stroke={1.5} />
-                </a>
+                </Link>
             </div>
             <div className="right flex flex-col gap-8 w-2/5 mobile:w-full tablet:w-3/5">
             {

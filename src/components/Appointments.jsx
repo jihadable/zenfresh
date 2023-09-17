@@ -44,7 +44,7 @@ export default function Appointments(){
 
 function Btns({showBackBtn, showNextBtn, handleBackBtn, handleNextBtn}){
     return (
-        <div className="btns w-full flex items-center justify-center mt-4 gap-4">
+        <div className={`btns w-full flex items-center ${showBackBtn && showNextBtn ? "justify-between" : ""} ${!showBackBtn && showNextBtn ? "justify-end" : ""} mt-4 gap-4`}>
         {
             showBackBtn &&
             <div className="back flex items-center gap-2 cursor-pointer" onClick={handleBackBtn}>

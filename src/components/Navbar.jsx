@@ -4,6 +4,8 @@ import { IconX } from "@tabler/icons-react"
 import { useState } from "react"
 import { useRef } from "react"
 import { useEffect } from "react"
+import { Link } from "react-router-dom"
+import goTop from "./goTop"
 
 export default function Navbar(){
 
@@ -25,6 +27,13 @@ export default function Navbar(){
             title: "Order"
         }
     ]
+
+    // const goTop = () => {
+    //     window.scrollTo({
+    //         top: 0,
+    //         behavior: "none",
+    //     })
+    // }
 
     const [showMobileMenu, setShowMobileMenu] = useState(false)
 
@@ -49,12 +58,14 @@ export default function Navbar(){
                 </div>
             {
                 linksData.map((item, index) => {
-                    return <a href={item.path} className="transition duration-100 hover:text-boldPurple mobile:text-xl" key={index}>{item.title}</a>
+                    return (
+                        <Link to={item.path} onClick={goTop} className="transition duration-100 hover:text-boldPurple mobile:text-xl" key={index}>{item.title}</Link>
+                    )
                 })
             }
             </div>
             <div className="extra flex items-center gap-4">
-                <a href="/login" className="login px-4 py-2 bg-boldPurple text-white rounded-md">Login</a>
+                <Link to="/login" className="login px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link>
                 <div className="mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>
                     <IconMenu2 stroke={1.5} />
                 </div>

@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom"
 import dryCleaning from "../assets/dry-cleaning.jpg"
 import ironing from "../assets/ironing.jpg"
 import stainRemoval from "../assets/stain-removal.jpg"
+import goTop from "./goTop"
 
 export default function OurServices(){
 
@@ -37,7 +39,7 @@ export default function OurServices(){
                                 <h2 className="card-title">{item.title}</h2>
                                 <p>{item.text}</p>
                                 <div className="card-actions justify-end">
-                                    <a href="/services" className="px-4 py-2 bg-boldPurple text-white rounded-md">Read more</a>
+                                    <Link to="/services" onClick={goTop} className="px-4 py-2 bg-boldPurple text-white rounded-md">Read more</Link>
                                 </div>
                             </div>
                         </div>
