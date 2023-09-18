@@ -116,6 +116,12 @@ function ChooseOutlet({ schedule, setSchedule, setShowTab }){
     )
 }
 
+function dateDisabled({ date }){
+    let day = new Date()
+    day.setDate(day.getDate() - 1)
+    
+    return date < day 
+}
 
 function ChooseDate({ setShowTab, date, setDate }){
 
@@ -131,7 +137,7 @@ function ChooseDate({ setShowTab, date, setDate }){
 
     return (
         <div className="date w-full flex flex-col items-center gap-4">
-            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={setDate} />
+            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={setDate} tileDisabled={dateDisabled} />
             <Btns showBackBtn={true} showNextBtn={true} handleBackBtn={handleBackBtn} handleNextBtn={handleNextBtn} />
         </div>
     )
@@ -143,17 +149,17 @@ function ChooseCategories({ schedule, setSchedule, setShowTab }){
         {
             title: "Basic Laundry",
             days: 3,
-            price: 7
+            price: 3
         },
         {
             title: "Rapid Fast",
             days: 2,
-            price: 12
+            price: 7
         },
         {
             title: "Premium",
             days: 1,
-            price: 18   
+            price: 10   
         }
     ]
 

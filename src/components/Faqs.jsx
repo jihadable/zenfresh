@@ -32,7 +32,7 @@ export default function Faqs(){
                 <div className="faqs-img flex w-[60vw] mobile:hidden">
                     <img src={faqsImg} alt="Image" className="w-full rounded-md h-fit" />
                 </div>
-                <div className="faqs-items absolute self-end w-2/3 mt-8 overflow-hidden rounded-md  bg-[rgb(255,255,255,.5)] backdrop-blur-lg shadow-2xl mobile:mt-0 mobile:static mobile:w-full">
+                <div className="faqs-items absolute self-end w-2/3 mt-8 overflow-hidden rounded-md  bg-[rgb(255,255,255,.5)] backdrop-blur-lg shadow-2xl mobile:mt-0 mobile:static mobile:w-full mobile:bg-white">
                 {
                     faqsData.map((item, index) => {
                         return (
