@@ -9,8 +9,6 @@ ZenFresh is a laundry business. The website showcases a landing page, the range 
 <br/>
 » DaisyUI
 <br/>
-» ViteJS
-<br/>
 » ReactJS 
 
 <img src="https://umarjihad.netlify.app/pic/zenfresh.png" />
