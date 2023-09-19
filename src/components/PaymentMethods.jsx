@@ -5,10 +5,14 @@ import bri from "../assets/bri.png"
 import bni from "../assets/bni.png"
 import linkaja from "../assets/linkaja.png"
 import spay from "../assets/spay.png"
+import qris from "../assets/qris.png"
+import bca from "../assets/bca.png"
+import gopay from "../assets/gopay.png"
+import paypal from "../assets/paypal.png"
 
 export default function PaymentMethods(){
 
-    const paymentMethodsData = [dana, mandiri, ovo, bri, bni, linkaja, spay]
+    const paymentMethodsData = [dana, qris, bca, mandiri, ovo, bri, gopay, bni, linkaja, spay, paypal]
 
     return (
         <section className="payment-methods w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
