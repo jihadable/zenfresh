@@ -6,6 +6,17 @@ import { IconBottle } from "@tabler/icons-react";
 import { IconChevronLeft } from "@tabler/icons-react";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useEffect } from "react";
+import dana from "../assets/dana.png"
+import mandiri from "../assets/mandiri.png"
+import ovo from "../assets/ovo.png"
+import bri from "../assets/bri.png"
+import bni from "../assets/bni.png"
+import linkaja from "../assets/linkaja.png"
+import spay from "../assets/spay.png"
+import qris from "../assets/qris.png"
+import bca from "../assets/bca.png"
+import gopay from "../assets/gopay.png"
+import paypal from "../assets/paypal.png"
 
 export default function Appointments(){
 
@@ -37,7 +48,7 @@ export default function Appointments(){
             {showTab === 0 && <ChooseOutlet schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
             {showTab === 1 && <ChooseDate schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} date={date} setDate={setDate} />}
             {showTab === 2 && <ChooseCategories schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
-            {showTab === 3 && <Confirm schedule={schedule} setShowTab={setShowTab} />}
+            {showTab === 3 && <Confirm schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
         </section>
     )
 }
@@ -181,7 +192,7 @@ function ChooseCategories({ schedule, setSchedule, setShowTab }){
 
     return (
         <div className="categories w-full flex flex-col items-center gap-4">
-            <div className="categories-items w-full flex items-center gap-4 mobile:flex-col">
+            <div className="categories-items w-full grid grid-cols-2 gap-4 mobile:flex mobile:flex-col">
             {
                 categoriesData.map((item, index) => {
                     return (
@@ -203,10 +214,45 @@ function ChooseCategories({ schedule, setSchedule, setShowTab }){
     )
 }
 
-function Confirm({ schedule, setShowTab }){
+function Confirm({ schedule, setSchedule, setShowTab }){
+
+    const paymentMethodsData = [dana, qris, bca, mandiri, ovo, bri, gopay, bni, linkaja, spay, paypal]
+
+    const [paymentMethodsIndex, setPaymentMethodsIndex] = useState(null)
+
+    const [initalPrice, setInitialPrice] = useState(schedule.category.price)
 
     const handleBackBtn = () => {
+        setSchedule(schedule => ({...schedule, category: {...schedule.category, price: initalPrice}}))
+
         setShowTab(2)
+    }
+
+    const [isSelfPickUp, setIsSelfPickUp] = useState(false)
+    const [isSelfDrop, setIsSelfDrop] = useState(false)
+
+    function handleChangeSelfPickUp(){
+        if (!isSelfPickUp){
+            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
+        }
+        
+        else {
+            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
+        }
+
+        setIsSelfPickUp(!isSelfPickUp)
+    }
+
+    function handleChangeSelfDrop(){
+        if (!isSelfDrop){
+            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
+        }
+        
+        else {
+            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
+        }
+
+        setIsSelfDrop(!isSelfDrop)
     }
 
     return (
@@ -222,13 +268,27 @@ function Confirm({ schedule, setShowTab }){
                 </div>
                 <div className="checkboxes flex gap-4 items-center">
                     <label className="label cursor-pointer flex gap-2" htmlFor="pickup">
-                        <input type="checkbox" id="pickup" className="checkbox checkbox-primary" />
+                        <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={isSelfPickUp} onChange={handleChangeSelfPickUp} />
                         <span className="label-text">Self pick up</span> 
                     </label>
                     <label className="label cursor-pointer flex gap-2" htmlFor="drop">
-                        <input type="checkbox" id="drop" className="checkbox checkbox-primary" />
+                        <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={isSelfDrop} onChange={handleChangeSelfDrop} />
                         <span className="label-text">Self drop</span> 
                     </label>
+                </div>
+                <div className="payment-methods flex flex-col gap-4">
+                    <div className="title">Payment method:</div>
+                    <div className="flex flex-wrap gap-4">
+                    {
+                        paymentMethodsData.map((item, index) => {
+                            return (
+                                <div className={`item flex cursor-pointer p-2 rounded-md border ${paymentMethodsIndex === index ? "border-primary" : ""}`} key={index} onClick={() => setPaymentMethodsIndex(index)}>
+                                    <img src={item} alt="Payment" className="h-4" loading="lazy" />
+                                </div>
+                            )
+                        })
+                    }
+                    </div>
                 </div>
                 <button className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Order</button>
             </div>
