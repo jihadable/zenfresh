@@ -282,7 +282,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                     {
                         paymentMethodsData.map((item, index) => {
                             return (
-                                <div className={`item flex cursor-pointer p-2 rounded-md border ${paymentMethodsIndex === index ? "border-primary" : ""}`} key={index} onClick={() => setPaymentMethodsIndex(index)}>
+                                <div className={`item flex cursor-pointer p-2 rounded-md border-2 ${paymentMethodsIndex === index ? "border-primary" : ""}`} key={index} onClick={() => setPaymentMethodsIndex(index)}>
                                     <img src={item} alt="Payment" className="h-4" loading="lazy" />
                                 </div>
                             )
