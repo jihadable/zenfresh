@@ -27,7 +27,7 @@ export default function WhyChooseUs(){
 
     return (
         <section className="why-choose-us w-[80vw] mx-auto my-32 flex gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="left flex flex-col gap-4 w-3/5 mobile:w-full mobile:items-center tablet:w-2/5">
+            <div className="left flex flex-col gap-4 w-3/5 h-fit sticky top-20 mobile:static mobile:w-full mobile:items-center tablet:w-2/5">
                 <div className="title font-bold text-3xl mobile:text-center">Why Choose Us</div>
                 <div className="text text-black/[.7] mobile:text-center">At ZenFresh, we take pride in being your go-to laundry service for a myriad of reasons. Our laundry experts bring years of experience to the table, ensuring your clothes receive the best care possible. We understand the importance of convenience in your life, which is why we offer easy scheduling and delivery options.</div>
                 <Link to="/order" onClick={goTop} className="flex w-fit rounded-md gap-2 items-center px-4 py-2 bg-boldPurple text-white">
