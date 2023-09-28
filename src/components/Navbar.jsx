@@ -28,13 +28,6 @@ export default function Navbar(){
         }
     ]
 
-    // const goTop = () => {
-    //     window.scrollTo({
-    //         top: 0,
-    //         behavior: "none",
-    //     })
-    // }
-
     const [showMobileMenu, setShowMobileMenu] = useState(false)
 
     const mobileMenuBtn = useRef(null)
@@ -65,7 +58,7 @@ export default function Navbar(){
             }
             </div>
             <div className="extra flex items-center gap-4">
-                <Link to="/login" className="login px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link>
+                <Link to="/login" className="login-btn px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link>
                 <div className="mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>
                     <IconMenu2 stroke={1.5} />
                 </div>
