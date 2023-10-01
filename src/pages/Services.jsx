@@ -84,7 +84,7 @@ function OurServices(){
                     return (
                         <div className="card w-full shadow-xl bg-white" key={index}>
                             <figure>
-                                <img src={item.img} alt="Image" />
+                                <img src={item.img} alt="Image" className="w-full h-fit" />
                             </figure>
                             <div className="card-body">
                                 <h2 className="card-title">{item.title}</h2>
