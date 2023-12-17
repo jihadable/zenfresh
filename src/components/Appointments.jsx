@@ -1,11 +1,8 @@
-import { IconHomeCheck } from "@tabler/icons-react"
+import { IconHomeCheck, IconChevronLeft, IconChevronRight, IconBottle } from "@tabler/icons-react"
+import { useState, useEffect } from "react";
 import Calendar from 'react-calendar';
 import "../Calender.css"
-import { useState } from "react";
-import { IconBottle } from "@tabler/icons-react";
-import { IconChevronLeft } from "@tabler/icons-react";
-import { IconChevronRight } from "@tabler/icons-react";
-import { useEffect } from "react";
+import { PDFDownloadLink } from "@react-pdf/renderer"
 import dana from "../assets/dana.png"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
@@ -17,6 +14,7 @@ import qris from "../assets/qris.png"
 import bca from "../assets/bca.png"
 import gopay from "../assets/gopay.png"
 import paypal from "../assets/paypal.png"
+import PaymentReceipt from "./PaymentReceipt";
 
 export default function Appointments(){
 
@@ -53,7 +51,7 @@ export default function Appointments(){
     )
 }
 
-function Btns({showBackBtn, showNextBtn, handleBackBtn, handleNextBtn}){
+function Btns({ showBackBtn, showNextBtn, handleBackBtn, handleNextBtn }){
     return (
         <div className={`btns w-full flex items-center ${showBackBtn && showNextBtn ? "justify-between" : ""} ${!showBackBtn && showNextBtn ? "justify-end" : ""} mt-4 gap-4`}>
         {
@@ -220,7 +218,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
 
     const [paymentMethodsIndex, setPaymentMethodsIndex] = useState(null)
 
-    const [initalPrice, setInitialPrice] = useState(schedule.category.price)
+    const initalPrice = schedule.category.price
 
     const handleBackBtn = () => {
         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: initalPrice}}))
@@ -290,7 +288,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                     }
                     </div>
                 </div>
-                <button className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Order</button>
+                <PDFDownloadLink className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" document={<PaymentReceipt />} fileName="zenfresh_payment_receipt">Payment Receipt</PDFDownloadLink>
             </div>
             <Btns showBackBtn={true} showNextBtn={false} handleBackBtn={handleBackBtn} />
         </div>
