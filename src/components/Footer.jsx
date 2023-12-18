@@ -1,4 +1,3 @@
-import { IconMapPinFilled } from "@tabler/icons-react"
 import { IconClockHour3 } from "@tabler/icons-react"
 import { IconMail } from "@tabler/icons-react"
 import { IconPhoneCall } from "@tabler/icons-react"

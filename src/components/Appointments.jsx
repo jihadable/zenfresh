@@ -216,7 +216,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
 
     const paymentMethodsData = [dana, qris, bca, mandiri, ovo, bri, gopay, bni, linkaja, spay, paypal]
 
-    const [paymentMethodsIndex, setPaymentMethodsIndex] = useState(null)
+    const [paymentMethodsIndex, setPaymentMethodsIndex] = useState(0)
 
     const initalPrice = schedule.category.price
 
@@ -251,6 +251,15 @@ function Confirm({ schedule, setSchedule, setShowTab }){
         }
 
         setIsSelfDrop(!isSelfDrop)
+    }
+
+    function createPickUpDate(){
+        const pickUpDate = new Date(schedule.date)
+        const daysAfter = schedule.category.days
+
+        pickUpDate.setDate(schedule.date.getDate() + daysAfter)
+
+        return pickUpDate.toDateString()
     }
 
     return (
@@ -288,7 +297,18 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                     }
                     </div>
                 </div>
-                <PDFDownloadLink className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" document={<PaymentReceipt />} fileName="zenfresh_payment_receipt">Payment Receipt</PDFDownloadLink>
+                <PDFDownloadLink 
+                className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" 
+                document={
+                <PaymentReceipt 
+                outletAddress={`${schedule.outlet.title}, ${schedule.outlet.address}`} 
+                category={schedule.category.title} 
+                dropDate={schedule.date.toDateString()} 
+                pickUpDate={createPickUpDate()} 
+                total={schedule.category.price} 
+                paymentMethod={paymentMethodsData[paymentMethodsIndex]} />
+                } 
+                fileName="zenfresh_payment_receipt">Payment Receipt</PDFDownloadLink>
             </div>
             <Btns showBackBtn={true} showNextBtn={false} handleBackBtn={handleBackBtn} />
         </div>
