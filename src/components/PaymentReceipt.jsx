@@ -4,7 +4,7 @@ import { Document, Page, Text } from "@react-pdf/renderer"
 import qrcode from "../assets/qrcode.png"
 import logo from "../assets/logo.png"
 
-export default function PaymentReceipt({ outletAddress, category, dropDate, pickUpDate, total, paymentMethod }){
+export default function PaymentReceipt({ outletAddress, category, dropDate, pickUpDate, price, paymentMethod }){
     return (
         <Document>
             <Page style={{ padding: 32, fontSize: 16 }} size={"A5"}>
@@ -25,7 +25,7 @@ export default function PaymentReceipt({ outletAddress, category, dropDate, pick
                     <Text>Pick up date: {pickUpDate}</Text>
                 </View>
                 <View style={{ display: "flex", flexDirection: "column", marginTop: 16 }}>
-                    <Text>Total: ${total}/kg</Text>
+                    <Text>Price: ${price}/kg</Text>
                     <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <Text>Payment method: </Text>
                         <Image src={paymentMethod} style={{ height: 16 }} />

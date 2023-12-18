@@ -305,7 +305,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                 category={schedule.category.title} 
                 dropDate={schedule.date.toDateString()} 
                 pickUpDate={createPickUpDate()} 
-                total={schedule.category.price} 
+                price={schedule.category.price} 
                 paymentMethod={paymentMethodsData[paymentMethodsIndex]} />
                 } 
                 fileName="zenfresh_payment_receipt">Payment Receipt</PDFDownloadLink>
