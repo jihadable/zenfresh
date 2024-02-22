@@ -1,4 +1,4 @@
-import { IconHomeCheck, IconChevronLeft, IconChevronRight, IconBottle } from "@tabler/icons-react"
+import { IconHomeCheck, IconChevronLeft, IconBottle } from "@tabler/icons-react"
 import { useState, useEffect } from "react";
 import Calendar from 'react-calendar';
 import "../Calender.css"
@@ -15,10 +15,11 @@ import bca from "../assets/bca.png"
 import gopay from "../assets/gopay.png"
 import paypal from "../assets/paypal.png"
 import PaymentReceipt from "./PaymentReceipt";
+import { IconDownload } from "@tabler/icons-react";
 
 export default function Appointments(){
 
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(getYesterdayDate())
 
     const [schedule, setSchedule] = useState({
         outlet: "",
@@ -44,30 +45,18 @@ export default function Appointments(){
             }
             </ul>
             {showTab === 0 && <ChooseOutlet schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
-            {showTab === 1 && <ChooseDate schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} date={date} setDate={setDate} />}
-            {showTab === 2 && <ChooseCategories schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
+            {showTab === 1 && <ChooseDate setSchedule={setSchedule} setShowTab={setShowTab} date={date} setDate={setDate} />}
+            {showTab === 2 && <ChooseCategories schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} setDate={setDate} />}
             {showTab === 3 && <Confirm schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
         </section>
     )
 }
 
-function Btns({ showBackBtn, showNextBtn, handleBackBtn, handleNextBtn }){
+function BackBtn({ handleBackBtn }){
     return (
-        <div className={`btns w-full flex items-center ${showBackBtn && showNextBtn ? "justify-between" : ""} ${!showBackBtn && showNextBtn ? "justify-end" : ""} mt-4 gap-4`}>
-        {
-            showBackBtn &&
-            <div className="back flex items-center gap-2 cursor-pointer" onClick={handleBackBtn}>
-                <IconChevronLeft stroke={1.5} className="text-black" />
-                <span>Back</span>
-            </div>
-        }
-        {
-            showNextBtn &&
-            <div className="next flex items-center gap-2 cursor-pointer" onClick={handleNextBtn}>
-                <span>Next</span>
-                <IconChevronRight stroke={1.5} className="text-black" />
-            </div>
-        }
+        <div className="back flex items-center gap-2 cursor-pointer self-start" onClick={handleBackBtn}>
+            <IconChevronLeft stroke={1.5} className="text-black" />
+            <span>Back</span>
         </div>
     )
 }
@@ -95,12 +84,8 @@ function ChooseOutlet({ schedule, setSchedule, setShowTab }){
 
     function handleChoose(outlet){
         setSchedule(schedule => ({...schedule, outlet: outlet}))
-    }
 
-    const handleNextBtn = () => {
-        if (schedule.outlet !== ""){
-            setShowTab(1)
-        }
+        setShowTab(1)
     }
 
     return (
@@ -120,39 +105,48 @@ function ChooseOutlet({ schedule, setSchedule, setShowTab }){
                 })
             }
             </div>
-            <Btns showBackBtn={false} showNextBtn={true} handleNextBtn={handleNextBtn} />
         </div>
     )
 }
 
-function dateDisabled({ date }){
-    let day = new Date()
-    day.setDate(day.getDate() - 1)
-    
-    return date < day 
+const getYesterdayDate = () => {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+
+    return yesterday
 }
 
-function ChooseDate({ setShowTab, date, setDate }){
+function dateDisabled({ date }){
+    const yesterday = getYesterdayDate()
+    
+    return date < yesterday 
+}
+
+function ChooseDate({ setSchedule, setShowTab, date, setDate }){
+
+    const handleChoose = value => {
+        setDate(value)
+
+        setShowTab(2)
+    }
 
     const handleBackBtn = () => {
-        setDate(new Date())
+        setDate(getYesterdayDate())
+
+        setSchedule(schedule => ({...schedule, outlet: ""}))
 
         setShowTab(0)
     }
 
-    const handleNextBtn = () => {
-        setShowTab(2)
-    }
-
     return (
         <div className="date w-full flex flex-col items-center gap-4">
-            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={setDate} tileDisabled={dateDisabled} />
-            <Btns showBackBtn={true} showNextBtn={true} handleBackBtn={handleBackBtn} handleNextBtn={handleNextBtn} />
+            <BackBtn handleBackBtn={handleBackBtn} />
+            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={value => handleChoose(value)} tileDisabled={dateDisabled} />
         </div>
     )
 }
 
-function ChooseCategories({ schedule, setSchedule, setShowTab }){
+function ChooseCategories({ schedule, setSchedule, setShowTab, setDate }){
 
     const categoriesData = [
         {
@@ -174,22 +168,20 @@ function ChooseCategories({ schedule, setSchedule, setShowTab }){
 
     const handleChoose = (category) => {
         setSchedule(schedule => ({...schedule, category: category}))
+
+        setShowTab(3)
     }
 
     const handleBackBtn = () => {
+        setDate(getYesterdayDate())
         setSchedule(schedule => ({...schedule, category: ""}))
 
         setShowTab(1)
     }
 
-    const handleNextBtn = () => {
-        if (schedule.category !== ""){
-            setShowTab(3)
-        }
-    }
-
     return (
         <div className="categories w-full flex flex-col items-center gap-4">
+            <BackBtn handleBackBtn={handleBackBtn} />
             <div className="categories-items w-full grid grid-cols-2 gap-4 mobile:flex mobile:flex-col">
             {
                 categoriesData.map((item, index) => {
@@ -207,7 +199,6 @@ function ChooseCategories({ schedule, setSchedule, setShowTab }){
                 })
             }
             </div>
-            <Btns showBackBtn={true} showNextBtn={true} handleBackBtn={handleBackBtn} handleNextBtn={handleNextBtn} />
         </div>
     )
 }
@@ -218,10 +209,8 @@ function Confirm({ schedule, setSchedule, setShowTab }){
 
     const [paymentMethodsIndex, setPaymentMethodsIndex] = useState(0)
 
-    const initalPrice = schedule.category.price
-
     const handleBackBtn = () => {
-        setSchedule(schedule => ({...schedule, category: {...schedule.category, price: initalPrice}}))
+        setSchedule(schedule => ({...schedule, category: ""}))
 
         setShowTab(2)
     }
@@ -265,6 +254,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
     return (
         <>
         <div className="confirm w-full flex flex-col gap-4">
+            <BackBtn handleBackBtn={handleBackBtn} />
             <div className="confirm-info flex flex-col p-4 gap-4 rounded-md bg-white shadow-2xl">
                 <div className="title text-xl font-bold pb-4 border-b">{schedule.category.title}</div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
@@ -308,11 +298,16 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                 price={schedule.category.price} 
                 paymentMethod={paymentMethodsData[paymentMethodsIndex]} />
                 } 
-                fileName="zenfresh_payment_receipt">Payment Receipt</PDFDownloadLink>
+                fileName="zenfresh_payment_receipt">
+                    {({ loading }) =>
+                        loading ? "Loading..." : <div className="flex gap-2">
+                            <IconDownload stroke={1.5} />
+                            <span>Payment Receipt</span>
+                        </div>
+                    }
+                </PDFDownloadLink>
             </div>
-            <Btns showBackBtn={true} showNextBtn={false} handleBackBtn={handleBackBtn} />
         </div>
         </>
     )
 }
-
