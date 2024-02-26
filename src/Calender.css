@@ -102,7 +102,6 @@
 
   .react-calendar__tile--active{
     background-color: #6c35de;
-    color: white;
   }
   
   .react-calendar__tile:disabled {
