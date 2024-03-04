@@ -2,20 +2,21 @@ import { IconHomeCheck, IconChevronLeft, IconBottle } from "@tabler/icons-react"
 import { useState, useEffect } from "react";
 import Calendar from 'react-calendar';
 import "../Calender.css"
-import { PDFDownloadLink } from "@react-pdf/renderer"
-import dana from "../assets/dana.png"
+// import { PDFDownloadLink } from "@react-pdf/renderer"
+// import dana from "../assets/dana.png"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
-import bri from "../assets/bri.png"
-import bni from "../assets/bni.png"
-import linkaja from "../assets/linkaja.png"
-import spay from "../assets/spay.png"
+// import bri from "../assets/bri.png"
+// import bni from "../assets/bni.png"
+// import linkaja from "../assets/linkaja.png"
+// import spay from "../assets/spay.png"
 import qris from "../assets/qris.png"
-import bca from "../assets/bca.png"
-import gopay from "../assets/gopay.png"
-import paypal from "../assets/paypal.png"
-import PaymentReceipt from "./PaymentReceipt";
-import { IconDownload } from "@tabler/icons-react";
+import { IconCurrencyDollar } from "@tabler/icons-react";
+// import bca from "../assets/bca.png"
+// import gopay from "../assets/gopay.png"
+// import paypal from "../assets/paypal.png"
+// import PaymentReceipt from "./PaymentReceipt";
+// import { IconDownload } from "@tabler/icons-react";
 
 export default function Appointments(){
 
@@ -31,7 +32,8 @@ export default function Appointments(){
         setSchedule(schedule => ({...schedule, date: date}))
     }, [date])
 
-    const tabData = ["Outlets", "Date", "Categories", "Confirm"]
+    // const tabData = ["Outlets", "Date", "Categories", "Confirm"]
+    const tabData = ["Cabang", "Tanggal", "Kategori", "Konfirmasi"]
     const [showTab, setShowTab] = useState(0)
 
     return (
@@ -56,7 +58,7 @@ function BackBtn({ handleBackBtn }){
     return (
         <div className="back flex items-center gap-2 cursor-pointer self-start" onClick={handleBackBtn}>
             <IconChevronLeft stroke={1.5} className="text-black" />
-            <span>Back</span>
+            <span>Kembali</span>
         </div>
     )
 }
@@ -66,19 +68,28 @@ function ChooseOutlet({ schedule, setSchedule, setShowTab }){
     const outletData = [
         {
             title: "Yogyakarta",
-            address: "123 Main Street"
+            // address: "123 Main Street"
+            address: "Jl. Salak No. 8"
         },
         {
             title: "Sleman",
-            address: "456 Elm Avenue"
+            // address: "456 Elm Avenue"
+            address: "Jl. Rambutan No. 17"
         },
         {
             title: "Bantul",
-            address: "789 Oak Lane"
+            // address: "789 Oak Lane"
+            address: "Jl. Pepaya No. 9"
         },
         {
             title: "Kulon Progo",
-            address: "101 Pine Road"
+            // address: "101 Pine Road"
+            address: "Jl. Durian No. 23"
+        },
+        {
+            title: "Gunung Kidul",
+            // address: "264 Nume Boulevard"
+            address: "Jl. Cempedak No. 3"
         }
     ]
 
@@ -141,7 +152,7 @@ function ChooseDate({ setSchedule, setShowTab, date, setDate }){
     return (
         <div className="date w-full flex flex-col items-center gap-4">
             <BackBtn handleBackBtn={handleBackBtn} />
-            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={value => handleChoose(value)} tileDisabled={dateDisabled} />
+            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={value => handleChoose(value)} tileDisabled={dateDisabled} locale="id-ID" />
         </div>
     )
 }
@@ -150,18 +161,20 @@ function ChooseCategories({ schedule, setSchedule, setShowTab, setDate }){
 
     const categoriesData = [
         {
-            title: "Basic Laundry",
-            days: 3,
-            price: 3
+            // title: "Basic Laundry",
+            title: "Biasa",
+            days: 2,
+            price: 4
         },
         {
-            title: "Rapid Fast",
-            days: 2,
+            // title: "Rapid Fast",
+            title: "Kilat",
+            days: 1,
             price: 7
         },
         {
             title: "Premium",
-            days: 1,
+            days: "< 1",
             price: 10   
         }
     ]
@@ -191,7 +204,7 @@ function ChooseCategories({ schedule, setSchedule, setShowTab, setDate }){
                             <div className="info flex flex-col">
                                 <div className="title font-bold text-xl">{item.title}</div>
                                 <div className="price-days flex gap-2 items-center text-black/[.7]">
-                                    ${item.price}/kg • {item.days} days
+                                    Rp.{item.price}.000/kg • {item.days} hari
                                 </div>
                             </div>
                         </div>
@@ -205,9 +218,26 @@ function ChooseCategories({ schedule, setSchedule, setShowTab, setDate }){
 
 function Confirm({ schedule, setSchedule, setShowTab }){
 
-    const paymentMethodsData = [dana, qris, bca, mandiri, ovo, bri, gopay, bni, linkaja, spay, paypal]
+    const paymentMethodsData = [
+        {
+            title: "Cash", 
+            img: "Cash"
+        },
+        {
+            title: "QRIS", 
+            img: qris
+        },
+        {
+            title: "Bank mandiri", 
+            img: mandiri
+        },
+        {
+            title: "OVO", 
+            img: ovo
+        }
+    ]
 
-    const [paymentMethodsIndex, setPaymentMethodsIndex] = useState(0)
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash")
 
     const handleBackBtn = () => {
         setSchedule(schedule => ({...schedule, category: ""}))
@@ -217,6 +247,13 @@ function Confirm({ schedule, setSchedule, setShowTab }){
 
     const [isSelfPickUp, setIsSelfPickUp] = useState(false)
     const [isSelfDrop, setIsSelfDrop] = useState(false)
+
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }
 
     function handleChangeSelfPickUp(){
         if (!isSelfPickUp){
@@ -242,14 +279,21 @@ function Confirm({ schedule, setSchedule, setShowTab }){
         setIsSelfDrop(!isSelfDrop)
     }
 
-    function createPickUpDate(){
-        const pickUpDate = new Date(schedule.date)
-        const daysAfter = schedule.category.days
+    // function createPickUpDate(){
+    //     const pickUpDate = new Date(schedule.date)
+    //     const daysAfter = schedule.category.days
 
-        pickUpDate.setDate(schedule.date.getDate() + daysAfter)
+    //     pickUpDate.setDate(schedule.date.getDate() + daysAfter)
 
-        return pickUpDate.toDateString()
-    }
+    //     return pickUpDate.toLocaleDateString("id-ID", options)
+    // }
+
+    function createTextOnWhatsApp(){
+        const text = 
+        `Halo, Saya ingin laundry di Zenfresh Laundry. %0ACabang: ${schedule.outlet.title} • ${schedule.outlet.address}%0AKategori: ${schedule.category.title}%0ATanggal: ${schedule.date.toLocaleDateString("id-ID", options)}%0AMetode pembayaran: ${selectedPaymentMethod}`
+
+        return text
+    } 
 
     return (
         <>
@@ -259,35 +303,37 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                 <div className="title text-xl font-bold pb-4 border-b">{schedule.category.title}</div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
                     <div className="outlet">{schedule.outlet.title} • {schedule.outlet.address}</div>
-                    <div className="date">{schedule.date.toDateString()}</div>
-                    <div className="days">{schedule.category.days} days</div>
-                    <div className="price">${schedule.category.price}/kg</div>
+                    <div className="date">{schedule.date.toLocaleDateString("id-ID", options)}</div>
+                    <div className="days">{schedule.category.days} hari</div>
+                    <div className="price">Rp.{schedule.category.price}.000/kg</div>
                 </div>
                 <div className="checkboxes flex gap-4 items-center">
                     <label className="label cursor-pointer flex gap-2" htmlFor="pickup">
                         <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={isSelfPickUp} onChange={handleChangeSelfPickUp} />
-                        <span className="label-text">Self pick up</span> 
+                        <span className="label-text">Ambil sendiri</span> 
                     </label>
                     <label className="label cursor-pointer flex gap-2" htmlFor="drop">
                         <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={isSelfDrop} onChange={handleChangeSelfDrop} />
-                        <span className="label-text">Self drop</span> 
+                        <span className="label-text">Bawa sendiri</span> 
                     </label>
                 </div>
                 <div className="payment-methods flex flex-col gap-4">
-                    <div className="title">Payment method:</div>
+                    <div className="title">Metode pembayaran:</div>
                     <div className="flex flex-wrap gap-4">
                     {
                         paymentMethodsData.map((item, index) => {
                             return (
-                                <div className={`item flex cursor-pointer p-2 rounded-md border-2 ${paymentMethodsIndex === index ? "border-primary" : ""}`} key={index} onClick={() => setPaymentMethodsIndex(index)}>
-                                    <img src={item} alt="Payment" className="h-4" loading="lazy" />
+                                <div className={`item flex justify-center items-center cursor-pointer p-2 rounded-md border-2 ${selectedPaymentMethod === item.title ? "border-primary" : ""}`} key={index} onClick={() => setSelectedPaymentMethod(item.title)}>
+                                    {item.title != "Cash" && <img src={item.img} alt="Payment" className="h-4" loading="lazy" />}
+                                    {item.title == "Cash" && <span className="flex"><IconCurrencyDollar stroke={1.5} />{item.title}</span>}
                                 </div>
                             )
                         })
                     }
                     </div>
                 </div>
-                <PDFDownloadLink 
+                <a href={`https://api.whatsapp.com/send?phone=6285323247634&text=${createTextOnWhatsApp()}`} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Order now</a>
+                {/* <PDFDownloadLink 
                 className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" 
                 document={
                 <PaymentReceipt 
@@ -305,7 +351,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                             <span>Payment Receipt</span>
                         </div>
                     }
-                </PDFDownloadLink>
+                </PDFDownloadLink> */}
             </div>
         </div>
         </>
