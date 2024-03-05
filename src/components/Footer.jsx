@@ -14,7 +14,7 @@ export default function Footer(){
             svg: <IconMail stroke={1.5} />
         },
         {
-            title: "Mon - Sun: 08:00 - 17:00",
+            title: "Sen - Min: 08:00 - 17:00",
             svg: <IconClockHour3 stroke={1.5} />
         }
     ]
@@ -42,6 +42,7 @@ export default function Footer(){
                     <a className="link link-hover">Sleman</a>
                     <a className="link link-hover">Bantul</a>
                     <a className="link link-hover">Kulon Progo</a>
+                    <a className="link link-hover">Gunung Kidul</a>
                 </div>
                 <div className="links flex flex-col gap-2 items-end mobile:items-center">
                     <div className="footer-title">others</div> 
@@ -49,13 +50,14 @@ export default function Footer(){
                     <a className="link link-hover">Careers</a>
                     <a className="link link-hover">Contact</a>
                     <a className="link link-hover">Help Center</a>
+                    <a className="link link-hover">Social Media</a>
                 </div>
             </div>
             <div className="bottom w-full flex justify-between border-t pt-8 mobile:flex-col-reverse mobile:gap-4">
                 <div className="copyright mobile:text-center">© 2023 ZenFresh</div>
                 <div className="bottom-links flex gap-4 items-center mobile:justify-between">
-                    <div>Privacy policy</div>
-                    <div>Terms of service</div>
+                    <a className="link link-hover">Privacy policy</a>
+                    <a className="link link-hover">Terms of service</a>
                 </div>
             </div>
         </footer>
