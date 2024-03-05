@@ -332,7 +332,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                     }
                     </div>
                 </div>
-                <a href={`https://api.whatsapp.com/send?phone=6285323247634&text=${createTextOnWhatsApp()}`} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Order now</a>
+                <a href={`https://api.whatsapp.com/send?phone=6282352395596&text=${createTextOnWhatsApp()}`} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Order now</a>
                 {/* <PDFDownloadLink 
                 className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" 
                 document={
