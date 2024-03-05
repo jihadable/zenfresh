@@ -7,35 +7,35 @@ export default function Plans(){
 
     const plansData = [
         {
-            title: "Choose Any Time For Delivery",
+            title: "Pilih Waktu untuk Pemesanan",
             svg: <IconAlarm stroke={1.5} width={64} height={64} />,
-            text: "Select a convenient delivery time that fits your schedule."
+            text: "Pilih waktu pengiriman yang sesuai dengan jadwal Anda."
         },
         {
-            title: "We Wash And Dry Dirty Laundry",
+            title: "Kami Mencuci dan Mengeringkan Cucian Kotor",
             svg: <IconBottle stroke={1.5} width={64} height={64} /> ,
-            text: "Our expert team takes care of washing and drying your soiled garments with precision."
+            text: "Tim kami menangani pencucian dan pengeringan pakaian kotor Anda dengan presisi."
         },
         {
-            title: "We Return Your Clean Laundry",
+            title: "Kami Mengembalikan Cucian Bersih Anda",
             svg: <IconTruckReturn stroke={1.5} width={64} height={64} />,
-            text: "We'll promptly return your laundry, fresh, clean, and ready to wear."
+            text: "Kami akan segera mengembalikan cucian Anda dalam keadaan segar, bersih, dan siap pakai."
         },
         {
-            title: "Relax And Enjoy Clean Clothes",
+            title: "Bersantai dan Nikmati Pakaian Bersih Anda",
             svg: <IconHeartHandshake stroke={1.5} width={64} height={64} />,
-            text: "Sit back, relax, and relish the luxury of clean, crisp clothes without the hassle."
+            text: "Duduk, bersantai, dan nikmati kemewahan pakaian bersih dan rapi tanpa repot."
         }
     ]
 
     return (
         <section className="plans w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Quick and Easy Laundry</div>
+            <div className="title text-3xl font-bold text-center">Laundry mudah dan cepat</div>
             <div className="plans-items flex gap-4 mobile:flex-col">
             {
                 plansData.map((item, index) => {
                     return (
-                        <div className="plan flex flex-col items-center justify-between gap-4" key={index}>
+                        <div className="plan flex flex-col items-center gap-4" key={index}>
                             <div className="img w-fit flex justify-center items-center p-4 rounded-full bg-boldPurple/[.2] text-boldPurple">
                                 {item.svg}
                             </div>

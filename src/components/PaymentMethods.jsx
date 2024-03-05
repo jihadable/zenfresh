@@ -16,7 +16,7 @@ export default function PaymentMethods(){
 
     return (
         <section className="payment-methods w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title font-bold text-3xl text-center">Payment Methods</div>
+            <div className="title font-bold text-3xl text-center">Metode Pembayaran</div>
             <div className="payment-methods-items flex items-center justify-center flex-wrap gap-4">
             {
                 paymentMethodsData.map((item, index) => {

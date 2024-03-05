@@ -33,12 +33,12 @@ export default function Appointments(){
     }, [date])
 
     // const tabData = ["Outlets", "Date", "Categories", "Confirm"]
-    const tabData = ["Cabang", "Tanggal", "Kategori", "Konfirmasi"]
+    const tabData = ["Cabang", "Kategori", "Tanggal", "Konfirmasi"]
     const [showTab, setShowTab] = useState(0)
 
     return (
         <section className="appointments w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold">Appointments</div>
+            <div className="title text-3xl font-bold">Pemesanan</div>
             <ul className="steps">
             {
                 tabData.map((item, index) => {
@@ -47,9 +47,9 @@ export default function Appointments(){
             }
             </ul>
             {showTab === 0 && <ChooseOutlet schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
-            {showTab === 1 && <ChooseDate setSchedule={setSchedule} setShowTab={setShowTab} date={date} setDate={setDate} />}
-            {showTab === 2 && <ChooseCategories schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} setDate={setDate} />}
-            {showTab === 3 && <Confirm schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
+            {showTab === 1 && <ChooseCategories schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
+            {showTab === 2 && <ChooseDate setSchedule={setSchedule} setShowTab={setShowTab} date={date} setDate={setDate} />}
+            {showTab === 3 && <Confirm schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} setDate={setDate} />}
         </section>
     )
 }
@@ -120,54 +120,15 @@ function ChooseOutlet({ schedule, setSchedule, setShowTab }){
     )
 }
 
-const getYesterdayDate = () => {
-    const yesterday = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-
-    return yesterday
-}
-
-function dateDisabled({ date }){
-    const yesterday = getYesterdayDate()
-    
-    return date < yesterday 
-}
-
-function ChooseDate({ setSchedule, setShowTab, date, setDate }){
-
-    const handleChoose = value => {
-        setDate(value)
-
-        setShowTab(2)
-    }
-
-    const handleBackBtn = () => {
-        setDate(getYesterdayDate())
-
-        setSchedule(schedule => ({...schedule, outlet: ""}))
-
-        setShowTab(0)
-    }
-
-    return (
-        <div className="date w-full flex flex-col items-center gap-4">
-            <BackBtn handleBackBtn={handleBackBtn} />
-            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={value => handleChoose(value)} tileDisabled={dateDisabled} locale="id-ID" />
-        </div>
-    )
-}
-
-function ChooseCategories({ schedule, setSchedule, setShowTab, setDate }){
+function ChooseCategories({ schedule, setSchedule, setShowTab }){
 
     const categoriesData = [
         {
-            // title: "Basic Laundry",
             title: "Biasa",
             days: 2,
             price: 4
         },
         {
-            // title: "Rapid Fast",
             title: "Kilat",
             days: 1,
             price: 7
@@ -182,14 +143,13 @@ function ChooseCategories({ schedule, setSchedule, setShowTab, setDate }){
     const handleChoose = (category) => {
         setSchedule(schedule => ({...schedule, category: category}))
 
-        setShowTab(3)
+        setShowTab(2)
     }
 
     const handleBackBtn = () => {
-        setDate(getYesterdayDate())
-        setSchedule(schedule => ({...schedule, category: ""}))
+        setSchedule(schedule => ({...schedule, outlet: ""}))
 
-        setShowTab(1)
+        setShowTab(0)
     }
 
     return (
@@ -216,7 +176,48 @@ function ChooseCategories({ schedule, setSchedule, setShowTab, setDate }){
     )
 }
 
-function Confirm({ schedule, setSchedule, setShowTab }){
+const getYesterdayDate = () => {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+
+    return yesterday
+}
+
+function dateDisabled({ date }){
+    const yesterday = getYesterdayDate()
+    const today = new Date()
+    
+    if (date.toDateString() === today.toDateString() && today.getHours() >= 18) {
+        return true
+    }
+
+    return date < yesterday 
+}
+
+function ChooseDate({ setSchedule, setShowTab, date, setDate }){
+
+    const handleChoose = value => {
+        setDate(value)
+
+        setShowTab(3)
+    }
+
+    const handleBackBtn = () => {
+        setDate(getYesterdayDate())
+        setSchedule(schedule => ({...schedule, category: ""}))
+
+        setShowTab(1)
+    }
+
+    return (
+        <div className="date w-full flex flex-col items-center gap-4">
+            <BackBtn handleBackBtn={handleBackBtn} />
+            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={value => handleChoose(value)} tileDisabled={dateDisabled} locale="id-ID" />
+        </div>
+    )
+}
+
+function Confirm({ schedule, setShowTab, setDate }){
 
     const paymentMethodsData = [
         {
@@ -240,13 +241,13 @@ function Confirm({ schedule, setSchedule, setShowTab }){
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash")
 
     const handleBackBtn = () => {
-        setSchedule(schedule => ({...schedule, category: ""}))
+        setDate(getYesterdayDate())
 
         setShowTab(2)
     }
 
-    const [isSelfPickUp, setIsSelfPickUp] = useState(false)
-    const [isSelfDrop, setIsSelfDrop] = useState(false)
+    // const [isSelfPickUp, setIsSelfPickUp] = useState(true)
+    // const [isSelfDrop, setIsSelfDrop] = useState(true)
 
     const options = {
         weekday: 'long',
@@ -255,42 +256,44 @@ function Confirm({ schedule, setSchedule, setShowTab }){
         day: 'numeric',
     }
 
-    function handleChangeSelfPickUp(){
-        if (!isSelfPickUp){
-            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
-        }
+    // function handleChangeSelfPickUp(){
+    //     if (!isSelfPickUp){
+    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
+    //     }
         
-        else {
-            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
-        }
+    //     else {
+    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
+    //     }
 
-        setIsSelfPickUp(!isSelfPickUp)
-    }
-
-    function handleChangeSelfDrop(){
-        if (!isSelfDrop){
-            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
-        }
-        
-        else {
-            setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
-        }
-
-        setIsSelfDrop(!isSelfDrop)
-    }
-
-    // function createPickUpDate(){
-    //     const pickUpDate = new Date(schedule.date)
-    //     const daysAfter = schedule.category.days
-
-    //     pickUpDate.setDate(schedule.date.getDate() + daysAfter)
-
-    //     return pickUpDate.toLocaleDateString("id-ID", options)
+    //     setIsSelfPickUp(!isSelfPickUp)
     // }
+
+    // function handleChangeSelfDrop(){
+    //     if (!isSelfDrop){
+    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
+    //     }
+        
+    //     else {
+    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
+    //     }
+
+    //     setIsSelfDrop(!isSelfDrop)
+    // }
+
+    function createPickUpDate(){
+        const pickUpDate = new Date(schedule.date)
+        const duration = schedule.category.days
+
+        if (duration == "< 1") return pickUpDate.toLocaleDateString("id-ID", options)
+
+        pickUpDate.setDate(schedule.date.getDate() + duration)
+
+        return pickUpDate.toLocaleDateString("id-ID", options)
+    }
 
     function createTextOnWhatsApp(){
         const text = 
-        `Halo, Saya ingin laundry di Zenfresh Laundry. %0ACabang: ${schedule.outlet.title} • ${schedule.outlet.address}%0AKategori: ${schedule.category.title}%0ATanggal: ${schedule.date.toLocaleDateString("id-ID", options)}%0AMetode pembayaran: ${selectedPaymentMethod}`
+        `Halo, Saya ingin laundry di Zenfresh Laundry. %0ACabang: ${schedule.outlet.title} • ${schedule.outlet.address}%0AKategori: ${schedule.category.title}%0ATanggal penjemputan pakaian: ${schedule.date.toLocaleDateString("id-ID", options)}%0ATanggal pengantaran pakaian: ${createPickUpDate()}%0AMetode pembayaran: ${selectedPaymentMethod}`
 
         return text
     } 
@@ -307,7 +310,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                     <div className="days">{schedule.category.days} hari</div>
                     <div className="price">Rp.{schedule.category.price}.000/kg</div>
                 </div>
-                <div className="checkboxes flex gap-4 items-center">
+                {/* <div className="checkboxes flex gap-4 items-center">
                     <label className="label cursor-pointer flex gap-2" htmlFor="pickup">
                         <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={isSelfPickUp} onChange={handleChangeSelfPickUp} />
                         <span className="label-text">Ambil sendiri</span> 
@@ -316,7 +319,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                         <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={isSelfDrop} onChange={handleChangeSelfDrop} />
                         <span className="label-text">Bawa sendiri</span> 
                     </label>
-                </div>
+                </div> */}
                 <div className="payment-methods flex flex-col gap-4">
                     <div className="title">Metode pembayaran:</div>
                     <div className="flex flex-wrap gap-4">
@@ -332,7 +335,7 @@ function Confirm({ schedule, setSchedule, setShowTab }){
                     }
                     </div>
                 </div>
-                <a href={`https://api.whatsapp.com/send?phone=6282352395596&text=${createTextOnWhatsApp()}`} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Order now</a>
+                <a href={`https://api.whatsapp.com/send?phone=6282352395596&text=${createTextOnWhatsApp()}`} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Pesan sekarang</a>
                 {/* <PDFDownloadLink 
                 className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" 
                 document={

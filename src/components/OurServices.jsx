@@ -8,18 +8,18 @@ export default function OurServices(){
 
     const servicesData = [
         {
-            title: "Dry Cleaning",
-            text: "ZenFresh offers dry cleaning services for delicate and special fabrics that require gentle cleaning methods to maintain their quality.",
+            title: "Cuci Kering",
+            text: "ZenFresh menawarkan layanan dry cleaning untuk kain halus dan khusus yang memerlukan metode pembersihan lembut untuk menjaga kualitasnya.",
             img: dryCleaning
         },
         {
-            title: "Pressing and Ironing",
-            text: "ZenFresh provides pressing and ironing services to give your clothes a crisp and polished look, ensuring they are wrinkle-free and ready to wear.",
+            title: "Penyetrikaan Pakaian",
+            text: "ZenFresh menyediakan layanan menyetrika untuk memberikan pakaian Anda tampilan yang rapi dan halus, memastikan pakaian bebas kusut dan siap dipakai.",
             img: ironing
         },
         {
-            title: "Stain Removal",
-            text: "ZenFresh may have expertise in stain removal, ensuring that even stubborn stains are treated effectively, increasing the chances of successful removal.",
+            title: "Penghapusan Noda",
+            text: "ZenFresh memiliki keahlian dalam menghilangkan noda, memastikan bahwa noda membandel sekalipun dapat ditangani secara efektif, sehingga meningkatkan peluang keberhasilan penghapusan.",
             img: stainRemoval
         }
     ]
@@ -31,10 +31,8 @@ export default function OurServices(){
             {
                 servicesData.map((item, index) => {
                     return (
-                        <div className="card w-full shadow-xl bg-white" key={index}>
-                            <figure>
-                                <img src={item.img} alt="Image" />    
-                            </figure>
+                        <div className="card w-full shadow-xl bg-white overflow-hidden" key={index}>
+                            <img src={item.img} alt="Image" className="w-full" />
                             <div className="card-body">
                                 <h2 className="card-title">{item.title}</h2>
                                 <p>{item.text}</p>

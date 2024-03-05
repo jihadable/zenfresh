@@ -6,20 +6,20 @@ export default function Faqs(){
 
     const faqsData = [
         {
-            question: "What payment methods do you accept?",
-            answer: "We accept various payment methods, including digital payments, e-wallet, and bank transfers for your convenience."
+            question: "Metode pembayaran apa saja yang ada di ZenFresh",
+            answer: "Kami menerima berbagai metode pembayaran, termasuk pembayaran digital, e-wallet, dan transfer bank untuk kenyamanan Anda."
         },
         {
-            question: "How do I schedule laundry pickup and delivery times?",
-            answer: "You can easily schedule laundry pickup and delivery times through our user-friendly online platform. Simply select the preferred time slots that suit your schedule, and we'll handle the rest."
+            question: "Bagaimana cara mengatur waktu pengambilan dan pengantaran cucian?",
+            answer: "Anda dapat dengan mudah menjadwalkan waktu pengambilan dan pengiriman laundry melalui platform online kami yang ramah pengguna. Cukup pilih slot waktu pilihan yang sesuai dengan jadwal Anda, dan kami akan menangani sisanya."
         },
         {
-            question: "Are my clothes safe with ZenFresh's laundry service?",
-            answer: "Absolutely. At ZenFresh, we prioritize the safety and care of your garments. Our experienced team follows strict quality control procedures to ensure your clothes are handled and cleaned with the utmost care and attention. Your satisfaction and the well-being of your clothing are our top priorities."
+            question: "Apakah pakaian saya aman dengan layanan laundry ZenFresh?",
+            answer: "Tentu saja!. Di ZenFresh, kami memprioritaskan keamanan dan perawatan pakaian Anda. Tim kami yang berpengalaman mengikuti prosedur yang ketat untuk memastikan pakaian Anda ditangani dan dibersihkan dengan sangat penuh perhatian. Kepuasan Anda dan kenyamanan pakaian Anda adalah prioritas utama kami."
         },
         {
-            question: "Does ZenFresh handle special garments or specific cleaning requests?",
-            answer: "Yes, we can handle various types of special garments and specific cleaning requests. Please let us know your needs, such as dry cleaning, care for special fabrics, or other specific requests when you place your order, and we will be happy to accommodate those requirements. We prioritize providing a tailored laundry service to meet your unique needs."
+            question: "Apakah ZenFresh menangani pakaian khusus atau permintaan pembersihan khusus?",
+            answer: "Ya, kami dapat menangani berbagai jenis pakaian khusus dan permintaan pembersihan khusus. Harap beri tahu kami kebutuhan Anda, seperti dry cleaning, perawatan kain khusus, atau permintaan khusus lainnya. Kami akan dengan senang hati melayani kebutuhan tersebut. Kami memprioritaskan penyediaan layanan laundry yang disesuaikan untuk memenuhi kebutuhan unik Anda."
         }
     ]
 
@@ -27,7 +27,7 @@ export default function Faqs(){
 
     return (
         <section className="faqs w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Frequently Asked Questions</div>
+            <div className="title text-3xl font-bold text-center">Pertanyaan yang Sering Ditanyakan</div>
             <div className="faqs-content relative flex flex-col w-full mobile:static">
                 <div className="faqs-img flex w-[60vw] mobile:hidden">
                     <img src={faqsImg} alt="Image" className="w-full rounded-md h-fit" />

@@ -6,15 +6,15 @@ export default function Reviews(){
 
     const reviewsData = [
         {
-            name: "Sarah Watson",
+            name: "Dewi",
             place: "Sleman",
-            text: "I've been a ZenFresh customer for over a year now, and I've never been disappointed. Their service is incredibly convenient, especially for someone with a busy schedule like mine. My clothes always come back in perfect condition, and the fresh scent is amazing. I couldn't ask for more from a laundry service.",
+            text: "Saya sudah menjadi pelanggan ZenFresh selama lebih dari setahun, dan saya tidak pernah kecewa. Layanan mereka sangat nyaman, terutama bagi seseorang dengan jadwal sibuk seperti saya. Pakaian saya selalu kembali dalam kondisi sempurna, dan aroma segarnya luar biasa.",
             img: client1
         },
         {
-            name: "John Doe",
+            name: "Yanto",
             place: "Yogyakarta",
-            text: "I recently tried ZenFresh after several recommendations from friends. The results have been outstanding! The pickup and delivery service is highly efficient, and my clothes come back cleaner and fresher than when I wash them myself. I'm thrilled to have discovered ZenFresh.",
+            text: "Saya baru-baru ini mencoba ZenFresh setelah mendapat beberapa rekomendasi dari teman. Hasilnya luar biasa! Layanan penjemputan dan pengantaran sangat efisien, dan pakaian saya kembali lebih bersih dan segar dibandingkan saat saya mencucinya sendiri. Saya sangat senang telah menemukan ZenFresh.",
             img: client2
         }
     ]

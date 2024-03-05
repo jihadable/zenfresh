@@ -14,7 +14,7 @@ export default function Footer(){
             svg: <IconMail stroke={1.5} />
         },
         {
-            title: "Sen - Min: 08:00 - 17:00",
+            title: "Sen - Min: 08:00 - 18:00",
             svg: <IconClockHour3 stroke={1.5} />
         }
     ]
@@ -37,7 +37,7 @@ export default function Footer(){
                 }
                 </div>
                 <div className="links flex flex-col gap-2 items-end mobile:items-center">
-                    <div className="footer-title">outlets</div> 
+                    <div className="footer-title">cabang</div> 
                     <a className="link link-hover">Yogyakarta</a>
                     <a className="link link-hover">Sleman</a>
                     <a className="link link-hover">Bantul</a>
@@ -45,7 +45,7 @@ export default function Footer(){
                     <a className="link link-hover">Gunung Kidul</a>
                 </div>
                 <div className="links flex flex-col gap-2 items-end mobile:items-center">
-                    <div className="footer-title">others</div> 
+                    <div className="footer-title">lainnya</div> 
                     <a className="link link-hover">Blog</a>
                     <a className="link link-hover">Careers</a>
                     <a className="link link-hover">Contact</a>

@@ -8,10 +8,10 @@ export default function Signup(){
         <div className="signup w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
             <form action="" className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]">
                 <div className="full-name w-full">
-                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Full name" />
+                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Nama lengkap" />
                 </div>
                 <div className="email w-full">
-                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Email address" />
+                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Email" />
                 </div>
                 <div className="password w-full">
                     <input type="password" className="w-full p-4 border-none outline-none rounded-md" placeholder="Password" />
@@ -20,7 +20,7 @@ export default function Signup(){
                     Signup
                 </button>
                 <div className="extra">
-                    Already have an account? <Link to={"/login"} className="text-white link-hover">Login</Link>
+                    Sudah punya akun? <Link to={"/login"} className="text-white link-hover">Login</Link>
                 </div>
             </form>
             <Link to="/" onClick={goTop} className="flex gap-2 items-center link-hover text-black">
