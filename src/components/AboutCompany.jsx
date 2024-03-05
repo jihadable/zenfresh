@@ -7,17 +7,17 @@ export default function AboutCompany(){
 
     const aboutUsData = [
         {
-            title: "Wash machine",
+            title: "Mesin Cuci",
             svg: <IconWashMachine stroke={1.5} width={40} height={40} />,
             number: 125
         },
         {
-            title: "Outlets",
+            title: "Cabang",
             svg: <IconBuildingWarehouse stroke={1.5} width={40} height={40} />,
             number: 5
         },
         {
-            title: "Employees",
+            title: "Karyawan",
             svg: <IconUsers stroke={1.5} width={40} height={40} />,
             number: 35
         }
