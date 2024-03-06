@@ -303,11 +303,12 @@ function Confirm({ schedule, setShowTab, setDate }){
         <div className="confirm w-full flex flex-col gap-4">
             <BackBtn handleBackBtn={handleBackBtn} />
             <div className="confirm-info flex flex-col p-4 gap-4 rounded-md bg-white shadow-2xl">
-                <div className="title text-xl font-bold pb-4 border-b">{schedule.category.title}</div>
+                <div className="title text-xl font-bold pb-4 border-b">Laundry {schedule.category.title}</div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
-                    <div className="outlet">{schedule.outlet.title} • {schedule.outlet.address}</div>
-                    <div className="date">{schedule.date.toLocaleDateString("id-ID", options)}</div>
-                    <div className="days">{schedule.category.days} hari</div>
+                    <div className="outlet">Cabang: {schedule.outlet.title} • {schedule.outlet.address}</div>
+                    <div className="date-drop">Penjemputan pakaian: {schedule.date.toLocaleDateString("id-ID", options)}</div>
+                    <div className="date-pickup">Pengembalian pakaian: {createPickUpDate()}</div>
+                    <div className="days">Durasi: {schedule.category.days} hari</div>
                     <div className="price">Rp.{schedule.category.price}.000/kg</div>
                 </div>
                 {/* <div className="checkboxes flex gap-4 items-center">
