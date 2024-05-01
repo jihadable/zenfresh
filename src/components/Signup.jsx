@@ -2,21 +2,32 @@ import { IconHome } from "@tabler/icons-react";
 import { IconChevronLeft } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import goTop from "./goTop";
+import { useRef } from "react";
+import axios from "axios"
 
 export default function Signup(){
+
+    const [fullnameInput, emailInput, passwordInput] = [useRef(null), useRef(null), useRef(null)]
+
+    const handleRegister = async(e) => {
+        e.preventDefault()
+        
+        const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+    }
+
     return (
         <div className="signup w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
-            <form action="" className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]">
+            <form className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]" onSubmit={handleRegister}>
                 <div className="full-name w-full">
-                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Nama lengkap" />
+                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Nama lengkap" required ref={fullnameInput} />
                 </div>
                 <div className="email w-full">
-                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Email" />
+                    <input type="email" className="w-full p-4 border-none outline-none rounded-md" placeholder="Email" required ref={emailInput} />
                 </div>
                 <div className="password w-full">
-                    <input type="password" className="w-full p-4 border-none outline-none rounded-md" placeholder="Password" />
+                    <input type="password" className="w-full p-4 border-none outline-none rounded-md" placeholder="Password" required ref={passwordInput} />
                 </div>
-                <button className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
+                <button type="submit" className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
                     Signup
                 </button>
                 <div className="extra">

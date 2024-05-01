@@ -2,21 +2,10 @@ import { IconChevronLeft, IconBottle } from "@tabler/icons-react"
 import { useState, useEffect } from "react";
 import Calendar from 'react-calendar';
 import "../Calender.css"
-// import { PDFDownloadLink } from "@react-pdf/renderer"
-// import dana from "../assets/dana.png"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
-// import bri from "../assets/bri.png"
-// import bni from "../assets/bni.png"
-// import linkaja from "../assets/linkaja.png"
-// import spay from "../assets/spay.png"
 import qris from "../assets/qris.png"
 import { IconCurrencyDollar } from "@tabler/icons-react";
-// import bca from "../assets/bca.png"
-// import gopay from "../assets/gopay.png"
-// import paypal from "../assets/paypal.png"
-// import PaymentReceipt from "./PaymentReceipt";
-// import { IconDownload } from "@tabler/icons-react";
 
 export default function Appointments(){
 
@@ -195,25 +184,6 @@ function Confirm({ schedule, setShowTab, setDate }){
 
     const [isSelfPickUp, setIsSelfPickUp] = useState(false)
     const [isSelfDrop, setIsSelfDrop] = useState(false)
-
-    // function handleChangeSelfPickUp(){
-    //     setIsSelfPickUp(!isSelfPickUp)
-    // }
-
-    // function handleChangeSelfDrop(){
-    //     setIsSelfDrop(!isSelfDrop)
-    // }
-
-    // function createPickUpDate(){
-    //     const pickUpDate = new Date(schedule.date)
-    //     const duration = schedule.category.days
-
-    //     if (duration == "< 1") return pickUpDate.toLocaleDateString("id-ID", options)
-
-    //     pickUpDate.setDate(schedule.date.getDate() + duration)
-
-    //     return pickUpDate.toLocaleDateString("id-ID", options)
-    // }
 
     function createTextOnWhatsApp(){
         const text = 
