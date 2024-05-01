@@ -1,4 +1,4 @@
-import { IconHomeCheck, IconChevronLeft, IconBottle } from "@tabler/icons-react"
+import { IconChevronLeft, IconBottle } from "@tabler/icons-react"
 import { useState, useEffect } from "react";
 import Calendar from 'react-calendar';
 import "../Calender.css"
@@ -23,7 +23,6 @@ export default function Appointments(){
     const [date, setDate] = useState(getYesterdayDate())
 
     const [schedule, setSchedule] = useState({
-        outlet: "",
         date: date,
         category: ""
     })
@@ -32,9 +31,8 @@ export default function Appointments(){
         setSchedule(schedule => ({...schedule, date: date}))
     }, [date])
 
-    // const tabData = ["Outlets", "Date", "Categories", "Confirm"]
-    const tabData = ["Cabang", "Kategori", "Tanggal", "Konfirmasi"]
-    const [showTab, setShowTab] = useState(0)
+    const tabData = ["Kategori", "Tanggal", "Konfirmasi"]
+    const [showTab, setShowTab] = useState(1)
 
     return (
         <section className="appointments w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
@@ -42,11 +40,10 @@ export default function Appointments(){
             <ul className="steps">
             {
                 tabData.map((item, index) => {
-                    return <li className={`step ${showTab >= index ? "step-primary" : ""}`} key={index}>{item}</li>
+                    return <li className={`step ${showTab > index ? "step-primary" : ""}`} key={index}>{item}</li>
                 })
             }
             </ul>
-            {showTab === 0 && <ChooseOutlet schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
             {showTab === 1 && <ChooseCategories schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
             {showTab === 2 && <ChooseDate setSchedule={setSchedule} setShowTab={setShowTab} date={date} setDate={setDate} />}
             {showTab === 3 && <Confirm schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} setDate={setDate} />}
@@ -59,63 +56,6 @@ function BackBtn({ handleBackBtn }){
         <div className="back flex items-center gap-2 cursor-pointer self-start" onClick={handleBackBtn}>
             <IconChevronLeft stroke={1.5} className="text-black" />
             <span>Kembali</span>
-        </div>
-    )
-}
-
-function ChooseOutlet({ schedule, setSchedule, setShowTab }){
-
-    const outletData = [
-        {
-            title: "Yogyakarta",
-            // address: "123 Main Street"
-            address: "Jl. Salak No. 8"
-        },
-        {
-            title: "Sleman",
-            // address: "456 Elm Avenue"
-            address: "Jl. Rambutan No. 17"
-        },
-        {
-            title: "Bantul",
-            // address: "789 Oak Lane"
-            address: "Jl. Pepaya No. 9"
-        },
-        {
-            title: "Kulon Progo",
-            // address: "101 Pine Road"
-            address: "Jl. Durian No. 23"
-        },
-        {
-            title: "Gunung Kidul",
-            // address: "264 Nume Boulevard"
-            address: "Jl. Cempedak No. 3"
-        }
-    ]
-
-    function handleChoose(outlet){
-        setSchedule(schedule => ({...schedule, outlet: outlet}))
-
-        setShowTab(1)
-    }
-
-    return (
-        <div className="outlets w-full flex flex-col items-center gap-4">
-            <div className="outlets-items w-full grid grid-cols-2 gap-4 mobile:flex mobile:flex-col">
-            {
-                outletData.map((item, index) => {
-                    return (
-                        <div className={`outlet flex items-center gap-4 rounded-md shadow-2xl p-4 cursor-pointer ${schedule.outlet.title === item.title ? "bg-boldPurple text-white" : "bg-white"}`} key={index} onClick={() => handleChoose(item)}>
-                            <IconHomeCheck stroke={1.5} width={48} height={48} className={`${schedule.outlet.title === item.title ? "text-black" : "text-boldPurple"}`} />
-                            <div className="info flex flex-col">
-                                <div className="title font-bold text-xl">{item.title}</div>
-                                <div className="address text-black/[.7]">{item.address}</div>
-                            </div>
-                        </div>
-                    )
-                })
-            }
-            </div>
         </div>
     )
 }
@@ -246,9 +186,6 @@ function Confirm({ schedule, setShowTab, setDate }){
         setShowTab(2)
     }
 
-    // const [isSelfPickUp, setIsSelfPickUp] = useState(true)
-    // const [isSelfDrop, setIsSelfDrop] = useState(true)
-
     const options = {
         weekday: 'long',
         year: 'numeric',
@@ -256,44 +193,35 @@ function Confirm({ schedule, setShowTab, setDate }){
         day: 'numeric',
     }
 
-    // function handleChangeSelfPickUp(){
-    //     if (!isSelfPickUp){
-    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
-    //     }
-        
-    //     else {
-    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
-    //     }
+    const [isSelfPickUp, setIsSelfPickUp] = useState(false)
+    const [isSelfDrop, setIsSelfDrop] = useState(false)
 
+    // function handleChangeSelfPickUp(){
     //     setIsSelfPickUp(!isSelfPickUp)
     // }
 
     // function handleChangeSelfDrop(){
-    //     if (!isSelfDrop){
-    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price - 1}}))
-    //     }
-        
-    //     else {
-    //         setSchedule(schedule => ({...schedule, category: {...schedule.category, price: schedule.category.price + 1}}))
-    //     }
-
     //     setIsSelfDrop(!isSelfDrop)
     // }
 
-    function createPickUpDate(){
-        const pickUpDate = new Date(schedule.date)
-        const duration = schedule.category.days
+    // function createPickUpDate(){
+    //     const pickUpDate = new Date(schedule.date)
+    //     const duration = schedule.category.days
 
-        if (duration == "< 1") return pickUpDate.toLocaleDateString("id-ID", options)
+    //     if (duration == "< 1") return pickUpDate.toLocaleDateString("id-ID", options)
 
-        pickUpDate.setDate(schedule.date.getDate() + duration)
+    //     pickUpDate.setDate(schedule.date.getDate() + duration)
 
-        return pickUpDate.toLocaleDateString("id-ID", options)
-    }
+    //     return pickUpDate.toLocaleDateString("id-ID", options)
+    // }
 
     function createTextOnWhatsApp(){
         const text = 
-        `Halo, Saya ingin laundry di Zenfresh Laundry. %0ACabang: ${schedule.outlet.title} • ${schedule.outlet.address}%0AKategori: ${schedule.category.title}%0ATanggal penjemputan pakaian: ${schedule.date.toLocaleDateString("id-ID", options)}%0ATanggal pengantaran pakaian: ${createPickUpDate()}%0AMetode pembayaran: ${selectedPaymentMethod}`
+        `Halo, Saya ingin laundry di Zenfresh Laundry. 
+        %0AKategori: ${schedule.category.title}
+        %0ATanggal penjemputan pakaian: ${schedule.date.toLocaleDateString("id-ID", options)}
+        %0ADurasi pengerjaan: ${schedule.category.days} hari
+        %0AMetode pembayaran: ${selectedPaymentMethod}`
 
         return text
     } 
@@ -305,22 +233,23 @@ function Confirm({ schedule, setShowTab, setDate }){
             <div className="confirm-info flex flex-col p-4 gap-4 rounded-md bg-white shadow-2xl">
                 <div className="title text-xl font-bold pb-4 border-b">Laundry {schedule.category.title}</div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
-                    <div className="outlet">Cabang: {schedule.outlet.title} • {schedule.outlet.address}</div>
                     <div className="date-drop">Penjemputan pakaian: {schedule.date.toLocaleDateString("id-ID", options)}</div>
-                    <div className="date-pickup">Pengembalian pakaian: {createPickUpDate()}</div>
-                    <div className="days">Durasi: {schedule.category.days} hari</div>
+                    <div className="days">Durasi pengerjaan: {schedule.category.days} hari</div>
                     <div className="price">Rp.{schedule.category.price}.000/kg</div>
                 </div>
-                {/* <div className="checkboxes flex gap-4 items-center">
-                    <label className="label cursor-pointer flex gap-2" htmlFor="pickup">
-                        <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={isSelfPickUp} onChange={handleChangeSelfPickUp} />
-                        <span className="label-text">Ambil sendiri</span> 
-                    </label>
-                    <label className="label cursor-pointer flex gap-2" htmlFor="drop">
-                        <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={isSelfDrop} onChange={handleChangeSelfDrop} />
-                        <span className="label-text">Bawa sendiri</span> 
-                    </label>
-                </div> */}
+                <div className="shipping-options pb-4 border-b">
+                    <div className="text-sm">Opsi Pengiriman (dikenakan ongkir)</div>
+                    <div className="checkboxes flex gap-4 items-center">
+                        <label className="label cursor-pointer flex gap-2" htmlFor="drop">
+                            <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={isSelfDrop} onChange={() => setIsSelfDrop(!isSelfDrop)} />
+                            <span className="label-text">Bawa sendiri</span> 
+                        </label>
+                        <label className="label cursor-pointer flex gap-2" htmlFor="pickup">
+                            <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={isSelfPickUp} onChange={() => setIsSelfPickUp(!isSelfPickUp)} />
+                            <span className="label-text">Ambil sendiri</span> 
+                        </label>
+                    </div>
+                </div>
                 <div className="payment-methods flex flex-col gap-4">
                     <div className="title">Metode pembayaran:</div>
                     <div className="flex flex-wrap gap-4">
@@ -337,25 +266,6 @@ function Confirm({ schedule, setShowTab, setDate }){
                     </div>
                 </div>
                 <a href={`https://api.whatsapp.com/send?phone=6282352395596&text=${createTextOnWhatsApp()}`} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Pesan sekarang</a>
-                {/* <PDFDownloadLink 
-                className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" 
-                document={
-                <PaymentReceipt 
-                outletAddress={`${schedule.outlet.title}, ${schedule.outlet.address}`} 
-                category={schedule.category.title} 
-                dropDate={schedule.date.toDateString()} 
-                pickUpDate={createPickUpDate()} 
-                price={schedule.category.price} 
-                paymentMethod={paymentMethodsData[paymentMethodsIndex]} />
-                } 
-                fileName="zenfresh_payment_receipt">
-                    {({ loading }) =>
-                        loading ? "Loading..." : <div className="flex gap-2">
-                            <IconDownload stroke={1.5} />
-                            <span>Payment Receipt</span>
-                        </div>
-                    }
-                </PDFDownloadLink> */}
             </div>
         </div>
         </>
