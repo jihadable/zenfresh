@@ -23,14 +23,7 @@ export default function Login(){
         } catch (error){
             const response = error.response.data
 
-            if (!response.ok){
-                if (response.status === 401){
-                    console.log("Invalid email or password")
-                }
-                else if (response.status === 500){
-                    console.log("The server is error")
-                }
-            }
+            console.log(response)
         }
     }
 

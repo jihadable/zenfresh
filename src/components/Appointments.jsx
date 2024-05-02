@@ -1,23 +1,33 @@
-import { IconChevronLeft, IconBottle } from "@tabler/icons-react"
+import { IconChevronLeft, IconBottle, IconCurrencyDollar } from "@tabler/icons-react"
 import { useState, useEffect } from "react";
 import Calendar from 'react-calendar';
 import "../Calender.css"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
-import { IconCurrencyDollar } from "@tabler/icons-react";
+import axios from "axios";
 
 export default function Appointments(){
 
     const [date, setDate] = useState(getYesterdayDate())
 
-    const [schedule, setSchedule] = useState({
+    const [laundry, setLaundry] = useState({
         date: date,
-        category: ""
+        category: "",
+        payment_method: "Cash",
+        is_self_drop: false,
+        is_self_pickup: false
     })
 
     useEffect(() => {
-        setSchedule(schedule => ({...schedule, date: date}))
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        }
+
+        setLaundry(laundry => ({...laundry, date: date.toLocaleDateString("id-ID", options)}))
     }, [date])
 
     const tabData = ["Kategori", "Tanggal", "Konfirmasi"]
@@ -33,9 +43,9 @@ export default function Appointments(){
                 })
             }
             </ul>
-            {showTab === 1 && <ChooseCategories schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} />}
-            {showTab === 2 && <ChooseDate setSchedule={setSchedule} setShowTab={setShowTab} date={date} setDate={setDate} />}
-            {showTab === 3 && <Confirm schedule={schedule} setSchedule={setSchedule} setShowTab={setShowTab} setDate={setDate} />}
+            {showTab === 1 && <ChooseCategories laundry={laundry} setLaundry={setLaundry} setShowTab={setShowTab} />}
+            {showTab === 2 && <ChooseDate setLaundry={setLaundry} setShowTab={setShowTab} date={date} setDate={setDate} />}
+            {showTab === 3 && <Confirm laundry={laundry} setLaundry={setLaundry} setShowTab={setShowTab} setDate={setDate} />}
         </section>
     )
 }
@@ -49,7 +59,7 @@ function BackBtn({ handleBackBtn }){
     )
 }
 
-function ChooseCategories({ schedule, setSchedule, setShowTab }){
+function ChooseCategories({ laundry, setLaundry, setShowTab }){
 
     const categoriesData = [
         {
@@ -64,19 +74,19 @@ function ChooseCategories({ schedule, setSchedule, setShowTab }){
         },
         {
             title: "Premium",
-            days: "< 1",
+            days: "Kurang dari 1",
             price: 10   
         }
     ]
 
     const handleChoose = (category) => {
-        setSchedule(schedule => ({...schedule, category: category}))
+        setLaundry(laundry => ({...laundry, category: category}))
 
         setShowTab(2)
     }
 
     const handleBackBtn = () => {
-        setSchedule(schedule => ({...schedule, outlet: ""}))
+        setLaundry(laundry => ({...laundry, outlet: ""}))
 
         setShowTab(0)
     }
@@ -88,8 +98,8 @@ function ChooseCategories({ schedule, setSchedule, setShowTab }){
             {
                 categoriesData.map((item, index) => {
                     return (
-                        <div className={`item w-full p-4 flex items-center gap-4 rounded-md shadow-2xl cursor-pointer ${schedule.category.title === item.title ? "bg-boldPurple text-white" : "bg-white"}`} key={index} onClick={() => handleChoose(item)}>
-                            <IconBottle stroke={1.5} width={48} height={48} className={`${schedule.category.title === item.title ? "text-black" : "text-boldPurple"}`} />
+                        <div className={`item w-full p-4 flex items-center gap-4 rounded-md shadow-2xl cursor-pointer ${laundry.category.title === item.title ? "bg-boldPurple text-white" : "bg-white"}`} key={index} onClick={() => handleChoose(item)}>
+                            <IconBottle stroke={1.5} width={48} height={48} className={`${laundry.category.title === item.title ? "text-black" : "text-boldPurple"}`} />
                             <div className="info flex flex-col">
                                 <div className="title font-bold text-xl">{item.title}</div>
                                 <div className="price-days flex gap-2 items-center text-black/[.7]">
@@ -112,18 +122,18 @@ const getYesterdayDate = () => {
     return yesterday
 }
 
-function dateDisabled({ date }){
-    const yesterday = getYesterdayDate()
-    const today = new Date()
+function ChooseDate({ setLaundry, setShowTab, date, setDate }){
+
+    function dateDisabled({ date }){
+        const yesterday = getYesterdayDate()
+        const today = new Date()
+        
+        if (date.toDateString() === today.toDateString() && today.getHours() >= 18) {
+            return true
+        }
     
-    if (date.toDateString() === today.toDateString() && today.getHours() >= 18) {
-        return true
+        return date < yesterday 
     }
-
-    return date < yesterday 
-}
-
-function ChooseDate({ setSchedule, setShowTab, date, setDate }){
 
     const handleChoose = value => {
         setDate(value)
@@ -133,7 +143,7 @@ function ChooseDate({ setSchedule, setShowTab, date, setDate }){
 
     const handleBackBtn = () => {
         setDate(getYesterdayDate())
-        setSchedule(schedule => ({...schedule, category: ""}))
+        setLaundry(laundry => ({...laundry, category: ""}))
 
         setShowTab(1)
     }
@@ -146,7 +156,7 @@ function ChooseDate({ setSchedule, setShowTab, date, setDate }){
     )
 }
 
-function Confirm({ schedule, setShowTab, setDate }){
+function Confirm({ laundry, setLaundry, setShowTab, setDate }){
 
     const paymentMethodsData = [
         {
@@ -167,55 +177,59 @@ function Confirm({ schedule, setShowTab, setDate }){
         }
     ]
 
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash")
-
     const handleBackBtn = () => {
         setDate(getYesterdayDate())
 
         setShowTab(2)
     }
 
-    const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+    const handleOrder = async() => {
+        try {
+            const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+            const token = ""
+    
+            const { data: response } = await axios.post(
+                `${laundriesAPIEndpoint}`, 
+                {
+                    ...laundry, 
+                    category: laundry.category.title, 
+                    start_date: laundry.date
+                }, 
+                {
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                }
+            )
+    
+            console.log(response)
+        } catch (error){
+            const response = error.response.data
+
+            console.log(response)
+        }
     }
-
-    const [isSelfPickUp, setIsSelfPickUp] = useState(false)
-    const [isSelfDrop, setIsSelfDrop] = useState(false)
-
-    function createTextOnWhatsApp(){
-        const text = 
-        `Halo, Saya ingin laundry di Zenfresh Laundry. 
-        %0AKategori: ${schedule.category.title}
-        %0ATanggal penjemputan pakaian: ${schedule.date.toLocaleDateString("id-ID", options)}
-        %0ADurasi pengerjaan: ${schedule.category.days} hari
-        %0AMetode pembayaran: ${selectedPaymentMethod}`
-
-        return text
-    } 
 
     return (
         <>
         <div className="confirm w-full flex flex-col gap-4">
             <BackBtn handleBackBtn={handleBackBtn} />
             <div className="confirm-info flex flex-col p-4 gap-4 rounded-md bg-white shadow-2xl">
-                <div className="title text-xl font-bold pb-4 border-b">Laundry {schedule.category.title}</div>
+                <div className="title text-xl font-bold pb-4 border-b">Laundry {laundry.category.title}</div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
-                    <div className="date-drop">Penjemputan pakaian: {schedule.date.toLocaleDateString("id-ID", options)}</div>
-                    <div className="days">Durasi pengerjaan: {schedule.category.days} hari</div>
-                    <div className="price">Rp.{schedule.category.price}.000/kg</div>
+                    <div className="date-drop">Penjemputan pakaian: {laundry.date}</div>
+                    <div className="days">Durasi pengerjaan: {laundry.category.days} hari</div>
+                    <div className="price">Rp.{laundry.category.price}.000/kg</div>
                 </div>
                 <div className="shipping-options pb-4 border-b">
                     <div className="text-sm">Opsi Pengiriman (dikenakan ongkir)</div>
                     <div className="checkboxes flex gap-4 items-center">
                         <label className="label cursor-pointer flex gap-2" htmlFor="drop">
-                            <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={isSelfDrop} onChange={() => setIsSelfDrop(!isSelfDrop)} />
+                            <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={laundry.is_self_drop} onChange={() => setLaundry(laundry => ({...laundry, is_self_drop: !laundry.is_self_drop}))} />
                             <span className="label-text">Bawa sendiri</span> 
                         </label>
                         <label className="label cursor-pointer flex gap-2" htmlFor="pickup">
-                            <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={isSelfPickUp} onChange={() => setIsSelfPickUp(!isSelfPickUp)} />
+                            <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={laundry.is_self_pickup} onChange={() => setLaundry(laundry => ({...laundry, is_self_pickup: !laundry.is_self_pickup}))} />
                             <span className="label-text">Ambil sendiri</span> 
                         </label>
                     </div>
@@ -226,7 +240,7 @@ function Confirm({ schedule, setShowTab, setDate }){
                     {
                         paymentMethodsData.map((item, index) => {
                             return (
-                                <div className={`item flex justify-center items-center cursor-pointer p-2 rounded-md border-2 ${selectedPaymentMethod === item.title ? "border-primary" : ""}`} key={index} onClick={() => setSelectedPaymentMethod(item.title)}>
+                                <div className={`item flex justify-center items-center cursor-pointer p-2 rounded-md border-2 ${laundry.payment_method === item.title ? "border-primary" : ""}`} key={index} onClick={() => setLaundry(laundry => ({...laundry, payment_method: item.title}))}>
                                     {item.title != "Cash" && <img src={item.img} alt="Payment" className="h-4" loading="lazy" />}
                                     {item.title == "Cash" && <span className="flex"><IconCurrencyDollar stroke={1.5} />{item.title}</span>}
                                 </div>
@@ -235,7 +249,7 @@ function Confirm({ schedule, setShowTab, setDate }){
                     }
                     </div>
                 </div>
-                <a href={`https://api.whatsapp.com/send?phone=6282352395596&text=${createTextOnWhatsApp()}`} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end">Pesan sekarang</a>
+                <button type="button" className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Pesan sekarang</button>
             </div>
         </div>
         </>

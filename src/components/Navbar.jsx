@@ -24,7 +24,7 @@ export default function Navbar(){
         },
         {
             path: "/order",
-            title: "Order"
+            title: "Pesan"
         }
     ]
 
