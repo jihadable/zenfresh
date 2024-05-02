@@ -58,7 +58,16 @@ export default function Navbar(){
             }
             </div>
             <div className="extra flex items-center gap-4">
-                <Link to="/login" className="login-btn px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link>
+                <div className="account-container flex">
+                    <button type="button">
+                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=umar+jihad`} alt="Image" className="w-10 rounded-full" />
+                    </button>
+                    <div className="account-menu hidden">
+                        <Link to={"/account-setting"}>Akun Saya</Link>
+                        <Link to={"/history"}>History</Link>
+                    </div>
+                </div>
+                {/* <Link to="/login" className="login-btn px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link> */}
                 <div className="mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>
                     <IconMenu2 stroke={1.5} />
                 </div>
