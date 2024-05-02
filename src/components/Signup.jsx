@@ -1,5 +1,4 @@
-import { IconHome } from "@tabler/icons-react";
-import { IconChevronLeft } from "@tabler/icons-react";
+import { IconHome, IconChevronLeft } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import goTop from "./goTop";
 import { useRef } from "react";
@@ -11,8 +10,29 @@ export default function Signup(){
 
     const handleRegister = async(e) => {
         e.preventDefault()
-        
-        const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+
+        try {
+            const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
+    
+            const { data: response } = await axios.post(`${usersAPIEndpoint}/register`, {
+                fullname: fullnameInput.current.value,
+                email: emailInput.current.value,
+                password: passwordInput.current.value
+            })
+    
+            console.log(response)
+        } catch (error){
+            const response = error.response.data
+
+            if (!response.ok){
+                if (response.status === 400){
+                    console.log("User have already registered")
+                }
+                else if (response.status === 500){
+                    console.log("The server is error")
+                }
+            }
+        }
     }
 
     return (
