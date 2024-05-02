@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import goTop from "./goTop";
-import { IconChevronLeft } from "@tabler/icons-react";
-import { IconHome } from "@tabler/icons-react";
+import { IconChevronLeft, IconHome } from "@tabler/icons-react";
 import { useRef } from "react";
 import axios from "axios";
 
@@ -48,7 +47,7 @@ export default function Login(){
                     Login
                 </button>
                 <div className="extra">
-                    Belum punya akun? <Link to={"/signup"} className="text-white link-hover">Signup</Link>
+                    Belum punya akun? <Link to={"/signup"} className="text-white link-hover">Daftar</Link>
                 </div>
             </form>
             <Link to="/" onClick={goTop} className="flex gap-2 items-center link-hover text-black">

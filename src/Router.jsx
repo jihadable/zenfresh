@@ -4,7 +4,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Order from "./pages/Order";
 import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Register from "./components/Register";
 // import LoginSignup from "./pages/Login-Signup";
 
 export default function Router(){
@@ -16,7 +16,7 @@ export default function Router(){
                 <Route path="/services" element={<Services />}></Route>
                 <Route path="/order" element={<Order />}></Route>
                 <Route path="/login" element={<Login />}></Route>
-                <Route path="/signup" element={<Signup />}></Route>
+                <Route path="/register" element={<Register />}></Route>
             </Routes>
         </BrowserRouter>
     )
