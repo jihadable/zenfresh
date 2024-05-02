@@ -238,14 +238,12 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                     <div className="title">Metode pembayaran:</div>
                     <div className="flex flex-wrap gap-4">
                     {
-                        paymentMethodsData.map((item, index) => {
-                            return (
-                                <div className={`item flex justify-center items-center cursor-pointer p-2 rounded-md border-2 ${laundry.payment_method === item.title ? "border-primary" : ""}`} key={index} onClick={() => setLaundry(laundry => ({...laundry, payment_method: item.title}))}>
-                                    {item.title != "Cash" && <img src={item.img} alt="Payment" className="h-4" loading="lazy" />}
-                                    {item.title == "Cash" && <span className="flex"><IconCurrencyDollar stroke={1.5} />{item.title}</span>}
-                                </div>
-                            )
-                        })
+                        paymentMethodsData.map((item, index) => (
+                            <div className={`item flex justify-center items-center cursor-pointer p-2 rounded-md border-2 ${laundry.payment_method === item.title ? "border-primary" : ""}`} key={index} onClick={() => setLaundry(laundry => ({...laundry, payment_method: item.title}))}>
+                                {item.title != "Cash" && <img src={item.img} alt="Payment" className="h-4" loading="lazy" />}
+                                {item.title == "Cash" && <span className="flex"><IconCurrencyDollar stroke={1.5} />{item.title}</span>}
+                            </div>
+                        ))
                     }
                     </div>
                 </div>

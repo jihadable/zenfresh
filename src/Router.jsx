@@ -5,7 +5,7 @@ import Services from "./pages/Services";
 import Order from "./pages/Order";
 import Login from "./components/Login";
 import Register from "./components/Register";
-// import LoginSignup from "./pages/Login-Signup";
+import History from "./pages/History";
 
 export default function Router(){
     return (
@@ -17,6 +17,7 @@ export default function Router(){
                 <Route path="/order" element={<Order />}></Route>
                 <Route path="/login" element={<Login />}></Route>
                 <Route path="/register" element={<Register />}></Route>
+                <Route path="/history" element={<History />}></Route>
             </Routes>
         </BrowserRouter>
     )
