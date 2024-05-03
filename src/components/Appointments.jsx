@@ -1,11 +1,11 @@
-import { IconChevronLeft, IconBottle, IconCurrencyDollar } from "@tabler/icons-react"
-import { useState, useEffect } from "react";
-import Calendar from 'react-calendar';
+import { IconBottle, IconChevronLeft, IconCurrencyDollar } from "@tabler/icons-react"
+import axios from "axios"
+import { useEffect, useState } from "react"
+import Calendar from 'react-calendar'
 import "../Calender.css"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
-import axios from "axios";
 
 export default function Appointments(){
 
@@ -240,7 +240,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                     {
                         paymentMethodsData.map((item, index) => (
                             <div className={`item flex justify-center items-center cursor-pointer p-2 rounded-md border-2 ${laundry.payment_method === item.title ? "border-primary" : ""}`} key={index} onClick={() => setLaundry(laundry => ({...laundry, payment_method: item.title}))}>
-                                {item.title != "Cash" && <img src={item.img} alt="Payment" className="h-4" loading="lazy" />}
+                                {item.title != "Cash" && <img src={item.img} alt="Payment method" className="h-4" loading="lazy" />}
                                 {item.title == "Cash" && <span className="flex"><IconCurrencyDollar stroke={1.5} />{item.title}</span>}
                             </div>
                         ))
