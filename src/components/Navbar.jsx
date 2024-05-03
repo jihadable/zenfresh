@@ -1,10 +1,7 @@
-import { IconMenu2 } from "@tabler/icons-react"
-import logo from "../assets/logo.png"
-import { IconX } from "@tabler/icons-react"
-import { useState } from "react"
-import { useRef } from "react"
-import { useEffect } from "react"
+import { IconMenu2, IconX } from "@tabler/icons-react"
+import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
+import logo from "../assets/logo.png"
 import goTop from "./goTop"
 
 export default function Navbar(){
@@ -33,11 +30,17 @@ export default function Navbar(){
     const mobileMenuBtn = useRef(null)
 
     useEffect(() => {
-        document.addEventListener("click", function(e){
-            if (!mobileMenuBtn.current.contains(e.target)){
+        const handleClickOutside = (e) => {
+            if (!mobileMenuBtn.current.contains(e.target)) {
                 setShowMobileMenu(false)
             }
-        })
+        }
+    
+        document.addEventListener("click", handleClickOutside)
+    
+        return () => {
+            document.removeEventListener("click", handleClickOutside)
+        }
     }, [])
 
     return (
