@@ -1,7 +1,4 @@
-import { IconTruckReturn } from "@tabler/icons-react"
-import { IconHeartHandshake } from "@tabler/icons-react"
-import { IconBottle } from "@tabler/icons-react"
-import { IconAlarm } from "@tabler/icons-react"
+import { IconAlarm, IconBottle, IconHeartHandshake, IconTruckReturn } from "@tabler/icons-react"
 
 export default function Plans(){
 

@@ -1,4 +1,4 @@
-import { IconMenu2, IconX } from "@tabler/icons-react"
+import { IconHistory, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
 import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import logo from "../assets/logo.png"
@@ -25,12 +25,18 @@ export default function Navbar(){
         }
     ]
 
+    const [showAccountMenu, setShowAccountMenu] = useState(false)
     const [showMobileMenu, setShowMobileMenu] = useState(false)
 
+    const accountMenuBtn = useRef(null)
     const mobileMenuBtn = useRef(null)
 
     useEffect(() => {
         const handleClickOutside = (e) => {
+            if (!accountMenuBtn.current.contains(e.target)) {
+                setShowAccountMenu(false)
+            }
+
             if (!mobileMenuBtn.current.contains(e.target)) {
                 setShowMobileMenu(false)
             }
@@ -61,13 +67,19 @@ export default function Navbar(){
             }
             </div>
             <div className="extra flex items-center gap-4">
-                <div className="account-container flex">
-                    <button type="button">
+                <div className="account-container flex relative mobile:hidden">
+                    <button type="button" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=umar+jihad`} alt="Image" className="w-10 rounded-full" />
                     </button>
-                    <div className="account-menu hidden">
-                        <Link to={"/account-setting"}>Akun Saya</Link>
-                        <Link to={"/history"}>History</Link>
+                    <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col w-40 bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1 gap-1`}>
+                        <Link to={"/account-setting"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                            <IconUserCircle stroke={1.5} className="text-boldPurple" />
+                            <span>Akun Saya</span>
+                        </Link>
+                        <Link to={"/history"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                            <IconHistory stroke={1.5} className="text-boldPurple" />
+                            <span>History</span>
+                        </Link>
                     </div>
                 </div>
                 {/* <Link to="/login" className="login-btn px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link> */}
