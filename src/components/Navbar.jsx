@@ -1,4 +1,4 @@
-import { IconHistory, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
+import { IconBottle, IconHistory, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import logo from "../assets/logo.png"
@@ -50,7 +50,15 @@ export default function Navbar(){
         }
     }, [])
 
-    const { setToken } = useContext(AuthContext)
+    const { setToken, login, isAdmin, user } = useContext(AuthContext)
+
+    const avatarName = () => {
+        const arrFullname = user.fullname.split(" ")
+        
+        if (arrFullname.length === 1) return arrFullname[0]
+
+        return arrFullname[0] + "+" + arrFullname[1]
+    }
 
     const handleLogout = () => {
         localStorage.removeItem("token")
@@ -68,34 +76,58 @@ export default function Navbar(){
                     <IconX stroke={1.5} />
                 </div>
             {
-                linksData.map((item, index) => {
-                    return (
-                        <Link to={item.path} onClick={goTop} className="transition duration-100 hover:text-boldPurple mobile:text-xl" key={index}>{item.title}</Link>
-                    )
-                })
+                linksData.map((item, index) => (
+                    <Link to={item.path} onClick={goTop} className="transition duration-100 hover:text-boldPurple" key={index}>{item.title}</Link>
+                ))
             }
+                <Link to={"/account"} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Akun</Link>
+            {
+                isAdmin === false &&   
+                <Link to={"/history"} className="hidden mobile:block transition duration-100 hover:text-boldPurple">History</Link>
+            }
+            {
+                isAdmin &&
+                <Link to={"/laundries"} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Laundries</Link>
+            }
+                <button type="button" className="hidden mobile:block transition duration-100 hover:text-boldPurple" onClick={handleLogout}>Logout</button>
             </div>
             <div className="extra flex items-center gap-4">
+            {
+                login &&
                 <div className="account-container flex relative mobile:hidden">
                     <button type="button" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>
-                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=umar+jihad`} alt="Image" className="w-10 rounded-full" />
+                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : avatarName()}`} alt="Image" className="w-10 rounded-full" />
                     </button>
                     <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col w-40 bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1`}>
-                        <Link to={"/account-setting"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                        <Link to={"/account"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconUserCircle stroke={1.5} className="text-boldPurple" />
-                            <span>Akun Saya</span>
+                            <span>Akun</span>
                         </Link>
+                    {
+                        isAdmin === false &&   
                         <Link to={"/history"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconHistory stroke={1.5} className="text-boldPurple" />
                             <span>History</span>
                         </Link>
+                    }
+                    {
+                        isAdmin &&
+                        <Link to={"/laundries"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                            <IconBottle stroke={1.5} className="text-boldPurple" />
+                            <span>Laundry</span>
+                        </Link>
+                    }
                         <button type="button" className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20" onClick={handleLogout}>
                             <IconLogout stroke={1.5} className="text-boldPurple" />
                             <span>Logout</span>
                         </button>
                     </div>
                 </div>
-                {/* <Link to="/login" className="login-btn px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link> */}
+            }
+            {
+                login === false &&
+                <Link to="/login" className="login-btn px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link>
+            }
                 <div className="mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>
                     <IconMenu2 stroke={1.5} />
                 </div>

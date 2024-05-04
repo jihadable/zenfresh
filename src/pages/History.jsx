@@ -8,9 +8,9 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export default function History(){
 
-    const { login } = useContext(AuthContext)
+    const { login, isAdmin } = useContext(AuthContext)
 
-    if (login === false){
+    if (login === false || isAdmin){
         return <Navigate replace to={"/"} />
     }
 

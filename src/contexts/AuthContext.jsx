@@ -29,7 +29,7 @@ export default function AuthProvider({ children }){
                 console.log(response)
             } catch (error){
                 setLogin(false)
-                setIsAdmin(response.user.role === "admin")
+                setIsAdmin(false)
                 setUser({})
                 setLaundries([])
 
