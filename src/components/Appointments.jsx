@@ -1,11 +1,12 @@
 import { IconBottle, IconChevronLeft, IconCurrencyDollar } from "@tabler/icons-react"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Calendar from 'react-calendar'
 import "../Calender.css"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
+import { AuthContext } from "../contexts/AuthContext"
 
 export default function Appointments(){
 
@@ -183,10 +184,11 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         setShowTab(2)
     }
 
+    const token = useContext(AuthContext)
+
     const handleOrder = async() => {
         try {
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
-            const token = ""
     
             const { data: response } = await axios.post(
                 `${laundriesAPIEndpoint}`, 
