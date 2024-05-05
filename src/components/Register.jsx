@@ -1,8 +1,8 @@
-import { IconHome, IconChevronLeft } from "@tabler/icons-react";
+import { IconChevronLeft, IconHome } from "@tabler/icons-react";
+import axios from "axios";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import goTop from "./goTop";
-import { useRef } from "react";
-import axios from "axios"
 
 export default function Register(){
 
@@ -28,17 +28,42 @@ export default function Register(){
         }
     }
 
+    const [isLabelFullnameInputOpen, setIsLabelFullnameInputOpen] = useState(false)
+    const [isLabelEmailInputOpen, setIsLabelEmailInputOpen] = useState(false)
+    const [isLabelPasswordInputOpen, setIsLabelPasswordInputOpen] = useState(false)
+
+    const handleFieldBlur = (field) => {
+        if (field === "fullname"){
+            if (fullnameInput.current.value === ""){
+                setIsLabelFullnameInputOpen(false)
+            }
+        }
+        if (field === "email"){
+            if (emailInput.current.value === ""){
+                setIsLabelEmailInputOpen(false)
+            }
+        }
+        if (field === "password"){
+            if (passwordInput.current.value === ""){
+                setIsLabelPasswordInputOpen(false)
+            }
+        }
+    }
+
     return (
         <div className="signup w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
             <form className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]" onSubmit={handleRegister}>
-                <div className="full-name w-full">
-                    <input type="text" className="w-full p-4 border-none outline-none rounded-md" placeholder="Nama lengkap" required ref={fullnameInput} />
+                <div className="full-name w-full p-4 pt-5 pb-3 relative bg-white rounded-md">
+                    <label htmlFor="fullname-input" className={`absolute transition-all ${isLabelFullnameInputOpen ? "top-0 left-3 text-sm" : 'top-4'} left-4 text-gray-400 cursor-text`}>Nama lengkap</label>
+                    <input type="text" id="fullname-input" className="w-full border-none outline-none" required onFocus={() => setIsLabelFullnameInputOpen(true)} onBlur={() => handleFieldBlur("fullname")} ref={fullnameInput} />
                 </div>
-                <div className="email w-full">
-                    <input type="email" className="w-full p-4 border-none outline-none rounded-md" placeholder="Email" required ref={emailInput} />
+                <div className="email w-full p-4 pt-5 pb-3 relative bg-white rounded-md">
+                    <label htmlFor="email-input" className={`absolute transition-all ${isLabelEmailInputOpen ? "top-0 left-3 text-sm" : 'top-4'} left-4 text-gray-400 cursor-text`}>Email</label>
+                    <input type="text" id="email-input" className="w-full border-none outline-none" required onFocus={() => setIsLabelEmailInputOpen(true)} onBlur={() => handleFieldBlur("email")} ref={emailInput} />
                 </div>
-                <div className="password w-full">
-                    <input type="password" className="w-full p-4 border-none outline-none rounded-md" placeholder="Password" required ref={passwordInput} />
+                <div className="password w-full p-4 pt-5 pb-3 relative bg-white rounded-md">
+                    <label htmlFor="password-input" className={`absolute transition-all ${isLabelPasswordInputOpen ? "top-0 left-3 text-sm" : 'top-4'} left-4 text-gray-400 cursor-text`}>Password</label>
+                    <input type="text" id="password-input" className="w-full border-none outline-none" required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
                 </div>
                 <button type="submit" className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
                     Signup
