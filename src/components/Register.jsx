@@ -1,26 +1,33 @@
 import { IconChevronLeft, IconHome } from "@tabler/icons-react";
 import axios from "axios";
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import goTop from "./goTop";
 
 export default function Register(){
 
-    const [fullnameInput, emailInput, passwordInput] = [useRef(null), useRef(null), useRef(null)]
+    const navigate = useNavigate()
 
+    const { setToken } = useContext(AuthContext)
+    
     const handleRegister = async(e) => {
         e.preventDefault()
-
+        
         try {
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
-    
+            
             const { data: response } = await axios.post(`${usersAPIEndpoint}/register`, {
                 fullname: fullnameInput.current.value,
                 email: emailInput.current.value,
-                password: passwordInput.current.value
+                password: passwordInput.current.value,
+                role: "user"
             })
-    
-            console.log(response)
+            
+            localStorage.setItem("token", response.token)
+            setToken(localStorage.getItem("token"))
+            
+            navigate("/")
         } catch (error){
             const response = error.response.data
             
@@ -28,6 +35,8 @@ export default function Register(){
         }
     }
 
+    const [fullnameInput, emailInput, passwordInput] = [useRef(null), useRef(null), useRef(null)]
+    
     const [isLabelFullnameInputOpen, setIsLabelFullnameInputOpen] = useState(false)
     const [isLabelEmailInputOpen, setIsLabelEmailInputOpen] = useState(false)
     const [isLabelPasswordInputOpen, setIsLabelPasswordInputOpen] = useState(false)
@@ -63,11 +72,11 @@ export default function Register(){
                 </div>
                 <div className={`email ${formFieldStyle}`}>
                     <label htmlFor="email-input" className={`${fieldLabelStyle} ${isLabelEmailInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Email</label>
-                    <input type="text" id="email-input" className={fieldInputStyle} required onFocus={() => setIsLabelEmailInputOpen(true)} onBlur={() => handleFieldBlur("email")} ref={emailInput} />
+                    <input type="email" id="email-input" className={fieldInputStyle} required onFocus={() => setIsLabelEmailInputOpen(true)} onBlur={() => handleFieldBlur("email")} ref={emailInput} />
                 </div>
                 <div className={`password ${formFieldStyle}`}>
                     <label htmlFor="password-input" className={`${fieldLabelStyle} ${isLabelPasswordInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Password</label>
-                    <input type="text" id="password-input" className={fieldInputStyle} required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
+                    <input type="password" id="password-input" className={fieldInputStyle} required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
                 </div>
                 <button type="submit" className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
                     Register

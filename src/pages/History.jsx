@@ -33,31 +33,19 @@ function OrderHistory(){
 
     const [selectedFilter, setSelectedFilter] = useState("Semua")
 
-    const laundries = [
-        {
-            category: "Biasa",
-            payment_method: "Cash",
-            start_date: "Selasa, 30 April 2024",
-            end_date: "Kamis, 2 Mei 2024",
-            is_paid: true,
-            is_finish: true,
-            total: "Rp.20.000"
-        },
-        {
-            category: "Premium",
-            payment_method: "OVO",
-            start_date: "Jumat, 3 Mei 2024",
-            end_date: null,
-            is_paid: false,
-            is_finish: false,
-            total: null,
-        }
-    ]
+    const { laundries } = useContext(AuthContext)
 
     return (
         <section className="order-history-container w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="title text-3xl font-bold text-center">History Pemesanan</div>
             <div className="order-history-content w-full flex flex-col gap-2">
+            {
+                laundries.length === 0 &&
+                <span className="text-center text-xl font-bold">Tidak ada history pemesanan</span>
+            }
+            {
+                laundries.length > 0 &&
+                <>
                 <div className="history-filter w-full flex items-center">
                 {
                     filterLabels.map((label, index) => (
@@ -72,6 +60,8 @@ function OrderHistory(){
                     ))
                 }
                 </div>
+                </>
+            }
             </div>
         </section>
     )
