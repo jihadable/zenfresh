@@ -2,6 +2,7 @@ import { IconChevronLeft, IconHome } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import goTop from "../components/goTop";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -30,6 +31,8 @@ export default function Login(){
             const response = error.response.data
             
             console.log(response)
+
+            toast.error("Invalid email or password")
         }
     }
 

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 export const AuthContext = createContext()
 
@@ -45,6 +46,15 @@ export default function AuthProvider({ children }){
     return (
         <AuthContext.Provider value={{ setToken, login, setLogin, isAdmin, setIsAdmin, user, setUser, laundries, setLaundries }}>
             { children }
+            <ToastContainer
+            position="top-center"
+            autoClose={750}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            draggable
+            theme="colored" />
         </AuthContext.Provider>
     )
 }

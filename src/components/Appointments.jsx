@@ -2,11 +2,11 @@ import { IconBottle, IconChevronLeft, IconCurrencyDollar } from "@tabler/icons-r
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import Calendar from 'react-calendar'
-import "../Calender.css"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
 import { AuthContext } from "../contexts/AuthContext"
+import "../styles/Calender.css"
 
 export default function Appointments(){
 
