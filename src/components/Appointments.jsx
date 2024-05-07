@@ -2,6 +2,7 @@ import { IconBottle, IconChevronLeft, IconCurrencyDollar } from "@tabler/icons-r
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import Calendar from 'react-calendar'
+import { toast } from "react-toastify"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
@@ -169,7 +170,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
             img: qris
         },
         {
-            title: "Bank mandiri", 
+            title: "Bank Mandiri", 
             img: mandiri
         },
         {
@@ -184,7 +185,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         setShowTab(2)
     }
 
-    const token = useContext(AuthContext)
+    const { auth, token } = useContext(AuthContext)
 
     const handleOrder = async() => {
         try {
@@ -203,6 +204,14 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                     }
                 }
             )
+
+            toast.success("Pemesanan laundry berhasil")
+
+            setTimeout(() => {
+                toast.info("Mohon menunggu")
+            }, 750);
+
+            auth()
     
             console.log(response)
         } catch (error){

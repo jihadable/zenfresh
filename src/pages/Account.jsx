@@ -8,6 +8,8 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export default function Account(){
 
+    document.title = "ZenFresh | Akun"
+
     const { login } = useContext(AuthContext)
 
     if (login === false){

@@ -11,6 +11,8 @@ import { AuthContext } from "../contexts/AuthContext"
 
 export default function History(){
 
+    document.title = "ZenFresh | History"
+
     const { login, isAdmin } = useContext(AuthContext)
 
     if (login === false || isAdmin){
@@ -61,11 +63,7 @@ function OrderHistory(){
                 <IconReload stroke={1.5} className="text-boldPurple w-10 h-10 animate-spin" />
             }
             {
-                filteredLaundries !== null && filteredLaundries.length === 0 &&
-                <span className="text-center text-xl font-bold">Tidak ada history pemesanan</span>
-            }
-            {
-                filteredLaundries !== null && filteredLaundries.length > 0 &&
+                filteredLaundries !== null &&
                 <>
                 <div className="history-filter w-full flex">
                     <div className="history-filter w-full flex items-center mobile:gap-4 mobile:overflow-x-auto">
@@ -78,6 +76,12 @@ function OrderHistory(){
                 </div>
                 <div className="history-items w-full flex flex-col gap-2">
                 {
+                    filteredLaundries.length === 0 &&
+                    <span className="text-center text-xl font-bold">Tidak ada history pemesanan</span>
+
+                }
+                {
+                    filteredLaundries.length > 0 &&
                     filteredLaundries.map((laundry, index) => (
                         <HistoryItem key={index} laundry={laundry} />
                     ))
@@ -113,6 +117,8 @@ function HistoryItem({ laundry }){
 
     const paymentMethodsImg = paymentMethodsData.filter(paymentMethod => laundry.payment_method === paymentMethod.title).map(paymentMethod => paymentMethod.img)[0]
 
+    const getTotalPayment = total => "Rp " + total.toLocaleString('id-ID')
+
     return (
         <div className="history-item bg-white flex flex-col gap-8 rounded-md border-b-2 border-b-boldPurple overflow-hidden">
             <div className="top flex items-center justify-between p-2">
@@ -129,7 +135,7 @@ function HistoryItem({ laundry }){
                         {paymentMethodsImg != "Cash" && <img src={paymentMethodsImg} alt="Payment method" className="h-4" loading="lazy" />}
                         {paymentMethodsImg == "Cash" && <span className="flex items-center"><IconCurrencyDollar stroke={1.5} />{paymentMethodsImg}</span>}
                     </div>
-                    <div className="total text-base">Total pembayaran: {laundry.is_finish ? laundry.total : "-"}</div>
+                    <div className="total text-base font-bold">Total pembayaran: {laundry.total ? getTotalPayment(laundry.total) : "-"}</div>
                 </div>
             </div>
         </div>

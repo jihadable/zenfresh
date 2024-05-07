@@ -68,7 +68,7 @@ export default function Navbar(){
                     <IconX stroke={1.5} />
                 </div>
             {
-                linksData.map((item, index) => (
+                linksData.filter(link => isAdmin ? link.path !== "/order" : link).map((item, index) => (
                     <Link to={item.path} onClick={goTop} className="transition duration-100 hover:text-boldPurple" key={index}>{item.title}</Link>
                 ))
             }

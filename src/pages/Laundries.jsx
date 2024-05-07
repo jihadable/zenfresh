@@ -1,6 +1,8 @@
 import { IconCurrencyDollar, IconEdit, IconReload, IconTrash } from "@tabler/icons-react";
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import mandiri from "../assets/mandiri.png";
 import ovo from "../assets/ovo.png";
 import qris from "../assets/qris.png";
@@ -10,6 +12,8 @@ import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
 
 export default function Laundries(){
+
+    document.title = "ZenFresh | Daftar Laundry"
 
     const { login, isAdmin } = useContext(AuthContext)
 
@@ -61,14 +65,10 @@ function LaundryContainer(){
                 <IconReload stroke={1.5} className="text-boldPurple w-10 h-10 animate-spin" />
             }
             {
-                filteredLaundries !== null && filteredLaundries.length === 0 &&
-                <span className="text-center text-xl font-bold">Daftar Laundry Kosong</span>
-            }
-            {
-                filteredLaundries !== null && filteredLaundries.length > 0 &&
+                filteredLaundries !== null &&
                 <>
                 <div className="laundry-filter w-full flex">
-                    <div className="laundry-filter w-full flex items-center mobile:gap-4 mobile:overflow-x-auto">
+                    <div className="laundry-filter w-full flex items-center mobile:gap-8 mobile:overflow-x-auto">
                 {
                     filterLabels.map((label, index) => (
                         <button type="button" className={`w-full py-2 border-b-2 whitespace-nowrap ${selectedFilter === label ? "border-b-boldPurple" : "border-b"}`} key={index} onClick={() => setSelectedFilter(label)}>{label}</button>
@@ -78,6 +78,11 @@ function LaundryContainer(){
                 </div>
                 <div className="laundry-items w-full flex flex-col gap-2">
                 {
+                    filteredLaundries.length === 0 &&
+                    <span className="mt-4 text-center text-xl font-bold">Daftar laundry kosong</span>
+                }
+                {
+                    filteredLaundries.length > 0 &&
                     filteredLaundries.map((laundry, index) => (
                         <LaundryItem key={index} laundry={laundry} />
                     ))
@@ -112,33 +117,94 @@ function LaundryItem({ laundry }){
 
     const paymentMethodsImg = paymentMethodsData.filter(paymentMethod => laundry.payment_method === paymentMethod.title).map(paymentMethod => paymentMethod.img)[0]
 
+    const getTotalPayment = total => "Rp " + total.toLocaleString('id-ID')
+
+    const { user } = laundry
+
+    const { auth, token } = useContext(AuthContext)
+
+    const handleDeleteLaundry = async() => {
+        try {
+            const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+
+            const { data: response } = await axios.delete(`${laundriesAPIEndpoint}/${laundry.id}`, {
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            })
+
+            toast.success("Berhasil menghapus data laundry")
+
+            auth()
+
+            console.log(response)
+        } catch(error){
+            const response = error.response.data
+
+            console.log(response)
+        }
+    }
+
     return (
-        <div className="laundry-item bg-white flex flex-col gap-8 rounded-md border-b-2 border-b-boldPurple overflow-hidden">
-            <div className="top flex items-center justify-between p-2">
-                <div className="laundry-category font-bold">{laundry.category}</div>
-                <div className={`laundry-status text-sm px-1 rounded-md ${laundry.is_finish ? "bg-green-500" : "bg-yellow-400"}`}>{laundry.is_finish ? "Pesanan telah selesai" : "Pesanan sedang dikerjakan"}</div>
-            </div>
-            <div className="bottom flex items-end justify-between p-2 text-sm mobile:flex-col-reverse mobile:gap-8">
-                <div className="date mobile:self-start">
-                    {laundry.start_date} → {laundry.is_finish ? laundry.end_date : "-"}
-                </div>
-                <div className="payment flex flex-col items-end">
-                    <div className="payment-method flex items-center gap-1">
-                        <span>Metode pembayaran: </span>
-                        {paymentMethodsImg != "Cash" && <img src={paymentMethodsImg} alt="Payment method" className="h-4" loading="lazy" />}
-                        {paymentMethodsImg == "Cash" && <span className="flex items-center"><IconCurrencyDollar stroke={1.5} />{paymentMethodsImg}</span>}
+        <div className="laundry-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden">
+            <div className="content flex p-2 mobile:flex-col mobile:gap-4">
+                <div className="laundry-info w-full flex flex-col gap-4">
+                    <div className="info-item">
+                        <div className="field text-sm">ID</div>
+                        <div className="value">{laundry.id}</div>
                     </div>
-                    <div className="total text-base">Total pembayaran: {laundry.is_finish ? laundry.total : "-"}</div>
+                    <div className="info-item">
+                        <div className="field text-sm">Status</div>
+                        <div className={`value w-fit px-1 rounded-md ${laundry.is_finish ? "bg-green-500" : "bg-yellow-400"}`}>{laundry.is_finish ? "Pesanan telah selesai" : "Pesanan sedang dikerjakan"}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Kategori</div>
+                        <div className="value">{laundry.category}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Tanggal mulai</div>
+                        <div className="value">{laundry.start_date}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Tanggal selesai</div>
+                        <div className="value">{laundry.end_date || "-"}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Metode pembayaran</div>
+                        <div className="value">
+                        {
+                            paymentMethodsImg != "Cash" ? <img src={paymentMethodsImg} alt="Payment method" className="h-4" loading="lazy" /> : <span className="flex items-center"><IconCurrencyDollar stroke={1.5} />{paymentMethodsImg}</span>
+                        }
+                        </div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Total pembayaran</div>
+                        <div className="value">{laundry.total ? getTotalPayment(laundry.total) : "Rp-"}</div>
+                    </div>
+                </div>
+                <div className="user-info w-full flex flex-col gap-4">
+                    <div className="info-item">
+                        <div className="field text-sm">Nama lengkap Pelanggan</div>
+                        <div className="value">{user.fullname}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Alamat</div>
+                        <div className="value">{user.address || "-"}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">No HP</div>
+                        <div className="value">{user.no_hp || "-"}</div>
+                    </div>
                 </div>
             </div>
-            <div className="actions flex items-center gap-2 self-end p-2">
-                <div className="edit flex items-center gap-1 p-1 rounded-md bg-cyan-500">
+            <div className="actions flex items-center gap-2 p-2 self-end">
+                <button type="button" className="edit flex items-center gap-1 p-1 text-sm rounded-md bg-cyan-500">
                     <IconEdit stroke={1.5} width={20} height={20} />
-                    <span className="text-sm">Edit</span>
-                </div>
-                <button type="button" className="delete flex items-center gap-1 p-1 rounded-md bg-red-600 text-white">
+                    <span>Edit</span>
+                </button>
+                <button type="button" className="delete flex items-center gap-1 p-1 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
                     <IconTrash stroke={1.5} width={20} height={20} />
-                    <span className="text-sm">Hapus</span>
+                    <span>Hapus</span>
                 </button>
             </div>
         </div>

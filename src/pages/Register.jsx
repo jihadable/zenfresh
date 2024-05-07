@@ -26,6 +26,8 @@ export default function Register(){
             
             localStorage.setItem("token", response.token)
             setToken(localStorage.getItem("token"))
+
+            console.log(response)
             
             navigate("/")
         } catch (error){

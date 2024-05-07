@@ -25,6 +25,8 @@ export default function Login(){
             
             localStorage.setItem("token", response.token)
             setToken(localStorage.getItem("token"))
+
+            console.log(response)
             
             navigate("/")
         } catch (error){
@@ -32,7 +34,7 @@ export default function Login(){
             
             console.log(response)
 
-            toast.error("Invalid email or password")
+            toast.error("Email atau password invalid")
         }
     }
 
