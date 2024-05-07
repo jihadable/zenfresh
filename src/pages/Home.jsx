@@ -10,6 +10,8 @@ import WhyChooseUs from "../components/WhyChooseUs";
 
 export default function Home(){
 
+    document.title = "ZenFresh"
+
     return (
         <>
         <Navbar />

@@ -54,8 +54,10 @@ export default function Navbar(){
 
     const handleLogout = () => {
         localStorage.removeItem("token")
-
+        
         setToken(localStorage.getItem("token"))
+
+        goTop()
     }
 
     return (
@@ -72,14 +74,14 @@ export default function Navbar(){
                     <Link to={item.path} onClick={goTop} className="transition duration-100 hover:text-boldPurple" key={index}>{item.title}</Link>
                 ))
             }
-                <Link to={"/account"} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Akun</Link>
+                <Link to={"/account"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Akun</Link>
             {
                 isAdmin === false &&   
-                <Link to={"/history"} className="hidden mobile:block transition duration-100 hover:text-boldPurple">History</Link>
+                <Link to={"/history"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">History</Link>
             }
             {
                 isAdmin &&
-                <Link to={"/laundries"} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Laundries</Link>
+                <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Laundries</Link>
             }
                 <button type="button" className="hidden mobile:block transition duration-100 hover:text-boldPurple" onClick={handleLogout}>Logout</button>
             </div>
@@ -91,20 +93,20 @@ export default function Navbar(){
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
                     </button>
                     <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col w-40 bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1`}>
-                        <Link to={"/account"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                        <Link to={"/account"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconUserCircle stroke={1.5} className="text-boldPurple" />
                             <span>Akun</span>
                         </Link>
                     {
                         isAdmin === false &&   
-                        <Link to={"/history"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                        <Link to={"/history"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconHistory stroke={1.5} className="text-boldPurple" />
                             <span>History</span>
                         </Link>
                     }
                     {
                         isAdmin &&
-                        <Link to={"/laundries"} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                        <Link to={"/laundries"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconBottle stroke={1.5} className="text-boldPurple" />
                             <span>Laundry</span>
                         </Link>

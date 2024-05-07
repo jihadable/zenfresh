@@ -77,7 +77,7 @@ function OrderHistory(){
                 <div className="history-items w-full flex flex-col gap-2">
                 {
                     filteredLaundries.length === 0 &&
-                    <span className="text-center text-xl font-bold">Tidak ada history pemesanan</span>
+                    <span className="mt-4 text-center text-xl font-bold">Tidak ada history pemesanan</span>
 
                 }
                 {
@@ -120,7 +120,7 @@ function HistoryItem({ laundry }){
     const getTotalPayment = total => "Rp " + total.toLocaleString('id-ID')
 
     return (
-        <div className="history-item bg-white flex flex-col gap-8 rounded-md border-b-2 border-b-boldPurple overflow-hidden">
+        <div className="history-item bg-white flex flex-col gap-8 rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
             <div className="top flex items-center justify-between p-2">
                 <div className="laundry-category font-bold">{laundry.category}</div>
                 <div className={`laundry-status text-sm px-1 rounded-md ${laundry.is_finish ? "bg-green-500" : "bg-yellow-400"}`}>{laundry.is_finish ? "Pesanan telah selesai" : "Pesanan sedang dikerjakan"}</div>

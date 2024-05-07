@@ -1,4 +1,4 @@
-import { IconCurrencyDollar, IconEdit, IconReload, IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconCurrencyDollar, IconEdit, IconReload, IconTrash, IconX } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
@@ -124,29 +124,31 @@ function LaundryItem({ laundry }){
     const { auth, token } = useContext(AuthContext)
 
     const handleDeleteLaundry = async() => {
-        try {
-            const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
-
-            const { data: response } = await axios.delete(`${laundriesAPIEndpoint}/${laundry.id}`, {
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            })
-
-            toast.success("Berhasil menghapus data laundry")
-
-            auth()
-
-            console.log(response)
-        } catch(error){
-            const response = error.response.data
-
-            console.log(response)
+        if (confirm("Apakah Anda yakin akan menghapus item ini?")){
+            try {
+                const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+    
+                const { data: response } = await axios.delete(`${laundriesAPIEndpoint}/${laundry.id}`, {
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                })
+    
+                toast.success("Berhasil menghapus data laundry")
+    
+                auth()
+    
+                console.log(response)
+            } catch(error){
+                const response = error.response.data
+    
+                console.log(response)
+            }
         }
     }
 
     return (
-        <div className="laundry-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden">
+        <div className="laundry-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
             <div className="content flex p-2 mobile:flex-col mobile:gap-4">
                 <div className="laundry-info w-full flex flex-col gap-4">
                     <div className="info-item">
@@ -168,6 +170,32 @@ function LaundryItem({ laundry }){
                     <div className="info-item">
                         <div className="field text-sm">Tanggal selesai</div>
                         <div className="value">{laundry.end_date || "-"}</div>
+                    </div>
+                    <div className="info-item flex items-center gap-8">
+                        <div className="drop flex items-center gap-1">
+                        {
+                            laundry.is_self_drop ?
+                            <div className="rounded-md bg-green-600 text-white">
+                                <IconCheck stroke={1.5} width={20} height={20} />
+                            </div> :
+                            <div className="rounded-md bg-red-600 text-white">
+                                <IconX stroke={1.5} width={20} height={20} />
+                            </div>
+                        }
+                            <span className="text-sm">Bawa sendiri</span>
+                        </div>
+                        <div className="pickup flex items-center gap-1">
+                        {
+                            laundry.is_self_pickup ?
+                            <div className="rounded-md bg-green-600 text-white">
+                                <IconCheck stroke={1.5} width={20} height={20} />
+                            </div> :
+                            <div className="rounded-md bg-red-600 text-white">
+                                <IconX stroke={1.5} width={20} height={20} />
+                            </div>
+                        }
+                            <span className="text-sm">Ambil sendiri</span>
+                        </div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Metode pembayaran</div>
