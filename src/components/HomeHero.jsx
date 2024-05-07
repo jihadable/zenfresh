@@ -1,5 +1,4 @@
-import { IconShoppingBag } from "@tabler/icons-react"
-import { IconChevronRight } from "@tabler/icons-react";
+import { IconChevronRight, IconShoppingBag } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import goTop from "./goTop";
 

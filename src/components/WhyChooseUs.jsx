@@ -1,7 +1,4 @@
-import { IconPlant } from "@tabler/icons-react";
-import { IconShoppingBag } from "@tabler/icons-react";
-import { IconTruckDelivery } from "@tabler/icons-react";
-import { IconWashMachine } from "@tabler/icons-react";
+import { IconPlant, IconShoppingBag, IconTruckDelivery, IconWashMachine } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import goTop from "./goTop";
 

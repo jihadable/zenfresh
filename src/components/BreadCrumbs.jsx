@@ -1,5 +1,5 @@
-import { IconHome } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { IconHome } from "@tabler/icons-react"
+import { Link } from "react-router-dom"
 import goTop from "./goTop"
 
 export default function BreadCrumbs({ page, path }){

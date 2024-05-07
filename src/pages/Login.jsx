@@ -2,26 +2,24 @@ import { IconChevronLeft, IconHome } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import goTop from "../components/goTop";
 import { AuthContext } from "../contexts/AuthContext";
-import goTop from "./goTop";
 
-export default function Register(){
+export default function Login(){
 
     const navigate = useNavigate()
 
     const { setToken } = useContext(AuthContext)
     
-    const handleRegister = async(e) => {
+    const handleLogin = async(e) => {
         e.preventDefault()
         
         try {
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
             
-            const { data: response } = await axios.post(`${usersAPIEndpoint}/register`, {
-                fullname: fullnameInput.current.value,
+            const { data: response } = await axios.post(`${usersAPIEndpoint}/login`, {
                 email: emailInput.current.value,
-                password: passwordInput.current.value,
-                role: "user"
+                password: passwordInput.current.value
             })
             
             localStorage.setItem("token", response.token)
@@ -35,18 +33,12 @@ export default function Register(){
         }
     }
 
-    const [fullnameInput, emailInput, passwordInput] = [useRef(null), useRef(null), useRef(null)]
+    const [emailInput, passwordInput] = [useRef(null), useRef(null)]
     
-    const [isLabelFullnameInputOpen, setIsLabelFullnameInputOpen] = useState(false)
     const [isLabelEmailInputOpen, setIsLabelEmailInputOpen] = useState(false)
     const [isLabelPasswordInputOpen, setIsLabelPasswordInputOpen] = useState(false)
 
     const handleFieldBlur = (field) => {
-        if (field === "fullname"){
-            if (fullnameInput.current.value === ""){
-                setIsLabelFullnameInputOpen(false)
-            }
-        }
         if (field === "email"){
             if (emailInput.current.value === ""){
                 setIsLabelEmailInputOpen(false)
@@ -64,12 +56,8 @@ export default function Register(){
     const fieldInputStyle = "w-full border-none outline-none"
 
     return (
-        <div className="signup w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
-            <form className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]" onSubmit={handleRegister}>
-                <div className={`full-name ${formFieldStyle}`}>
-                    <label htmlFor="fullname-input" className={`${fieldLabelStyle} ${isLabelFullnameInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Nama lengkap</label>
-                    <input type="text" id="fullname-input" className={fieldInputStyle} required onFocus={() => setIsLabelFullnameInputOpen(true)} onBlur={() => handleFieldBlur("fullname")} ref={fullnameInput} />
-                </div>
+        <div className="login w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
+            <form className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]" onSubmit={handleLogin}>
                 <div className={`email ${formFieldStyle}`}>
                     <label htmlFor="email-input" className={`${fieldLabelStyle} ${isLabelEmailInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Email</label>
                     <input type="email" id="email-input" className={fieldInputStyle} required onFocus={() => setIsLabelEmailInputOpen(true)} onBlur={() => handleFieldBlur("email")} ref={emailInput} />
@@ -79,10 +67,10 @@ export default function Register(){
                     <input type="password" id="password-input" className={fieldInputStyle} required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
                 </div>
                 <button type="submit" className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
-                    Register
+                    Login
                 </button>
                 <div className="extra">
-                    Sudah punya akun? <Link to={"/login"} className="text-white link-hover">Login</Link>
+                    Belum punya akun? <Link to={"/register"} className="text-white link-hover">Register</Link>
                 </div>
             </form>
             <Link to="/" onClick={goTop} className="flex gap-2 items-center link-hover text-black">

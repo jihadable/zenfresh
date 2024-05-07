@@ -1,7 +1,5 @@
-import { IconWashMachine } from "@tabler/icons-react"
+import { IconBuildingWarehouse, IconUsers, IconWashMachine } from "@tabler/icons-react"
 import aboutUs2 from "../assets/aboutus2.jpg"
-import { IconBuildingWarehouse } from "@tabler/icons-react"
-import { IconUsers } from "@tabler/icons-react"
 
 export default function AboutCompany(){
 

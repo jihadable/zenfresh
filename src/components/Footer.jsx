@@ -1,6 +1,4 @@
-import { IconClockHour3 } from "@tabler/icons-react"
-import { IconMail } from "@tabler/icons-react"
-import { IconPhoneCall } from "@tabler/icons-react"
+import { IconClockHour3, IconMail, IconPhoneCall } from "@tabler/icons-react"
 
 export default function Footer(){
 

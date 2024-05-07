@@ -8,7 +8,7 @@ export default function AuthProvider({ children }){
     const [login, setLogin] = useState(null)
     const [isAdmin, setIsAdmin] = useState(null)
     const [user, setUser] = useState({})
-    const [laundries, setLaundries] = useState([])
+    const [laundries, setLaundries] = useState(null)
 
     useEffect(() => {
         const auth = async() => {
@@ -31,7 +31,7 @@ export default function AuthProvider({ children }){
                 setLogin(false)
                 setIsAdmin(false)
                 setUser({})
-                setLaundries([])
+                setLaundries(null)
 
                 const response = error.response.data
 

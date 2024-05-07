@@ -1,8 +1,8 @@
-import Navbar from "../components/Navbar"
+import AboutCompany from "../components/AboutCompany"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
+import Navbar from "../components/Navbar"
 import WhatAndWho from "../components/WhatAndWho"
-import AboutCompany from "../components/AboutCompany"
 
 export default function About(){
 

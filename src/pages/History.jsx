@@ -1,5 +1,5 @@
-import { IconCurrencyDollar } from "@tabler/icons-react"
-import { useContext, useState } from "react"
+import { IconCurrencyDollar, IconReload } from "@tabler/icons-react"
+import { useContext, useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
@@ -35,27 +35,50 @@ function OrderHistory(){
 
     const { laundries } = useContext(AuthContext)
 
+    const [filteredLaundries, setFilteredLaundries] = useState(laundries)
+
+    useEffect(() => {
+        if (selectedFilter === "Semua"){
+            setFilteredLaundries(laundries)
+        }
+        else if (selectedFilter === "Belum Bayar"){
+            setFilteredLaundries(laundries.filter(laundry => laundry.is_paid === false))
+        }
+        else if (selectedFilter === "Sedang Dikerjakan"){
+            setFilteredLaundries(laundries.filter(laundry => laundry.is_finish === false))
+        }
+        else if (selectedFilter === "Selesai"){
+            setFilteredLaundries(laundries.filter(laundry => laundry.is_finish === true))
+        }
+    }, [laundries, selectedFilter])
+
     return (
         <section className="order-history-container w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="title text-3xl font-bold text-center">History Pemesanan</div>
-            <div className="order-history-content w-full flex flex-col gap-2">
+            <div className="order-history-content w-full flex flex-col items-center gap-2">
             {
-                laundries.length === 0 &&
+                laundries === null &&
+                <IconReload stroke={1.5} className="text-boldPurple w-10 h-10 animate-spin" />
+            }
+            {
+                filteredLaundries !== null && filteredLaundries.length === 0 &&
                 <span className="text-center text-xl font-bold">Tidak ada history pemesanan</span>
             }
             {
-                laundries.length > 0 &&
+                filteredLaundries !== null && filteredLaundries.length > 0 &&
                 <>
-                <div className="history-filter w-full flex items-center">
+                <div className="history-filter w-full flex">
+                    <div className="history-filter w-full flex items-center mobile:gap-4 mobile:overflow-x-auto">
                 {
                     filterLabels.map((label, index) => (
-                        <button type="button" className={`w-full py-2 border-b-2 ${selectedFilter === label ? "border-b-boldPurple" : "border-b"}`} key={index} onClick={() => setSelectedFilter(label)}>{label}</button>
+                        <button type="button" className={`w-full py-2 border-b-2 whitespace-nowrap ${selectedFilter === label ? "border-b-boldPurple" : "border-b"}`} key={index} onClick={() => setSelectedFilter(label)}>{label}</button>
                     ))
                 }
+                    </div>
                 </div>
-                <div className="history-items flex flex-col gap-2">
+                <div className="history-items w-full flex flex-col gap-2">
                 {
-                    laundries.map((laundry, index) => (
+                    filteredLaundries.map((laundry, index) => (
                         <HistoryItem key={index} laundry={laundry} />
                     ))
                 }
@@ -79,7 +102,7 @@ function HistoryItem({ laundry }){
             img: qris
         },
         {
-            title: "Bank mandiri", 
+            title: "Bank Mandiri", 
             img: mandiri
         },
         {
@@ -96,8 +119,8 @@ function HistoryItem({ laundry }){
                 <div className="laundry-category font-bold">{laundry.category}</div>
                 <div className={`laundry-status text-sm px-1 rounded-md ${laundry.is_finish ? "bg-green-500" : "bg-yellow-400"}`}>{laundry.is_finish ? "Pesanan telah selesai" : "Pesanan sedang dikerjakan"}</div>
             </div>
-            <div className="bottom flex items-end justify-between p-2 text-sm">
-                <div className="date">
+            <div className="bottom flex items-end justify-between p-2 text-sm mobile:flex-col-reverse mobile:gap-8">
+                <div className="date mobile:self-start">
                     {laundry.start_date} → {laundry.is_finish ? laundry.end_date : "-"}
                 </div>
                 <div className="payment flex flex-col items-end">

@@ -1,14 +1,14 @@
+import bca from "../assets/bca.png"
+import bni from "../assets/bni.png"
+import bri from "../assets/bri.png"
 import dana from "../assets/dana.png"
+import gopay from "../assets/gopay.png"
+import linkaja from "../assets/linkaja.png"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
-import bri from "../assets/bri.png"
-import bni from "../assets/bni.png"
-import linkaja from "../assets/linkaja.png"
-import spay from "../assets/spay.png"
-import qris from "../assets/qris.png"
-import bca from "../assets/bca.png"
-import gopay from "../assets/gopay.png"
 import paypal from "../assets/paypal.png"
+import qris from "../assets/qris.png"
+import spay from "../assets/spay.png"
 
 export default function PaymentMethods(){
 

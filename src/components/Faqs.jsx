@@ -1,6 +1,6 @@
 import { IconChevronDown } from "@tabler/icons-react"
-import faqsImg from "../assets/faqs.jpg"
 import { useState } from "react"
+import faqsImg from "../assets/faqs.jpg"
 
 export default function Faqs(){
 
