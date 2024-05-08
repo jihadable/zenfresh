@@ -1,7 +1,7 @@
 import { IconCheck, IconCurrencyDollar, IconEdit, IconReload, IconTrash, IconX } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import mandiri from "../assets/mandiri.png";
 import ovo from "../assets/ovo.png";
@@ -243,10 +243,10 @@ function LaundryItem({ laundry }){
                 </div>
             </div>
             <div className="actions flex items-center gap-2 p-2 self-end">
-                <button type="button" className="edit flex items-center gap-1 p-1 text-sm rounded-md bg-cyan-500">
+                <Link to={"/edit/" + laundry.id} type="button" className="edit flex items-center gap-1 p-1 text-sm rounded-md bg-cyan-500">
                     <IconEdit stroke={1.5} width={20} height={20} />
                     <span>Edit</span>
-                </button>
+                </Link>
                 <button type="button" className="delete flex items-center gap-1 p-1 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
                     <IconTrash stroke={1.5} width={20} height={20} />
                     <span>Hapus</span>

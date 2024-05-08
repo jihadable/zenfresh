@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthProvider from "./contexts/AuthContext";
 import About from "./pages/About";
 import Account from "./pages/Account";
+import EditLaundry from "./pages/EditLaundry";
 import History from "./pages/History";
 import Home from "./pages/Home";
 import Laundries from "./pages/Laundries";
@@ -23,6 +24,7 @@ export default function Router(){
                     <Route path="/register" element={<Register />}></Route>
                     <Route path="/account" element={<Account />}></Route>
                     <Route path="/laundries" element={<Laundries />}></Route>
+                    <Route path="/edit/:id" element={<EditLaundry />}></Route>
                     <Route path="/history" element={<History />}></Route>
                 </Routes>
             </AuthProvider>

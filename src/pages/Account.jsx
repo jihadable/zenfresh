@@ -125,11 +125,11 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
         <>
         <div className="item">
             <div className="field text-sm">Alamat</div>
-            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg" defaultValue={alamatInitialValue} ref={alamatInput} />
+            <input type="text" autoFocus className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={alamatInitialValue} ref={alamatInput} />
         </div>
         <div className="item">
             <div className="field text-sm">No HP</div>
-            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg" defaultValue={noHPInitialValue} ref={noHPInput} />
+            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={noHPInitialValue} ref={noHPInput} />
         </div>
         <div className="btns flex gap-2">
             <button type="button" className="w-full bg-red-600 flex items-center gap-2 justify-center mt-2 p-2 text-white rounded-md" onClick={() => setEditTime(false)}>Cancel</button>
