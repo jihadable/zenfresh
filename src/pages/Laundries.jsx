@@ -209,6 +209,23 @@ function LaundryItem({ laundry }){
                         <div className="field text-sm">Total pembayaran</div>
                         <div className="value">{laundry.total ? getTotalPayment(laundry.total) : "Rp-"}</div>
                     </div>
+                    <div className="info-item flex items-center gap-1">
+                    {
+                        laundry.is_paid ? 
+                        <>
+                        <div className="rounded-md bg-green-600 text-white">
+                            <IconCheck stroke={1.5} width={20} height={20} />
+                        </div>
+                        <span className="text-sm">Sudab bayar</span>
+                        </> :
+                        <>
+                        <div className="rounded-md bg-red-600 text-white">
+                            <IconX stroke={1.5} width={20} height={20} />
+                        </div>
+                        <span className="text-sm">Belum bayar</span>
+                        </>
+                    }
+                    </div>
                 </div>
                 <div className="user-info w-full flex flex-col gap-4">
                     <div className="info-item">

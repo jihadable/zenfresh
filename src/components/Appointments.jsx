@@ -2,12 +2,14 @@ import { IconBottle, IconChevronLeft, IconCurrencyDollar } from "@tabler/icons-r
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import Calendar from 'react-calendar'
+import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
 import { AuthContext } from "../contexts/AuthContext"
 import "../styles/Calender.css"
+import goTop from "./goTop"
 
 export default function Appointments(){
 
@@ -185,14 +187,15 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         setShowTab(2)
     }
 
-    const { auth, token } = useContext(AuthContext)
+    const { auth, token, user } = useContext(AuthContext)
 
     const handleOrder = async() => {
+
         try {
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
     
             const { data: response } = await axios.post(
-                `${laundriesAPIEndpoint}`, 
+                laundriesAPIEndpoint, 
                 {
                     ...laundry, 
                     category: laundry.category.title, 
@@ -219,6 +222,14 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
 
             console.log(response)
         }
+    }
+
+    const handleValidUser = () => {
+        if (user === null) return false
+        
+        if (user.address === null || user.no_hp === null) return false
+
+        return true
     }
 
     return (
@@ -258,7 +269,17 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                     }
                     </div>
                 </div>
-                <button type="button" className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Pesan sekarang</button>
+                {
+                    !handleValidUser() &&
+                    <div className="flex flex-col items-end">
+                        <Link to={"/account"} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={goTop}>Perbarui akun</Link>
+                        <span className="text-xs text-red-600">Belum bisa melakukan pemesanan!, data alamat atau No HP Anda masih kosong</span>
+                    </div>
+                }
+                {
+                    handleValidUser() &&
+                    <button type="button" className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Pesan sekarang</button>
+                }
             </div>
         </div>
         </>

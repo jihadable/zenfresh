@@ -8,7 +8,7 @@ export default function AuthProvider({ children }){
     const [token, setToken] = useState(localStorage.getItem("token"))
     const [login, setLogin] = useState(null)
     const [isAdmin, setIsAdmin] = useState(null)
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(null)
     const [laundries, setLaundries] = useState(null)
 
     const auth = async() => {
@@ -30,7 +30,7 @@ export default function AuthProvider({ children }){
         } catch (error){
             setLogin(false)
             setIsAdmin(false)
-            setUser({})
+            setUser(null)
             setLaundries(null)
 
             const response = error.response.data
