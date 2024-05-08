@@ -132,8 +132,8 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
             <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={noHPInitialValue} ref={noHPInput} />
         </div>
         <div className="btns flex gap-2">
-            <button type="button" className="w-full bg-red-600 flex items-center gap-2 justify-center mt-2 p-2 text-white rounded-md" onClick={() => setEditTime(false)}>Cancel</button>
-            <button type="button" className="w-full bg-green-600 flex items-center gap-2 justify-center mt-2 p-2 text-white rounded-md" onClick={handleSaveEditedData}>Save</button>
+            <button type="button" className="w-full bg-red-600 mt-2 p-2 text-white rounded-md" onClick={() => setEditTime(false)}>Cancel</button>
+            <button type="button" className="w-full bg-green-600 mt-2 p-2 text-white rounded-md" onClick={handleSaveEditedData}>Save</button>
         </div>
         </>
     )
