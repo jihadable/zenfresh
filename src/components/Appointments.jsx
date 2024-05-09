@@ -186,13 +186,17 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         setShowTab(2)
     }
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const { auth, token, login, user } = useContext(AuthContext)
 
     const handleOrder = async() => {
         try {
+            setIsLoading(true)
+
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
     
-            const { data: response } = await axios.post(
+            await axios.post(
                 laundriesAPIEndpoint, 
                 {
                     ...laundry, 
@@ -213,12 +217,10 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
             }, 750);
 
             auth()
-    
-            console.log(response)
+            
+            setIsLoading(false)
         } catch (error){
-            const response = error.response.data
-
-            console.log(response)
+            setIsLoading(false)
         }
     }
 
@@ -276,7 +278,13 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 }
                 {
                     handleValidUser() &&
-                    <button type="button" className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Pesan sekarang</button>
+                    <button type="button" className="flex items-center justify-center w-36 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>
+                    {
+                        isLoading ? 
+                        <span className="loading loading-spinner loading-md"></span> :
+                        "Pesan sekarang"
+                    }
+                    </button>
                 }
             </div>
         </div>

@@ -9,6 +9,8 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export default function EditLaundry(){
 
+    document.title = "ZenFresh | Edit Laundry"
+
     const { id } = useParams()
     const { laundries } = useContext(AuthContext)
 
@@ -74,6 +76,8 @@ function EditLaundryContent({ user, laundry }){
         useRef(null)
     ]
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const { auth, token } = useContext(AuthContext)
     
     const handleSave = async() => {
@@ -95,6 +99,8 @@ function EditLaundryContent({ user, laundry }){
         const end_date = is_finish ? new Date().toLocaleDateString("id-ID", options) : null
 
         try {
+            setIsLoading(true)
+
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
 
             await axios.patch(
@@ -120,6 +126,8 @@ function EditLaundryContent({ user, laundry }){
 
             toast.success("Berhasil memperbarui laundry")
 
+            setIsLoading(false)
+
             navigate("/laundries")
         } catch(error) {
             const response = error.response.data
@@ -127,6 +135,8 @@ function EditLaundryContent({ user, laundry }){
             if (response.status === 404){
                 toast.error("Laundry tidak ditemukan")
             }
+
+            setIsLoading(false)
         }
     }
 
@@ -215,7 +225,13 @@ function EditLaundryContent({ user, laundry }){
             </div>
             <div className="actions flex items-center gap-2 p-2 self-end">
                 <Link to={"/laundries"} className="cancel p-2 py-1 bg-red-600 gap-2 text-white rounded-md">Cancel</Link>
-                <button type="button" className="save p-2 py-1 bg-green-600 gap-2 text-white rounded-md" onClick={handleSave}>Save</button>
+                <button type="button" className="save flex items-center justify-center p-2 py-1 bg-green-600 gap-2 text-white rounded-md" onClick={handleSave}>
+                {
+                    isLoading ?
+                    <span className="loading loading-spinner loading-md"></span> :
+                    "Save"
+                }
+                </button>
             </div>
         </div>
     )

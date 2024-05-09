@@ -89,15 +89,19 @@ function MyAccount(){
 
 function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const [alamatInput, noHPInput] = [useRef(null), useRef(null)]
 
     const { auth, token } = useContext(AuthContext)
 
     const handleSaveEditedData = async() => {
         try {
+            setIsLoading(true)
+
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
 
-            axios.patch(
+            await axios.patch(
                 usersAPIEndpoint, 
                 {
                     address: alamatInput.current.value === "" ? null : alamatInput.current.value,
@@ -113,12 +117,12 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
             auth()
             
             toast.success("Berhasil memperbarui data user")
+
+            setIsLoading(false)
             
             setEditTime(false)
         } catch(error){
-            const response = error.response.data
-
-            console.log(response)
+            setIsLoading(false)
         }
     }
 
@@ -133,8 +137,15 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
             <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={noHPInitialValue} ref={noHPInput} />
         </div>
         <div className="btns flex gap-2">
+
             <button type="button" className="w-full bg-red-600 mt-2 p-2 text-white rounded-md" onClick={() => setEditTime(false)}>Cancel</button>
-            <button type="button" className="w-full bg-green-600 mt-2 p-2 text-white rounded-md" onClick={handleSaveEditedData}>Save</button>
+            <button type="button" className="w-full flex items-center justify-center bg-green-600 mt-2 p-2 text-white rounded-md" onClick={handleSaveEditedData}>
+            {
+                isLoading ? 
+                <span className="loading loading-spinner loading-sm"></span> :
+                "Save"
+            }
+            </button>
         </div>
         </>
     )

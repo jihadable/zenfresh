@@ -117,6 +117,8 @@ function LaundryItem({ laundry }){
 
     const paymentMethodsImg = paymentMethodsData.filter(paymentMethod => laundry.payment_method === paymentMethod.title).map(paymentMethod => paymentMethod.img)[0]
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const getTotalPayment = total => "Rp " + total.toLocaleString('id-ID')
 
     const { user } = laundry
@@ -126,6 +128,8 @@ function LaundryItem({ laundry }){
     const handleDeleteLaundry = async() => {
         if (confirm("Apakah Anda yakin akan menghapus item ini?")){
             try {
+                setIsLoading(true)
+
                 const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
     
                 await axios.delete(`${laundriesAPIEndpoint}/${laundry.id}`, {
@@ -134,15 +138,19 @@ function LaundryItem({ laundry }){
                     }
                 })
     
-                toast.success("Berhasil menghapus data laundry")
-    
                 auth()
+
+                toast.success("Berhasil menghapus data laundry")
+
+                setIsLoading(false)
             } catch(error){
                 const response = error.response.data
-    
+                
                 if (response.status === 404){
                     toast.error("Laundry tidak ditemukan")
                 }
+
+                setIsLoading(false)
             }
         }
     }
@@ -231,7 +239,11 @@ function LaundryItem({ laundry }){
                 </Link>
                 <button type="button" className="delete flex items-center gap-1 p-1 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
                     <IconTrash stroke={1.5} width={20} height={20} />
+                {
+                    isLoading ?
+                    <span className="loading loading-spinner loading-xs"></span> :
                     <span>Hapus</span>
+                }
                 </button>
             </div>
         </div>
