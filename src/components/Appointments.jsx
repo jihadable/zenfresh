@@ -186,7 +186,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         setShowTab(2)
     }
 
-    const { auth, token, user } = useContext(AuthContext)
+    const { auth, token, login, user } = useContext(AuthContext)
 
     const handleOrder = async() => {
         try {
@@ -223,7 +223,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
     }
 
     const handleValidUser = () => {
-        if (user === null) return false
+        if (user === null || login === false) return false
         
         if (user.address === null || user.no_hp === null) return false
 
@@ -270,8 +270,8 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 {
                     !handleValidUser() &&
                     <div className="flex flex-col items-end">
-                        <Link to={"/account"} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={goTop}>Perbarui akun</Link>
-                        <span className="text-xs text-red-600">Belum bisa melakukan pemesanan!, data alamat atau No HP Anda masih kosong</span>
+                        <Link to={login === false ? "/login" : "/account"} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={goTop}>{login === false ? "Login" : "Perbarui akun"}</Link>
+                        <span className="text-xs text-red-600">Belum bisa melakukan pemesanan!, {login === false ? "silahkan login terlebih dahulu" : "data alamat atau No HP Anda masih kosong"}</span>
                     </div>
                 }
                 {

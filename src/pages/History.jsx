@@ -1,4 +1,4 @@
-import { IconCurrencyDollar } from "@tabler/icons-react"
+import { IconCheck, IconCurrencyDollar, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
 import mandiri from "../assets/mandiri.png"
@@ -136,6 +136,23 @@ function HistoryItem({ laundry }){
                         {paymentMethodsImg == "Cash" && <span className="flex items-center"><IconCurrencyDollar stroke={1.5} />{paymentMethodsImg}</span>}
                     </div>
                     <div className="total text-base font-bold">Total pembayaran: {laundry.total ? getTotalPayment(laundry.total) : "-"}</div>
+                    <div className="paid flex items-center gap-1">
+                    {
+                        laundry.is_paid ? 
+                        <>
+                        <div className="rounded-md bg-green-600 text-white">
+                            <IconCheck stroke={1.5} width={20} height={20} />
+                        </div>
+                        <span className="text-sm">Sudah bayar</span>
+                        </> :
+                        <>
+                        <div className="rounded-md bg-red-600 text-white">
+                            <IconX stroke={1.5} width={20} height={20} />
+                        </div>
+                        <span className="text-sm">Belum bayar</span>
+                        </>
+                    }
+                    </div>
                 </div>
             </div>
         </div>

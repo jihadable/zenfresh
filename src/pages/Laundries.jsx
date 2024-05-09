@@ -198,7 +198,7 @@ function LaundryItem({ laundry }){
                         <div className="rounded-md bg-green-600 text-white">
                             <IconCheck stroke={1.5} width={20} height={20} />
                         </div>
-                        <span className="text-sm">Sudab bayar</span>
+                        <span className="text-sm">Sudah bayar</span>
                         </> :
                         <>
                         <div className="rounded-md bg-red-600 text-white">

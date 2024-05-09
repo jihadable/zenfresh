@@ -182,7 +182,10 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <input type="number" min={0} className="p-2 py-1 rounded-md border border-boldPurple outline-none" defaultValue={laundry.total ? laundry.total : 0} ref={totalInput} />
+                        <div className="value flex items-center gap-1">
+                            <span>Rp</span>
+                            <input type="number" min={0} className="p-2 py-1 rounded-md border border-boldPurple outline-none" defaultValue={laundry.total ? laundry.total : 0} ref={totalInput} />
+                        </div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status pembayaran</div>
