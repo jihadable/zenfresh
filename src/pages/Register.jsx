@@ -2,6 +2,7 @@ import { IconChevronLeft, IconHome } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import goTop from "../components/goTop";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -26,14 +27,14 @@ export default function Register(){
             
             localStorage.setItem("token", response.token)
             setToken(localStorage.getItem("token"))
-
-            console.log(response)
             
             navigate("/")
         } catch (error){
             const response = error.response.data
             
-            console.log(response)
+            if (response.status === 400){
+                toast.error("Email yang dimasukkan sudah terdaftar")
+            }
         }
     }
 

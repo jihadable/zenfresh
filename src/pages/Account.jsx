@@ -2,6 +2,7 @@ import { IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
@@ -96,7 +97,7 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
         try {
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
 
-            const { data: response } = axios.patch(
+            axios.patch(
                 usersAPIEndpoint, 
                 {
                     address: alamatInput.current.value === "" ? null : alamatInput.current.value,
@@ -110,8 +111,8 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
             )
 
             auth()
-
-            console.log(response)
+            
+            toast.success("Berhasil memperbarui data user")
             
             setEditTime(false)
         } catch(error){

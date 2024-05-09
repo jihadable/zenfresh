@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 export const AuthContext = createContext()
 
@@ -12,6 +12,19 @@ export default function AuthProvider({ children }){
     const [laundries, setLaundries] = useState(null)
 
     const auth = async() => {
+
+        if (!token){
+            localStorage.removeItem("token")
+
+            setToken(localStorage.getItem("token"))
+            setLogin(false)
+            setIsAdmin(false)
+            setUser(null)
+            setLaundries(null)
+
+            return
+        }
+
         try {
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
 
@@ -25,17 +38,16 @@ export default function AuthProvider({ children }){
             setIsAdmin(response.user.role === "admin")
             setUser(response.user)
             setLaundries(response.laundries)
-            
-            console.log(response)
         } catch (error){
+            localStorage.removeItem("token")
+
+            setToken(localStorage.getItem("token"))
             setLogin(false)
             setIsAdmin(false)
             setUser(null)
             setLaundries(null)
-
-            const response = error.response.data
-
-            console.log(response)
+            
+            toast.warn("Session habis, silahkan login ulang")
         }         
     }
 

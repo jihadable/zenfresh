@@ -83,7 +83,10 @@ export default function Navbar(){
                 isAdmin &&
                 <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Laundries</Link>
             }
+            {
+                login &&
                 <button type="button" className="hidden mobile:block transition duration-100 hover:text-boldPurple" onClick={handleLogout}>Logout</button>
+            }
             </div>
             <div className="extra flex items-center gap-4">
             {

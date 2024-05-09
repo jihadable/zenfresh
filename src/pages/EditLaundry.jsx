@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
@@ -96,7 +97,7 @@ function EditLaundryContent({ user, laundry }){
         try {
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
 
-            const { data: response } = await axios.patch(
+            await axios.patch(
                 `${laundriesAPIEndpoint}/${laundry.id}`,
                 {
                     is_finish,
@@ -117,13 +118,15 @@ function EditLaundryContent({ user, laundry }){
 
             auth()
 
-            console.log(response)
+            toast.success("Berhasil memperbarui laundry")
 
             navigate("/laundries")
         } catch(error) {
             const response = error.response.data
 
-            console.log(response)
+            if (response.status === 404){
+                toast.error("Laundry tidak ditemukan")
+            }
         }
     }
 

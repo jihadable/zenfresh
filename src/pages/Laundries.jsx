@@ -128,7 +128,7 @@ function LaundryItem({ laundry }){
             try {
                 const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
     
-                const { data: response } = await axios.delete(`${laundriesAPIEndpoint}/${laundry.id}`, {
+                await axios.delete(`${laundriesAPIEndpoint}/${laundry.id}`, {
                     headers: {
                         "Authorization": "Bearer " + token
                     }
@@ -137,12 +137,12 @@ function LaundryItem({ laundry }){
                 toast.success("Berhasil menghapus data laundry")
     
                 auth()
-    
-                console.log(response)
             } catch(error){
                 const response = error.response.data
     
-                console.log(response)
+                if (response.status === 404){
+                    toast.error("Laundry tidak ditemukan")
+                }
             }
         }
     }

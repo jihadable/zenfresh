@@ -25,16 +25,14 @@ export default function Login(){
             
             localStorage.setItem("token", response.token)
             setToken(localStorage.getItem("token"))
-
-            console.log(response)
             
             navigate("/")
         } catch (error){
             const response = error.response.data
-            
-            console.log(response)
 
-            toast.error("Email atau password invalid")
+            if (response.status === 401){
+                toast.error("Email atau password invalid")
+            }
         }
     }
 
