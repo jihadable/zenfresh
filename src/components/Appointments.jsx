@@ -8,7 +8,6 @@ import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
 import { AuthContext } from "../contexts/AuthContext"
-import "../styles/Calender.css"
 import goTop from "./goTop"
 
 export default function Appointments(){
@@ -190,7 +189,6 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
     const { auth, token, user } = useContext(AuthContext)
 
     const handleOrder = async() => {
-
         try {
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
     

@@ -1,4 +1,4 @@
-import { IconEdit, IconReload } from "@tabler/icons-react";
+import { IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
@@ -38,7 +38,7 @@ function MyAccount(){
             <div className="title text-3xl font-bold text-center">Akun Saya</div>
             {
                 user === null &&
-                <IconReload stroke={1.5} className="text-boldPurple w-10 h-10 animate-spin" />
+                <span className="loading loading-spinner loading-lg bg-boldPurple"></span>
             }
             {
                 user && 

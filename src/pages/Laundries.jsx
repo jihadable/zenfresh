@@ -1,4 +1,4 @@
-import { IconCheck, IconCurrencyDollar, IconEdit, IconReload, IconTrash, IconX } from "@tabler/icons-react";
+import { IconCheck, IconCurrencyDollar, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
@@ -62,7 +62,7 @@ function LaundryContainer(){
             <div className="laundries-content w-full flex flex-col items-center gap-2">
             {
                 laundries === null &&
-                <IconReload stroke={1.5} className="text-boldPurple w-10 h-10 animate-spin" />
+                <span className="loading loading-spinner loading-lg bg-boldPurple"></span>
             }
             {
                 filteredLaundries !== null &&
@@ -171,30 +171,12 @@ function LaundryItem({ laundry }){
                         <div className="field text-sm">Tanggal selesai</div>
                         <div className="value">{laundry.end_date || "-"}</div>
                     </div>
-                    <div className="info-item flex items-center gap-8">
-                        <div className="drop flex items-center gap-1">
-                        {
-                            laundry.is_self_drop ?
-                            <div className="rounded-md bg-green-600 text-white">
-                                <IconCheck stroke={1.5} width={20} height={20} />
-                            </div> :
-                            <div className="rounded-md bg-red-600 text-white">
-                                <IconX stroke={1.5} width={20} height={20} />
-                            </div>
-                        }
-                            <span className="text-sm">Bawa sendiri</span>
-                        </div>
-                        <div className="pickup flex items-center gap-1">
-                        {
-                            laundry.is_self_pickup ?
-                            <div className="rounded-md bg-green-600 text-white">
-                                <IconCheck stroke={1.5} width={20} height={20} />
-                            </div> :
-                            <div className="rounded-md bg-red-600 text-white">
-                                <IconX stroke={1.5} width={20} height={20} />
-                            </div>
-                        }
-                            <span className="text-sm">Ambil sendiri</span>
+                    <div className="info-item">
+                        <div className="field text-sm">Opsi pemesanan</div>
+                        <div className="value flex items-center gap-2">
+                            <span>{laundry.is_self_drop ? "Bawa sendiri" : "Pengambilan oleh kurir"}</span>
+                            <span>-</span>
+                            <span>{laundry.is_self_pickup ? "Ambil sendiri" : "Pengantaran oleh kurir"}</span>
                         </div>
                     </div>
                     <div className="info-item">

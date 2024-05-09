@@ -1,4 +1,4 @@
-import { IconCurrencyDollar, IconReload } from "@tabler/icons-react"
+import { IconCurrencyDollar } from "@tabler/icons-react"
 import { useContext, useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
 import mandiri from "../assets/mandiri.png"
@@ -60,7 +60,7 @@ function OrderHistory(){
             <div className="order-history-content w-full flex flex-col items-center gap-2">
             {
                 laundries === null &&
-                <IconReload stroke={1.5} className="text-boldPurple w-10 h-10 animate-spin" />
+                <span className="loading loading-spinner loading-lg bg-boldPurple"></span>
             }
             {
                 filteredLaundries !== null &&
