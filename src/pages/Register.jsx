@@ -66,7 +66,7 @@ export default function Register(){
     const fieldInputStyle = "w-full border-none outline-none"
 
     return (
-        <div className="signup w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
+        <div className="register w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
             <form className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]" onSubmit={handleRegister}>
                 <div className={`full-name ${formFieldStyle}`}>
                     <label htmlFor="fullname-input" className={`${fieldLabelStyle} ${isLabelFullnameInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Nama lengkap</label>

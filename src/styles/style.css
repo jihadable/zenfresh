@@ -9,7 +9,7 @@ body{
 }
 
 .home-hero, .hero-page{
-    background-image: url("../src/assets/home.jpg");
+    background-image: url("../assets/home.jpg");
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -26,8 +26,8 @@ body{
     transition: .3s cubic-bezier(1,0,1,0);
 }
 
-.login,.signup{
-    background-image: url("../src/assets/login.jpg");
+.login,.register{
+    background-image: url("../assets/login.jpg");
     background-position: center;
     background-size: cover;
 }
