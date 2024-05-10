@@ -61,14 +61,10 @@ function EditLaundryContent({ user, laundry }){
     const [
         isFinishInput,
         categoryInput,
-        isSelfDropInput,
-        isSelfPickupInput,
         paymentMethodInput,
         totalInput,
         isPaidInput
     ] = [
-        useRef(null),
-        useRef(null),
         useRef(null),
         useRef(null),
         useRef(null),
@@ -83,8 +79,6 @@ function EditLaundryContent({ user, laundry }){
     const handleSave = async() => {
         const is_finish = JSON.parse(isFinishInput.current.value)
         const category = categoryInput.current.value
-        const is_self_drop = JSON.parse(isSelfDropInput.current.value)
-        const is_self_pickup = JSON.parse(isSelfPickupInput.current.value)
         const payment_method = paymentMethodInput.current.value
         const total = totalInput.current.value === "" || totalInput.current.value === "0" ? null : parseInt(totalInput.current.value)
         const is_paid = JSON.parse(isPaidInput.current.value)
@@ -109,8 +103,6 @@ function EditLaundryContent({ user, laundry }){
                     is_finish,
                     end_date,
                     category,
-                    is_self_drop,
-                    is_self_pickup,
                     payment_method,
                     total,
                     is_paid
@@ -170,19 +162,6 @@ function EditLaundryContent({ user, laundry }){
                     <div className="info-item">
                         <div className="field text-sm">Tanggal selesai</div>
                         <div className="value">{laundry.end_date || "-"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Opsi pemesanan</div>
-                        <div className="value flex items-center gap-2 mobile:flex-col mobile:items-start">
-                            <select defaultValue={laundry.is_self_drop} className="value select select-sm select-primary" ref={isSelfDropInput}>
-                                <option value={true}>Bawa sendiri</option>
-                                <option value={false}>Pengambilan oleh kurir</option>
-                            </select>
-                            <select defaultValue={laundry.is_self_pickup} className="value select select-sm select-primary" ref={isSelfPickupInput}>
-                                <option value={true}>Ambil sendiri</option>
-                                <option value={false}>Pengantaran oleh kurir</option>
-                            </select>
-                        </div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Metode pembayaran</div>

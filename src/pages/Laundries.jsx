@@ -180,14 +180,6 @@ function LaundryItem({ laundry }){
                         <div className="value">{laundry.end_date || "-"}</div>
                     </div>
                     <div className="info-item">
-                        <div className="field text-sm">Opsi pemesanan</div>
-                        <div className="value flex items-center gap-2">
-                            <span>{laundry.is_self_drop ? "Bawa sendiri" : "Pengambilan oleh kurir"}</span>
-                            <span>-</span>
-                            <span>{laundry.is_self_pickup ? "Ambil sendiri" : "Pengantaran oleh kurir"}</span>
-                        </div>
-                    </div>
-                    <div className="info-item">
                         <div className="field text-sm">Metode pembayaran</div>
                         <div className="value">
                         {

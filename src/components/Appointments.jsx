@@ -17,9 +17,7 @@ export default function Appointments(){
     const [laundry, setLaundry] = useState({
         date: date,
         category: "",
-        payment_method: "Cash",
-        is_self_drop: false,
-        is_self_pickup: false
+        payment_method: "Cash"
     })
 
     useEffect(() => {
@@ -68,17 +66,17 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
         {
             title: "Biasa",
             days: 2,
-            price: 4
+            price: 6
         },
         {
             title: "Kilat",
             days: 1,
-            price: 7
+            price: 8
         },
         {
             title: "Premium",
             days: "Kurang dari 1",
-            price: 10   
+            price: 12   
         }
     ]
 
@@ -106,7 +104,7 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
                             <div className="info flex flex-col">
                                 <div className="title font-bold text-xl">{item.title}</div>
                                 <div className="price-days flex gap-2 items-center text-black/[.7]">
-                                    Rp.{item.price}.000/kg • {item.days} hari
+                                    Rp {item.price}.000/kg • {item.days} hari
                                 </div>
                             </div>
                         </div>
@@ -241,21 +239,9 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 <div className="info flex flex-col gap-2 pb-4 border-b">
                     <div className="date-drop">Penjemputan pakaian: {laundry.date}</div>
                     <div className="days">Durasi pengerjaan: {laundry.category.days} hari</div>
-                    <div className="price">Rp.{laundry.category.price}.000/kg</div>
+                    <div className="price">Rp {laundry.category.price}.000/kg</div>
                 </div>
-                <div className="shipping-options pb-4 border-b">
-                    <div className="text-sm">Opsi Pengiriman (dikenakan ongkir)</div>
-                    <div className="checkboxes flex gap-4 items-center">
-                        <label className="label cursor-pointer flex gap-2" htmlFor="drop">
-                            <input type="checkbox" id="drop" className="checkbox checkbox-primary" checked={laundry.is_self_drop} onChange={() => setLaundry(laundry => ({...laundry, is_self_drop: !laundry.is_self_drop}))} />
-                            <span className="label-text">Bawa sendiri</span> 
-                        </label>
-                        <label className="label cursor-pointer flex gap-2" htmlFor="pickup">
-                            <input type="checkbox" id="pickup" className="checkbox checkbox-primary" checked={laundry.is_self_pickup} onChange={() => setLaundry(laundry => ({...laundry, is_self_pickup: !laundry.is_self_pickup}))} />
-                            <span className="label-text">Ambil sendiri</span> 
-                        </label>
-                    </div>
-                </div>
+                <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(dikenakan ongkir)</span></div>
                 <div className="payment-methods flex flex-col gap-4">
                     <div className="title">Metode pembayaran:</div>
                     <div className="flex flex-wrap gap-4">

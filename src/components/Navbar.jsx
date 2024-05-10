@@ -1,4 +1,4 @@
-import { IconBottle, IconHistory, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
+import { IconBottle, IconChevronDown, IconHistory, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import logo from "../assets/logo.png"
@@ -92,8 +92,9 @@ export default function Navbar(){
             {
                 login &&
                 <div className="account-container flex relative mobile:hidden">
-                    <button type="button" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>
+                    <button type="button" className="flex items-center gap-1" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
+                        <IconChevronDown width={16} height={16} />
                     </button>
                     <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col w-40 bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1`}>
                         <Link to={"/account"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
