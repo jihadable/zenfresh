@@ -1,11 +1,11 @@
 import { IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
-import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
+import NotFound from "../components/NotFound";
 import { AuthContext } from "../contexts/AuthContext";
 
 export default function Account(){
@@ -15,7 +15,7 @@ export default function Account(){
     const { login } = useContext(AuthContext)
 
     if (login === false){
-        return <Navigate replace to={"/"} />
+        return <NotFound />
     }
 
     return (

@@ -1,12 +1,12 @@
 import { IconCheck, IconCurrencyDollar, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useState } from "react"
-import { Navigate } from "react-router-dom"
 import mandiri from "../assets/mandiri.png"
 import ovo from "../assets/ovo.png"
 import qris from "../assets/qris.png"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
+import NotFound from "../components/NotFound"
 import { AuthContext } from "../contexts/AuthContext"
 
 export default function History(){
@@ -16,7 +16,7 @@ export default function History(){
     const { login, isAdmin } = useContext(AuthContext)
 
     if (login === false || isAdmin){
-        return <Navigate replace to={"/"} />
+        return <NotFound />
     }
 
     return (
