@@ -32,6 +32,13 @@ body{
     background-size: cover;
 }
 
+.not-found{
+    background: linear-gradient(25deg, #f3f4f6 40%, transparent 41%, transparent 59%, #f3f4f6 60%) ,linear-gradient(90deg, transparent 45%, #6c35de 45%, #6c35de 55%, transparent 55%, transparent 20%, #6c35de 20%, #6c35de 30%,transparent 30%);
+        background-size: 6em 6em;
+        background-color: #f3f4f6;
+        opacity: 1
+}
+
 @media screen and (max-width: 480px) {
     .navbar .links{
         right: -100%;

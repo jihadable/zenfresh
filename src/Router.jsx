@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NotFound from "./components/NotFound";
 import AuthProvider from "./contexts/AuthContext";
 import About from "./pages/About";
 import Account from "./pages/Account";
@@ -26,6 +27,7 @@ export default function Router(){
                     <Route path="/laundries" element={<Laundries />}></Route>
                     <Route path="/edit/:id" element={<EditLaundry />}></Route>
                     <Route path="/history" element={<History />}></Route>
+                    <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
