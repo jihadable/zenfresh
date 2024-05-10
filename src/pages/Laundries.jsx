@@ -22,14 +22,16 @@ export default function Laundries(){
         return <NotFound />
     }
 
-    return (
-        <>
-        <Navbar />
-        <Hero page={"Laundry"} path={"/laundries"} />
-        <LaundryContainer />
-        <Footer />
-        </>
-    )
+    if (login === true && isAdmin){
+        return (
+            <>
+            <Navbar />
+            <Hero page={"Laundry"} path={"/laundries"} />
+            <LaundryContainer />
+            <Footer />
+            </>
+        )
+    }
 }
 
 function LaundryContainer(){

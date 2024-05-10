@@ -18,15 +18,17 @@ export default function History(){
     if (login === false || isAdmin){
         return <NotFound />
     }
-
-    return (
-        <>
-        <Navbar />
-        <Hero page={"History"} path={"/history"} />
-        <OrderHistory />
-        <Footer />
-        </>
-    )
+    
+    if (login === true && isAdmin === false){
+        return (
+            <>
+            <Navbar />
+            <Hero page={"History"} path={"/history"} />
+            <OrderHistory />
+            <Footer />
+            </>
+        )
+    }
 }
 
 function OrderHistory(){

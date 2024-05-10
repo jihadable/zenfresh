@@ -18,14 +18,16 @@ export default function Account(){
         return <NotFound />
     }
 
-    return (
-        <>
-        <Navbar />
-        <Hero page={"Akun"} path={"/account"} />
-        <MyAccount />
-        <Footer />
-        </>
-    )
+    if (login === true){
+        return (
+            <>
+            <Navbar />
+            <Hero page={"Akun"} path={"/account"} />
+            <MyAccount />
+            <Footer />
+            </>
+        )
+    }
 }
 
 function MyAccount(){
