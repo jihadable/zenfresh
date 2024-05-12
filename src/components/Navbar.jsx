@@ -1,6 +1,6 @@
 import { IconBottle, IconChevronDown, IconHistory, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
 import { AuthContext } from "../contexts/AuthContext"
 import goTop from "./goTop"
@@ -50,12 +50,16 @@ export default function Navbar(){
         }
     }, [])
 
+    const navigate = useNavigate()
+    
     const { setToken, login, isAdmin, user } = useContext(AuthContext)
 
     const handleLogout = () => {
         localStorage.removeItem("token")
         
         setToken(localStorage.getItem("token"))
+
+        navigate("/")
 
         goTop()
     }
