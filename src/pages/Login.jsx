@@ -12,10 +12,14 @@ export default function Login(){
 
     const { setToken } = useContext(AuthContext)
     
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleLogin = async(e) => {
         e.preventDefault()
         
         try {
+            setIsLoading(true)
+
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
             
             const { data: response } = await axios.post(`${usersAPIEndpoint}/login`, {
@@ -25,14 +29,18 @@ export default function Login(){
             
             localStorage.setItem("token", response.token)
             setToken(localStorage.getItem("token"))
+
+            setIsLoading(false)
             
             navigate("/")
         } catch (error){
             const response = error.response.data
-
+            
             if (response.status === 401){
                 toast.error("Email atau password invalid")
             }
+            
+            setIsLoading(false)
         }
     }
 
@@ -69,9 +77,15 @@ export default function Login(){
                     <label htmlFor="password-input" className={`${fieldLabelStyle} ${isLabelPasswordInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Password</label>
                     <input type="password" id="password-input" className={fieldInputStyle} required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
                 </div>
-                <button type="submit" className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
-                    Login
-                </button>
+                {
+                    isLoading ?
+                    <div className="flex items-center justify-center px-6 py-2 rounded-md text-white bg-boldPurple w-fit">
+                        <span className="loading loading-spinner loading-md"></span>
+                    </div> :
+                    <button type="submit" className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
+                        Login
+                    </button>
+                }
                 <div className="extra">
                     Belum punya akun? <Link to={"/register"} className="text-white link-hover">Register</Link>
                 </div>

@@ -204,13 +204,13 @@ function EditLaundryContent({ user, laundry }){
             </div>
             <div className="actions flex items-center gap-2 p-2 self-end">
                 <Link to={"/laundries"} className="cancel p-2 py-1 bg-red-600 gap-2 text-white rounded-md">Cancel</Link>
-                <button type="button" className="save flex items-center justify-center p-2 py-1 bg-green-600 gap-2 text-white rounded-md" onClick={handleSave}>
                 {
                     isLoading ?
-                    <span className="loading loading-spinner loading-md"></span> :
-                    "Save"
+                    <div className="flex items-center justify-center px-4 py-1 rounded-md text-white bg-green-600 w-fit">
+                        <span className="loading loading-spinner loading-md"></span>
+                    </div> :
+                    <button type="button" className="save flex items-center justify-center p-2 py-1 bg-green-600 gap-2 text-white rounded-md" onClick={handleSave}>Save</button>
                 }
-                </button>
             </div>
         </div>
     )

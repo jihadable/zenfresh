@@ -232,14 +232,16 @@ function LaundryItem({ laundry }){
                     <IconEdit stroke={1.5} width={20} height={20} />
                     <span>Edit</span>
                 </Link>
-                <button type="button" className="delete flex items-center gap-1 p-1 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
-                    <IconTrash stroke={1.5} width={20} height={20} />
                 {
                     isLoading ?
-                    <span className="loading loading-spinner loading-xs"></span> :
-                    <span>Hapus</span>
+                    <div className="flex items-center justify-center px-7 py-1 rounded-md text-white bg-red-600 w-fit">
+                        <span className="loading loading-spinner loading-sm"></span>
+                    </div> :
+                    <button type="button" className="delete flex items-center gap-1 p-1 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
+                        <IconTrash stroke={1.5} width={20} height={20} />
+                        <span>Hapus</span>
+                    </button>
                 }
-                </button>
             </div>
         </div>
     )

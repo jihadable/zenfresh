@@ -264,13 +264,11 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 }
                 {
                     handleValidUser() &&
-                    <button type="button" className="flex items-center justify-center w-36 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>
-                    {
-                        isLoading ? 
-                        <span className="loading loading-spinner loading-md"></span> :
-                        "Pesan sekarang"
-                    }
-                    </button>
+                    isLoading ? 
+                    <div className="flex items-center justify-center px-[60px] py-2 rounded-md text-white bg-boldPurple w-fit self-end">
+                        <span className="loading loading-spinner loading-md"></span>
+                    </div> : 
+                    <button type="button" className="flex items-center justify-center w-36 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Pesan sekarang</button>
                 }
             </div>
         </div>
