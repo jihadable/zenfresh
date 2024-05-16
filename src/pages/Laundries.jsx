@@ -122,7 +122,7 @@ function LaundryItem({ laundry }){
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const getTotalPayment = total => "Rp " + total.toLocaleString('id-ID')
+    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
 
     const { user } = laundry
 
@@ -172,7 +172,11 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Kategori</div>
-                        <div className="value">{laundry.category}</div>
+                        <div className="value">{laundry.category.name} ({getIDCurrency(laundry.category.price)}/kg)</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Berat total(kg)</div>
+                        <div className="value">{laundry.weight || "-"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Tanggal mulai</div>
@@ -192,7 +196,7 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <div className="value">{laundry.total ? getTotalPayment(laundry.total) : "Rp-"}</div>
+                        <div className="value">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp-"}</div>
                     </div>
                     <div className="info-item flex items-center gap-1">
                     {

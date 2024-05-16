@@ -61,8 +61,8 @@ function EditLaundryContent({ user, laundry }){
     const [
         isFinishInput,
         categoryInput,
+        weightInput,
         paymentMethodInput,
-        totalInput,
         isPaidInput
     ] = [
         useRef(null),
@@ -72,6 +72,24 @@ function EditLaundryContent({ user, laundry }){
         useRef(null)
     ]
 
+    const [categories, setCategories] = useState(null)
+
+    useEffect(() => {
+        const getAllCategories = async() => {
+            try {
+                const categoriesAPIEndpoint = import.meta.env.VITE_CATEGORIES_API_ENDPOINT
+
+                const { data: response } = await axios.get(categoriesAPIEndpoint)
+
+                setCategories(response.categories)
+            } catch (error){
+                console.log(error)
+            }
+        }
+
+        getAllCategories()
+    }, [])
+
     const [isLoading, setIsLoading] = useState(false)
 
     const { auth, token } = useContext(AuthContext)
@@ -80,7 +98,7 @@ function EditLaundryContent({ user, laundry }){
         const is_finish = JSON.parse(isFinishInput.current.value)
         const category = categoryInput.current.value
         const payment_method = paymentMethodInput.current.value
-        const total = totalInput.current.value === "" || totalInput.current.value === "0" ? null : parseInt(totalInput.current.value)
+        const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
         const is_paid = JSON.parse(isPaidInput.current.value)
 
         const options = {
@@ -104,7 +122,7 @@ function EditLaundryContent({ user, laundry }){
                     end_date,
                     category,
                     payment_method,
-                    total,
+                    weight,
                     is_paid
                 },
                 {
@@ -132,6 +150,8 @@ function EditLaundryContent({ user, laundry }){
         }
     }
 
+    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
+
     return (
         <div className="edit-laundry-content w-full flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
             <div className="edit-laundry-content w-full flex gap-2 p-2 mobile:flex-col mobile:gap-4">
@@ -147,13 +167,24 @@ function EditLaundryContent({ user, laundry }){
                             <option value={true}>Pesanan telah selesai</option>
                         </select>
                     </div>
+                {
+                    categories !== null &&   
                     <div className="info-item">
                         <div className="field text-sm">Kategori</div>
-                        <select defaultValue={laundry.category} className="value select select-sm select-primary" ref={categoryInput}>
-                            <option>Biasa</option>
-                            <option>Premium</option>
-                            <option>Kilat</option>
+                        <select defaultValue={laundry.category.id} className="value select select-sm select-primary" ref={categoryInput}>
+                        {
+                            categories.map(category => (
+                                <option value={category.id} key={category.id}>{category.name}</option>
+                            ))
+                        }
                         </select>
+                    </div>
+                }
+                    <div className="info-item">
+                        <div className="field text-sm">Berat total(kg)</div>
+                        <div className="value flex items-center gap-1">
+                            <input type="number" min={0} className="p-2 py-1 rounded-md border border-boldPurple outline-none" defaultValue={laundry.weight ? laundry.weight : 0} ref={weightInput} />
+                        </div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Tanggal mulai</div>
@@ -174,10 +205,7 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <div className="value flex items-center gap-1">
-                            <span>Rp</span>
-                            <input type="number" min={0} className="p-2 py-1 rounded-md border border-boldPurple outline-none" defaultValue={laundry.total ? laundry.total : 0} ref={totalInput} />
-                        </div>
+                        <div className="value flex items-center gap-1">{laundry.weight !== null ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp-"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status pembayaran</div>

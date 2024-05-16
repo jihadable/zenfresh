@@ -119,12 +119,15 @@ function HistoryItem({ laundry }){
 
     const paymentMethodsImg = paymentMethodsData.filter(paymentMethod => laundry.payment_method === paymentMethod.title).map(paymentMethod => paymentMethod.img)[0]
 
-    const getTotalPayment = total => "Rp " + total.toLocaleString('id-ID')
+    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
 
     return (
         <div className="history-item bg-white flex flex-col gap-8 rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
             <div className="top flex items-center justify-between p-2">
-                <div className="laundry-category font-bold">{laundry.category}</div>
+                <div className="laundry-category font-bold">
+                    {laundry.category.name} 
+                    <span className="font-normal text-sm"> ({getIDCurrency(laundry.category.price)}/kg)</span>
+                </div>
                 <div className={`laundry-status text-sm px-1 rounded-md ${laundry.is_finish ? "bg-green-500" : "bg-yellow-400"}`}>{laundry.is_finish ? "Pesanan telah selesai" : "Pesanan sedang dikerjakan"}</div>
             </div>
             <div className="bottom flex items-end justify-between p-2 text-sm mobile:flex-col-reverse mobile:gap-8">
@@ -137,7 +140,7 @@ function HistoryItem({ laundry }){
                         {paymentMethodsImg != "Cash" && <img src={paymentMethodsImg} alt="Payment method" className="h-4" loading="lazy" />}
                         {paymentMethodsImg == "Cash" && <span className="flex items-center"><IconCurrencyDollar stroke={1.5} />{paymentMethodsImg}</span>}
                     </div>
-                    <div className="total text-base font-bold">Total pembayaran: {laundry.total ? getTotalPayment(laundry.total) : "-"}</div>
+                    <div className="total text-base font-bold">Total pembayaran: {laundry.weight ? getIDCurrency(laundry.category.price * laundry.weight) : "-"}</div>
                     <div className="paid flex items-center gap-1">
                     {
                         laundry.is_paid ? 

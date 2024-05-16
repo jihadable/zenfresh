@@ -16,7 +16,7 @@ export default function Appointments(){
 
     const [laundry, setLaundry] = useState({
         date: date,
-        category: "",
+        category: {},
         payment_method: "Cash"
     })
 
@@ -62,23 +62,23 @@ function BackBtn({ handleBackBtn }){
 
 function ChooseCategories({ laundry, setLaundry, setShowTab }){
 
-    const categoriesData = [
-        {
-            title: "Biasa",
-            days: 2,
-            price: 6
-        },
-        {
-            title: "Kilat",
-            days: 1,
-            price: 8
-        },
-        {
-            title: "Premium",
-            days: "Kurang dari 1",
-            price: 12   
+    const [categories, setCategories] = useState(null)
+
+    useEffect(() => {
+        const getAllCategories = async() => {
+            try {
+                const categoriesAPIEndpoint = import.meta.env.VITE_CATEGORIES_API_ENDPOINT
+
+                const { data: response } = await axios.get(categoriesAPIEndpoint)
+
+                setCategories(response.categories)
+            } catch (error){
+                console.log(error)
+            }
         }
-    ]
+
+        getAllCategories()
+    }, [])
 
     const handleChoose = (category) => {
         setLaundry(laundry => ({...laundry, category: category}))
@@ -92,24 +92,37 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
         setShowTab(0)
     }
 
+    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
+
     return (
         <div className="categories w-full flex flex-col items-center gap-4">
             <BackBtn handleBackBtn={handleBackBtn} />
             <div className="categories-items w-full grid grid-cols-2 gap-4 mobile:flex mobile:flex-col">
             {
-                categoriesData.map((item, index) => {
-                    return (
-                        <div className={`item w-full p-4 flex items-center gap-4 rounded-md shadow-2xl cursor-pointer ${laundry.category.title === item.title ? "bg-boldPurple text-white" : "bg-white"}`} key={index} onClick={() => handleChoose(item)}>
-                            <IconBottle stroke={1.5} width={48} height={48} className={`${laundry.category.title === item.title ? "text-black" : "text-boldPurple"}`} />
-                            <div className="info flex flex-col">
-                                <div className="title font-bold text-xl">{item.title}</div>
-                                <div className="price-days flex gap-2 items-center text-black/[.7]">
-                                    Rp {item.price}.000/kg • {item.days} hari
-                                </div>
+                categories === null &&
+                [1,2,3,4].map(item => (
+                    <div className="item w-full p-4 flex items-center gap-4 rounded-md shadow-2xl bg-white" key={item}>
+                        <IconBottle stroke={1.5} width={48} height={48} className="text-boldPurple" />
+                        <div className="info flex flex-col gap-2">
+                            <div className="title font-bold text-xl w-20 h-6 bg-boldPurple/[.2]"></div>
+                            <div className="price-days flex gap-2 items-center text-black/[.7] w-40 h-5 bg-boldPurple/[.2]"></div>
+                        </div>
+                    </div>
+                ))
+            }
+            {
+                categories !== null &&
+                categories.map((category, index) => (
+                    <div className={`item w-full p-4 flex items-center gap-4 rounded-md shadow-2xl cursor-pointer ${laundry.category.name === category.name ? "bg-boldPurple text-white" : "bg-white"}`} key={index} onClick={() => handleChoose(category)}>
+                        <IconBottle stroke={1.5} width={48} height={48} className={`${laundry.category.name === category.name ? "text-black" : "text-boldPurple"}`} />
+                        <div className="info flex flex-col">
+                            <div className="title font-bold text-xl">{category.name}</div>
+                            <div className="price-days flex gap-2 items-center text-black/[.7]">
+                                {getIDCurrency(category.price)}/kg • {category.duration}
                             </div>
                         </div>
-                    )
-                })
+                    </div>
+                ))
             }
             </div>
         </div>
@@ -184,6 +197,8 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         setShowTab(2)
     }
 
+    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
+
     const [isLoading, setIsLoading] = useState(false)
 
     const { auth, token, login, user } = useContext(AuthContext)
@@ -198,7 +213,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 laundriesAPIEndpoint, 
                 {
                     ...laundry, 
-                    category: laundry.category.title, 
+                    category: laundry.category.id, 
                     start_date: laundry.date
                 }, 
                 {
@@ -238,8 +253,8 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 <div className="title text-xl font-bold pb-4 border-b">Laundry {laundry.category.title}</div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
                     <div className="date-drop">Penjemputan pakaian: {laundry.date}</div>
-                    <div className="days">Durasi pengerjaan: {laundry.category.days} hari</div>
-                    <div className="price">Rp {laundry.category.price}.000/kg</div>
+                    <div className="days">Durasi pengerjaan: {laundry.category.duration}</div>
+                    <div className="price">{getIDCurrency(laundry.category.price)}/kg</div>
                 </div>
                 <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(dikenakan ongkir)</span></div>
                 <div className="payment-methods flex flex-col gap-4">
@@ -262,12 +277,14 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                         <span className="text-xs text-red-600">Belum bisa melakukan pemesanan!, {login === false ? "silahkan login terlebih dahulu" : "data alamat atau No HP Anda masih kosong"}</span>
                     </div>
                 }
-                {
-                    handleValidUser() &&
-                    isLoading ? 
+                { 
+                    handleValidUser() && isLoading &&
                     <div className="flex items-center justify-center px-[60px] py-2 rounded-md text-white bg-boldPurple w-fit self-end">
                         <span className="loading loading-spinner loading-md"></span>
-                    </div> : 
+                    </div>
+                }
+                {
+                    handleValidUser() && !isLoading &&
                     <button type="button" className="flex items-center justify-center w-36 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Pesan sekarang</button>
                 }
             </div>
