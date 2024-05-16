@@ -94,6 +94,10 @@ export default function Navbar(){
             </div>
             <div className="extra flex items-center gap-4">
             {
+                login === null &&
+                <span className="loading loading-spinner loading-md bg-boldPurple"></span>
+            }
+            {
                 login &&
                 <div className="account-container flex relative mobile:hidden">
                     <button type="button" className="flex items-center gap-1" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>

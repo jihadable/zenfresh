@@ -153,7 +153,7 @@ function EditLaundryContent({ user, laundry }){
     const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
 
     return (
-        <div className="edit-laundry-content w-full flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
+        <div className="edit-laundry-content w-full flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl bg-white">
             <div className="edit-laundry-content w-full flex gap-2 p-2 mobile:flex-col mobile:gap-4">
                 <div className="laundry-info w-full flex flex-col gap-4">
                     <div className="info-item">

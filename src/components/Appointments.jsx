@@ -250,7 +250,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         <div className="confirm w-full flex flex-col gap-4">
             <BackBtn handleBackBtn={handleBackBtn} />
             <div className="confirm-info flex flex-col p-4 gap-4 rounded-md bg-white shadow-2xl">
-                <div className="title text-xl font-bold pb-4 border-b">Laundry {laundry.category.title}</div>
+                <div className="title text-xl font-bold pb-4 border-b">Laundry {laundry.category.name}</div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
                     <div className="date-drop">Penjemputan pakaian: {laundry.date}</div>
                     <div className="days">Durasi pengerjaan: {laundry.category.duration}</div>
