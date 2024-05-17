@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
-import NotFound from "../components/NotFound";
 import { AuthContext } from "../contexts/AuthContext";
+import NotFound from "./NotFound";
 
 export default function Account(){
 

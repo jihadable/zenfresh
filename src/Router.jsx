@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NotFound from "./components/NotFound";
 import AuthProvider from "./contexts/AuthContext";
 import About from "./pages/About";
 import Account from "./pages/Account";
@@ -8,6 +7,7 @@ import History from "./pages/History";
 import Home from "./pages/Home";
 import Laundries from "./pages/Laundries";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
 import Register from "./pages/Register";
 import Services from "./pages/Services";

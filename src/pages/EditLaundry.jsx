@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
+import NotFound from "./NotFound";
 
 export default function EditLaundry(){
 
@@ -24,7 +25,7 @@ export default function EditLaundry(){
 
     if (laundry === undefined && laundries !== null){
         return (
-            <div className="text-2xl font-bold">Invalid ID</div>
+            <NotFound />
         )
     }
 

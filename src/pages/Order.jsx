@@ -1,10 +1,10 @@
 import { useContext } from "react"
-import { Navigate } from "react-router-dom"
 import Appointments from "../components/Appointments"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
 import { AuthContext } from "../contexts/AuthContext"
+import NotFound from "./NotFound"
 
 export default function Order(){
 
@@ -13,7 +13,7 @@ export default function Order(){
     const { isAdmin } = useContext(AuthContext)
 
     if (isAdmin){
-        return <Navigate replace to={"/"} />
+        return <NotFound />
     }
 
     return (
