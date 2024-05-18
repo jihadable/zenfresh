@@ -1,4 +1,4 @@
-import { IconBottle, IconChevronDown, IconHistory, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
+import { IconBottle, IconChevronDown, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
@@ -22,7 +22,7 @@ export default function Navbar(){
         },
         {
             path: "/order",
-            title: "Pesan"
+            title: "Order"
         }
     ]
 
@@ -81,7 +81,7 @@ export default function Navbar(){
                 <Link to={"/account"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Akun</Link>
             {
                 isAdmin === false &&   
-                <Link to={"/history"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">History</Link>
+                <Link to={"/history"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Pesanan Saya</Link>
             }
             {
                 isAdmin &&
@@ -104,7 +104,7 @@ export default function Navbar(){
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
                         <IconChevronDown width={16} height={16} />
                     </button>
-                    <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col w-40 bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1`}>
+                    <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1`}>
                         <Link to={"/account"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconUserCircle stroke={1.5} className="text-boldPurple" />
                             <span>Akun</span>
@@ -112,15 +112,15 @@ export default function Navbar(){
                     {
                         isAdmin === false &&   
                         <Link to={"/history"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
-                            <IconHistory stroke={1.5} className="text-boldPurple" />
-                            <span>History</span>
+                            <IconBottle stroke={1.5} className="text-boldPurple" />
+                            <span className="whitespace-nowrap">Pesanan Saya</span>
                         </Link>
                     }
                     {
                         isAdmin &&
                         <Link to={"/laundries"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconBottle stroke={1.5} className="text-boldPurple" />
-                            <span>Laundry</span>
+                            <span className="whitespace-nowrap">Daftar Pesanan</span>
                         </Link>
                     }
                         <button type="button" className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20" onClick={handleLogout}>

@@ -86,17 +86,10 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
         setShowTab(2)
     }
 
-    const handleBackBtn = () => {
-        setLaundry(laundry => ({...laundry, outlet: ""}))
-
-        setShowTab(0)
-    }
-
     const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
 
     return (
         <div className="categories w-full flex flex-col items-center gap-4">
-            <BackBtn handleBackBtn={handleBackBtn} />
             <div className="categories-items w-full grid grid-cols-2 gap-4 mobile:flex mobile:flex-col">
             {
                 categories === null &&
