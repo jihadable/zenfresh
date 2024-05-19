@@ -58,7 +58,7 @@ function OrderHistory(){
 
     return (
         <section className="order-history-container w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">History Pemesanan</div>
+            <div className="title text-3xl font-bold text-center">Pesanan Saya</div>
             <div className="order-history-content w-full flex flex-col items-center gap-2">
             {
                 laundries === null &&

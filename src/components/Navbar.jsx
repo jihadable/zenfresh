@@ -78,6 +78,9 @@ export default function Navbar(){
                     <Link to={item.path} onClick={goTop} className="transition duration-100 hover:text-boldPurple" key={index}>{item.title}</Link>
                 ))
             }
+            {
+                login &&
+                <>
                 <Link to={"/account"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Akun</Link>
             {
                 isAdmin === false &&   
@@ -85,11 +88,10 @@ export default function Navbar(){
             }
             {
                 isAdmin &&
-                <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Laundries</Link>
+                <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Daftar Pesanan</Link>
             }
-            {
-                login &&
                 <button type="button" className="hidden mobile:block transition duration-100 hover:text-boldPurple" onClick={handleLogout}>Logout</button>
+                </>
             }
             </div>
             <div className="extra flex items-center gap-4">
@@ -100,9 +102,10 @@ export default function Navbar(){
             {
                 login &&
                 <div className="account-container flex relative mobile:hidden">
-                    <button type="button" className="flex items-center gap-1" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>
-                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
+                    <button type="button" className="flex items-center gap-1 bg-black/[.1] rounded-full p-1 relative" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>
+                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-8 rounded-full" />
                         <IconChevronDown width={16} height={16} />
+                        <div className="notif w-3 h-3 rounded-full bg-red-500 absolute top-0 right-0 hidden"></div>
                     </button>
                     <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1`}>
                         <Link to={"/account"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">

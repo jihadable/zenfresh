@@ -216,10 +216,10 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 }
             )
 
-            toast.success("Pemesanan laundry berhasil")
+            toast.success("Pemesanan berhasil")
 
             setTimeout(() => {
-                toast.info("Mohon menunggu")
+                toast.info("Mohon menunggu chat WA dari Admin")
             }, 750);
 
             auth()
