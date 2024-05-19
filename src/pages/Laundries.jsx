@@ -9,7 +9,6 @@ import qris from "../assets/qris.png";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
-import goTop from "../components/goTop";
 import { AuthContext } from "../contexts/AuthContext";
 import NotFound from "./NotFound";
 
@@ -47,9 +46,31 @@ function LaundryContainer(){
 
     const [searchParams] = useSearchParams()
 
-    const page = parseInt(searchParams.get("page") || 1)
+    const currentPage = parseInt(searchParams.get("page") || 1)
 
     const laundriesPerPage = 5
+
+    const [pages, setPages] = useState([])
+
+    useEffect(() => {
+        if (filteredLaundries.length <= 10){
+            setPages([1,2])
+        }
+        else if (filteredLaundries.length > 10){
+            let firstPage = 1
+            let lastPage = Math.ceil(filteredLaundries.length / 5)
+
+            if (currentPage === firstPage){
+                setPages([1,2,3])
+            }
+            else if (currentPage === lastPage){
+                setPages([lastPage - 2, lastPage - 1, lastPage])
+            }
+            else {
+                setPages([currentPage - 1, currentPage, currentPage + 1])
+            }
+        }
+    }, [currentPage])
 
     useEffect(() => {
         if (selectedFilter === "Semua"){
@@ -68,7 +89,7 @@ function LaundryContainer(){
 
     return (
         <section className="laundries w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Daftar Laundry</div>
+            <div className="title text-3xl font-bold text-center">Daftar Pesanan</div>
             <div className="laundries-content w-full flex flex-col items-center gap-2">
             {
                 laundries === null &&
@@ -93,17 +114,27 @@ function LaundryContainer(){
                 }
                 {
                     filteredLaundries.length > 0 &&
-                    filteredLaundries.slice((page - 1) * laundriesPerPage, page * laundriesPerPage).map((laundry, index) => (
+                    filteredLaundries.slice((currentPage - 1) * laundriesPerPage, currentPage * laundriesPerPage).map((laundry, index) => (
                         <LaundryItem key={index} laundry={laundry} />
                     ))
                 }
                 </div>
-                <div className="join shadow-xl">
+                <div className="pagination join shadow-xl">
+                {
+                    currentPage > 1 ?
+                    <Link to={"/laundries?page=" + (currentPage - 1)} className="join-item btn btn-sm">«</Link> :
+                    <button className="join-item btn btn-sm">«</button>
+                }
                 {
                     filteredLaundries.length > 5 &&
-                    (new Array(Math.ceil(filteredLaundries.length / 5))).fill().map((_, index) => index + 1).map(item => (
-                        <Link to={"/laundries?page=" + item} onClick={goTop} className={`join-item btn btn-sm ${page === item ? "btn-primary" : ""}`} key={item}>{item}</Link>
+                    pages.map(item => (
+                        <Link to={"/laundries?page=" + item} className={`join-item btn btn-sm ${currentPage === item ? "btn-primary" : ""}`} key={item}>{item}</Link>
                     ))
+                }
+                {
+                    currentPage < Math.ceil(filteredLaundries.length / 5) ?
+                    <Link to={"/laundries?page=" + (currentPage + 1)} className="join-item btn btn-sm">»</Link> : 
+                    <button className="join-item btn btn-sm">»</button>
                 }
                 </div>
                 </>
