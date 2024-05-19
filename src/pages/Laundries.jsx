@@ -1,7 +1,7 @@
 import { IconCheck, IconCurrencyDollar, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import mandiri from "../assets/mandiri.png";
 import ovo from "../assets/ovo.png";
@@ -9,6 +9,7 @@ import qris from "../assets/qris.png";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
+import goTop from "../components/goTop";
 import { AuthContext } from "../contexts/AuthContext";
 import NotFound from "./NotFound";
 
@@ -43,6 +44,12 @@ function LaundryContainer(){
     const { laundries } = useContext(AuthContext)
 
     const [filteredLaundries, setFilteredLaundries] = useState(laundries)
+
+    const [searchParams] = useSearchParams()
+
+    const page = parseInt(searchParams.get("page") || 1)
+
+    const laundriesPerPage = 5
 
     useEffect(() => {
         if (selectedFilter === "Semua"){
@@ -86,8 +93,16 @@ function LaundryContainer(){
                 }
                 {
                     filteredLaundries.length > 0 &&
-                    filteredLaundries.map((laundry, index) => (
+                    filteredLaundries.slice((page - 1) * laundriesPerPage, page * laundriesPerPage).map((laundry, index) => (
                         <LaundryItem key={index} laundry={laundry} />
+                    ))
+                }
+                </div>
+                <div className="join shadow-xl">
+                {
+                    filteredLaundries.length > 5 &&
+                    (new Array(Math.ceil(filteredLaundries.length / 5))).fill().map((_, index) => index + 1).map(item => (
+                        <Link to={"/laundries?page=" + item} onClick={goTop} className={`join-item btn btn-sm ${page === item ? "btn-primary" : ""}`} key={item}>{item}</Link>
                     ))
                 }
                 </div>
