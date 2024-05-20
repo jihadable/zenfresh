@@ -44,33 +44,13 @@ function LaundryContainer(){
 
     const [filteredLaundries, setFilteredLaundries] = useState(laundries)
 
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const currentPage = parseInt(searchParams.get("page") || 1)
 
     const laundriesPerPage = 5
 
     const [pages, setPages] = useState([])
-
-    useEffect(() => {
-        if (filteredLaundries.length <= 10){
-            setPages([1,2])
-        }
-        else if (filteredLaundries.length > 10){
-            let firstPage = 1
-            let lastPage = Math.ceil(filteredLaundries.length / 5)
-
-            if (currentPage === firstPage){
-                setPages([1,2,3])
-            }
-            else if (currentPage === lastPage){
-                setPages([lastPage - 2, lastPage - 1, lastPage])
-            }
-            else {
-                setPages([currentPage - 1, currentPage, currentPage + 1])
-            }
-        }
-    }, [currentPage])
 
     useEffect(() => {
         if (selectedFilter === "Semua"){
@@ -87,6 +67,32 @@ function LaundryContainer(){
         }
     }, [laundries, selectedFilter])
 
+    useEffect(() => {
+        let firstPage = 1
+        let lastPage = Math.ceil(filteredLaundries.length / 5)
+        
+        if (filteredLaundries.length <= 10){
+            setPages([1,2])
+        }
+        else if (filteredLaundries.length > 10){
+
+            if (currentPage === firstPage){
+                setPages([1,2,3])
+            }
+            else if (currentPage === lastPage){
+                setPages([lastPage - 2, lastPage - 1, lastPage])
+            }
+            else {
+                setPages([currentPage - 1, currentPage, currentPage + 1])
+            }
+        }
+    }, [filteredLaundries, currentPage])
+    
+    const selectFilter = label => {
+        setSelectedFilter(label)
+        setSearchParams({ page: 1 })
+    }
+
     return (
         <section className="laundries w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="title text-3xl font-bold text-center">Daftar Pesanan</div>
@@ -102,7 +108,7 @@ function LaundryContainer(){
                     <div className="laundry-filter w-full flex items-center mobile:gap-8 mobile:overflow-x-auto">
                 {
                     filterLabels.map((label, index) => (
-                        <button type="button" className={`w-full py-2 border-b-2 whitespace-nowrap ${selectedFilter === label ? "border-b-boldPurple" : "border-b"}`} key={index} onClick={() => setSelectedFilter(label)}>{label}</button>
+                        <button type="button" className={`w-full py-2 border-b-2 whitespace-nowrap ${selectedFilter === label ? "border-b-boldPurple" : "border-b"}`} key={index} onClick={() => selectFilter(label)}>{label}</button>
                     ))
                 }
                     </div>
@@ -119,24 +125,26 @@ function LaundryContainer(){
                     ))
                 }
                 </div>
+            {
+                filteredLaundries.length > 5 &&
                 <div className="pagination join shadow-xl">
                 {
                     currentPage > 1 ?
-                    <Link to={"/laundries?page=" + (currentPage - 1)} className="join-item btn btn-sm">«</Link> :
+                    <button onClick={() => setSearchParams({ page: currentPage - 1 })} className="join-item btn btn-sm">«</button> :
                     <button className="join-item btn btn-sm">«</button>
                 }
                 {
-                    filteredLaundries.length > 5 &&
                     pages.map(item => (
-                        <Link to={"/laundries?page=" + item} className={`join-item btn btn-sm ${currentPage === item ? "btn-primary" : ""}`} key={item}>{item}</Link>
+                        <button onClick={() => setSearchParams({ page: item })} className={`join-item btn btn-sm ${currentPage === item ? "btn-primary" : ""}`} key={item}>{item}</button>
                     ))
                 }
                 {
                     currentPage < Math.ceil(filteredLaundries.length / 5) ?
-                    <Link to={"/laundries?page=" + (currentPage + 1)} className="join-item btn btn-sm">»</Link> : 
+                    <button onClick={() => setSearchParams({ page: currentPage + 1 })} className="join-item btn btn-sm">»</button> : 
                     <button className="join-item btn btn-sm">»</button>
                 }
                 </div>
+            }
                 </>
             }
             </div>
