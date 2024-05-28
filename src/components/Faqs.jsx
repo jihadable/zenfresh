@@ -7,7 +7,7 @@ export default function Faqs(){
     const faqsData = [
         {
             question: "Metode pembayaran apa saja yang ada di ZenFresh",
-            answer: "Kami menerima berbagai metode pembayaran, termasuk pembayaran digital, e-wallet, dan transfer bank untuk kenyamanan Anda."
+            answer: "Kami menerima berbagai metode pembayaran, termasuk pembayaran tunai dan digital untuk kenyamanan Anda."
         },
         {
             question: "Bagaimana cara mengatur waktu pengambilan dan pengantaran cucian?",

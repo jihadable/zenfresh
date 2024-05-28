@@ -1,8 +1,5 @@
-import { IconCheck, IconCurrencyDollar, IconX } from "@tabler/icons-react"
+import { IconBottle } from "@tabler/icons-react"
 import { useContext, useEffect, useState } from "react"
-import mandiri from "../assets/mandiri.png"
-import ovo from "../assets/ovo.png"
-import qris from "../assets/qris.png"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
@@ -23,7 +20,7 @@ export default function History(){
         return (
             <>
             <Navbar />
-            <Hero page={"History"} path={"/history"} />
+            <Hero page={"Pesanan Saya"} path={"/history"} />
             <OrderHistory />
             <Footer />
             </>
@@ -49,10 +46,10 @@ function OrderHistory(){
             setFilteredLaundries(laundries.filter(laundry => laundry.is_paid === false))
         }
         else if (selectedFilter === "Sedang Dikerjakan"){
-            setFilteredLaundries(laundries.filter(laundry => laundry.is_finish === false))
+            setFilteredLaundries(laundries.filter(laundry => laundry.status === "Menunggu proses pencucian"))
         }
         else if (selectedFilter === "Selesai"){
-            setFilteredLaundries(laundries.filter(laundry => laundry.is_finish === true))
+            setFilteredLaundries(laundries.filter(laundry => laundry.status === "Selesai"))
         }
     }, [laundries, selectedFilter])
 
@@ -98,66 +95,33 @@ function OrderHistory(){
 
 function HistoryItem({ laundry }){
 
-    const paymentMethodsData = [
-        {
-            title: "Cash", 
-            img: "Cash"
-        },
-        {
-            title: "QRIS", 
-            img: qris
-        },
-        {
-            title: "Bank Mandiri", 
-            img: mandiri
-        },
-        {
-            title: "OVO", 
-            img: ovo
-        }
-    ]
-
-    const paymentMethodsImg = paymentMethodsData.filter(paymentMethod => laundry.payment_method === paymentMethod.title).map(paymentMethod => paymentMethod.img)[0]
-
     const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
 
     return (
-        <div className="history-item bg-white flex flex-col gap-8 rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
-            <div className="top flex items-center justify-between p-2">
-                <div className="laundry-category font-bold">
-                    {laundry.category.name} 
-                    <span className="font-normal text-sm"> ({getIDCurrency(laundry.category.price)}/kg)</span>
-                </div>
-                <div className={`laundry-status text-sm px-1 rounded-md ${laundry.is_finish ? "bg-green-500" : "bg-yellow-400"}`}>{laundry.is_finish ? "Pesanan telah selesai" : "Pesanan sedang dikerjakan"}</div>
+        <div className="history-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl text-sm mobile:text-xs">
+            <div className="top flex justify-between p-2 border-b">
+                <div className="">ID: <span className="font-bold">{laundry.id}</span></div>
+                <div className={`font-bold px-2 py-1 rounded-md text-xs h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
             </div>
-            <div className="bottom flex items-end justify-between p-2 text-sm mobile:flex-col-reverse mobile:gap-8">
-                <div className="date mobile:self-start">
-                    {laundry.start_date} → {laundry.is_finish ? laundry.end_date : "-"}
+            <div className="mid flex flex-col gap-2 p-2 my-4">
+                <div className="category font-bold text-base flex items-center mobile:text-sm">
+                    <IconBottle stroke={1.5} className="text-boldPurple" />
+                    <span>Laundry {laundry.category.name} <span className="font-normal text-xs">({getIDCurrency(laundry.category.price)})</span></span>
                 </div>
-                <div className="payment flex flex-col items-end">
-                    <div className="payment-method flex items-center gap-1">
-                        <span>Metode pembayaran: </span>
-                        {paymentMethodsImg != "Cash" && <img src={paymentMethodsImg} alt="Payment method" className="h-4" loading="lazy" />}
-                        {paymentMethodsImg == "Cash" && <span className="flex items-center"><IconCurrencyDollar stroke={1.5} />{paymentMethodsImg}</span>}
-                    </div>
-                    <div className="total text-base font-bold">Total pembayaran: {laundry.weight ? getIDCurrency(laundry.category.price * laundry.weight) : "-"}</div>
-                    <div className="paid flex items-center gap-1">
-                    {
-                        laundry.is_paid ? 
-                        <>
-                        <div className="rounded-md bg-green-600 text-white">
-                            <IconCheck stroke={1.5} width={20} height={20} />
-                        </div>
-                        <span className="text-sm">Sudah bayar</span>
-                        </> :
-                        <>
-                        <div className="rounded-md bg-red-600 text-white">
-                            <IconX stroke={1.5} width={20} height={20} />
-                        </div>
-                        <span className="text-sm">Belum bayar</span>
-                        </>
-                    }
-                    </div>
+                {/* menunggu konfirmasi */}
+                {/* kurir menjemput pakaian pelanggan */}
+                {/* menunggu proses pencucian */}
+                {/* kurir mengantar pakaian pelanggan */}
+                {/* menunggu pembayaran */}
+                {/* selesai */}
+                <div className="">Status: {laundry.status}</div>
+                <div className="wight">Berat total (kg): {laundry.weight || "--"}</div>
+            </div>
+            <div className="bottom flex items-end justify-between p-2 text-sm border-t">
+                <div className="date text-xs">{laundry.start_date}</div>
+                <div className="flex flex-col items-end">
+                    <span className="mobile:text-xs">Total pembayaran</span>
+                    <span className="text-boldPurple font-bold text-base mobile:text-sm">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</span>
                 </div>
             </div>
         </div>

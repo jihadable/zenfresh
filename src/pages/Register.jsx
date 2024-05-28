@@ -91,10 +91,10 @@ export default function Register(){
                 </div>
                 {
                     isLoading ?
-                    <div className="flex items-center justify-center px-9 py-2 rounded-md text-white bg-boldPurple w-fit">
+                    <div className="flex items-center justify-center w-24 py-2 rounded-md text-white bg-boldPurple">
                         <span className="loading loading-spinner loading-md"></span>
                     </div> :
-                    <button type="submit" className="px-4 py-2 rounded-md text-white bg-boldPurple w-fit">
+                    <button type="submit" className="w-24 py-2 rounded-md text-white bg-boldPurple">
                         Register
                     </button>
                 }

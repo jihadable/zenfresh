@@ -1,10 +1,8 @@
-import { IconCheck, IconCurrencyDollar, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import mandiri from "../assets/mandiri.png";
-import ovo from "../assets/ovo.png";
 import qris from "../assets/qris.png";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
@@ -60,10 +58,10 @@ function LaundryContainer(){
             setFilteredLaundries(laundries.filter(laundry => laundry.is_paid === false))
         }
         else if (selectedFilter === "Sedang Dikerjakan"){
-            setFilteredLaundries(laundries.filter(laundry => laundry.is_finish === false))
+            setFilteredLaundries(laundries.filter(laundry => laundry.status === "Menunggu proses pencucian"))
         }
         else if (selectedFilter === "Selesai"){
-            setFilteredLaundries(laundries.filter(laundry => laundry.is_finish === true))
+            setFilteredLaundries(laundries.filter(laundry => laundry.status === "Selesai"))
         }
     }, [laundries, selectedFilter])
 
@@ -153,26 +151,6 @@ function LaundryContainer(){
 }
 
 function LaundryItem({ laundry }){
-    const paymentMethodsData = [
-        {
-            title: "Cash", 
-            img: "Cash"
-        },
-        {
-            title: "QRIS", 
-            img: qris
-        },
-        {
-            title: "Bank Mandiri", 
-            img: mandiri
-        },
-        {
-            title: "OVO", 
-            img: ovo
-        }
-    ]
-
-    const paymentMethodsImg = paymentMethodsData.filter(paymentMethod => laundry.payment_method === paymentMethod.title).map(paymentMethod => paymentMethod.img)[0]
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -222,7 +200,7 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status</div>
-                        <div className={`value w-fit px-1 rounded-md ${laundry.is_finish ? "bg-green-500" : "bg-yellow-400"}`}>{laundry.is_finish ? "Pesanan telah selesai" : "Pesanan sedang dikerjakan"}</div>
+                        <div className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.status === "Selesai" ? "text-green-600 bg-green-100" : `${laundry.status === "Menunggu pembayaran" ? "text-red-600 bg-red-100" : "text-yellow-600 bg-yellow-100"}`}`}>{laundry.status}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Kategori</div>
@@ -230,7 +208,7 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Berat total(kg)</div>
-                        <div className="value">{laundry.weight || "-"}</div>
+                        <div className="value">{laundry.weight || "--"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Tanggal mulai</div>
@@ -238,36 +216,25 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Tanggal selesai</div>
-                        <div className="value">{laundry.end_date || "-"}</div>
+                        <div className="value">{laundry.end_date || "--"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Metode pembayaran</div>
                         <div className="value">
                         {
-                            paymentMethodsImg != "Cash" ? <img src={paymentMethodsImg} alt="Payment method" className="h-4" loading="lazy" /> : <span className="flex items-center"><IconCurrencyDollar stroke={1.5} />{paymentMethodsImg}</span>
+                            laundry.payment_method === "Cash" ? 
+                            "Cash" : 
+                            <img src={qris} alt="QRIS" className="w-10" />
                         }
                         </div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <div className="value">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp-"}</div>
+                        <div className="value">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
                     </div>
-                    <div className="info-item flex items-center gap-1">
-                    {
-                        laundry.is_paid ? 
-                        <>
-                        <div className="rounded-md bg-green-600 text-white">
-                            <IconCheck stroke={1.5} width={20} height={20} />
-                        </div>
-                        <span className="text-sm">Sudah bayar</span>
-                        </> :
-                        <>
-                        <div className="rounded-md bg-red-600 text-white">
-                            <IconX stroke={1.5} width={20} height={20} />
-                        </div>
-                        <span className="text-sm">Belum bayar</span>
-                        </>
-                    }
+                    <div className="info-item">
+                        <div className="field text-sm">Status pembayaran</div>
+                        <div className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
                     </div>
                 </div>
                 <div className="user-info w-full flex flex-col gap-4">
@@ -277,25 +244,25 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Alamat</div>
-                        <div className="value">{user.address || "-"}</div>
+                        <div className="value">{user.address || "--"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">No HP</div>
-                        <div className="value">{user.no_hp || "-"}</div>
+                        <div className="value">{user.no_hp || "--"}</div>
                     </div>
                 </div>
             </div>
             <div className="actions flex items-center gap-2 p-2 self-end">
-                <Link to={"/edit/" + laundry.id} type="button" className="edit flex items-center gap-1 p-1 text-sm rounded-md bg-cyan-500">
+                <Link to={"/edit/" + laundry.id} type="button" className="edit flex items-center justify-center gap-1 p-1 w-20 text-sm rounded-md bg-boldPurple text-white">
                     <IconEdit stroke={1.5} width={20} height={20} />
                     <span>Edit</span>
                 </Link>
                 {
                     isLoading ?
-                    <div className="flex items-center justify-center px-7 py-1 rounded-md text-white bg-red-600 w-fit">
+                    <div className="flex items-center justify-center w-20 py-1 rounded-md text-white bg-red-600">
                         <span className="loading loading-spinner loading-sm"></span>
                     </div> :
-                    <button type="button" className="delete flex items-center gap-1 p-1 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
+                    <button type="button" className="delete flex items-center justify-center gap-1 py-1 w-20 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
                         <IconTrash stroke={1.5} width={20} height={20} />
                         <span>Hapus</span>
                     </button>

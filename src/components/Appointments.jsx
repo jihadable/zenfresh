@@ -1,12 +1,9 @@
-import { IconBottle, IconChevronLeft, IconCurrencyDollar } from "@tabler/icons-react"
+import { IconBottle, IconChevronLeft } from "@tabler/icons-react"
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import Calendar from 'react-calendar'
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
-import mandiri from "../assets/mandiri.png"
-import ovo from "../assets/ovo.png"
-import qris from "../assets/qris.png"
 import { AuthContext } from "../contexts/AuthContext"
 import goTop from "./goTop"
 
@@ -16,8 +13,7 @@ export default function Appointments(){
 
     const [laundry, setLaundry] = useState({
         date: date,
-        category: {},
-        payment_method: "Cash"
+        category: {}
     })
 
     useEffect(() => {
@@ -40,7 +36,7 @@ export default function Appointments(){
             <ul className="steps">
             {
                 tabData.map((item, index) => {
-                    return <li className={`step ${showTab > index ? "step-primary" : ""}`} key={index}>{item}</li>
+                    return <li className={`step step-neutral ${showTab > index ? "step-primary" : "step-neutral"}`} key={index}>{item}</li>
                 })
             }
             </ul>
@@ -163,26 +159,7 @@ function ChooseDate({ setLaundry, setShowTab, date, setDate }){
     )
 }
 
-function Confirm({ laundry, setLaundry, setShowTab, setDate }){
-
-    const paymentMethodsData = [
-        {
-            title: "Cash", 
-            img: "Cash"
-        },
-        {
-            title: "QRIS", 
-            img: qris
-        },
-        {
-            title: "Bank Mandiri", 
-            img: mandiri
-        },
-        {
-            title: "OVO", 
-            img: ovo
-        }
-    ]
+function Confirm({ laundry, setShowTab, setDate }){
 
     const handleBackBtn = () => {
         setDate(getYesterdayDate())
@@ -206,6 +183,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
                 laundriesAPIEndpoint, 
                 {
                     ...laundry, 
+                    status: "Menunggu konfirmasi",
                     category: laundry.category.id, 
                     start_date: laundry.date
                 }, 
@@ -219,7 +197,7 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
             toast.success("Pemesanan berhasil")
 
             setTimeout(() => {
-                toast.info("Mohon menunggu chat WA dari Admin")
+                toast.info("Mohon menunggu konfirmasi")
             }, 750);
 
             auth()
@@ -243,26 +221,16 @@ function Confirm({ laundry, setLaundry, setShowTab, setDate }){
         <div className="confirm w-full flex flex-col gap-4">
             <BackBtn handleBackBtn={handleBackBtn} />
             <div className="confirm-info flex flex-col p-4 gap-4 rounded-md bg-white shadow-2xl">
-                <div className="title text-xl font-bold pb-4 border-b">Laundry {laundry.category.name}</div>
+                <div className="title text-xl font-bold pb-4 border-b flex items-center gap-2">
+                    <IconBottle stroke={1.5} className="text-boldPurple w-8 h-8" />
+                    <span>Laundry {laundry.category.name}</span>
+                </div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
                     <div className="date-drop">Penjemputan pakaian: {laundry.date}</div>
                     <div className="days">Durasi pengerjaan: {laundry.category.duration}</div>
                     <div className="price">{getIDCurrency(laundry.category.price)}/kg</div>
                 </div>
-                <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(dikenakan ongkir)</span></div>
-                <div className="payment-methods flex flex-col gap-4">
-                    <div className="title">Metode pembayaran:</div>
-                    <div className="flex flex-wrap gap-4">
-                    {
-                        paymentMethodsData.map((item, index) => (
-                            <div className={`item flex justify-center items-center cursor-pointer p-2 rounded-md border-2 ${laundry.payment_method === item.title ? "border-primary" : ""}`} key={index} onClick={() => setLaundry(laundry => ({...laundry, payment_method: item.title}))}>
-                                {item.title != "Cash" && <img src={item.img} alt="Payment method" className="h-4" loading="lazy" />}
-                                {item.title == "Cash" && <span className="flex"><IconCurrencyDollar stroke={1.5} />{item.title}</span>}
-                            </div>
-                        ))
-                    }
-                    </div>
-                </div>
+                <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(dikenakan ongkir s.d. Rp 5.000)</span></div>
                 {
                     !handleValidUser() &&
                     <div className="flex flex-col items-end">

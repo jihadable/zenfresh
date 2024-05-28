@@ -1,3 +1,4 @@
+import { IconChevronLeft, IconSquareCheck } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -13,7 +14,7 @@ export default function EditLaundry(){
     document.title = "ZenFresh | Edit Laundry"
 
     const { id } = useParams()
-    const { laundries } = useContext(AuthContext)
+    const { login, isAdmin, laundries } = useContext(AuthContext)
 
     const [laundry, setLaundry] = useState(null)
 
@@ -23,10 +24,8 @@ export default function EditLaundry(){
         }
     }, [id, laundries])
 
-    if (laundry === undefined && laundries !== null){
-        return (
-            <NotFound />
-        )
+    if (login === false || isAdmin === false || (laundry === undefined && laundries !== null)){
+        return <NotFound />
     }
 
     return (
@@ -163,9 +162,13 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status</div>
-                        <select defaultValue={laundry.is_finish} className="value select select-sm select-primary" ref={isFinishInput}>
-                            <option value={false}>Pesanan sedang dikerjakan</option>
-                            <option value={true}>Pesanan telah selesai</option>
+                        <select defaultValue={laundry.status} className="value select select-sm select-primary" ref={isFinishInput}>
+                            <option>Menunggu konfirmasi</option>
+                            <option>Kurir menjemput pakaian pelanggan</option>
+                            <option>Menunggu proses pencucian</option>
+                            <option>Kurir mengantar pakaian pelanggan</option>
+                            <option>Menunggu pembayaran</option>
+                            <option>Selesai</option>
                         </select>
                     </div>
                 {
@@ -200,8 +203,6 @@ function EditLaundryContent({ user, laundry }){
                         <select defaultValue={laundry.payment_method} className="value select select-sm select-primary" ref={paymentMethodInput}>
                             <option>Cash</option>
                             <option>QRIS</option>
-                            <option>Bank Mandiri</option>
-                            <option>OVO</option>
                         </select>
                     </div>
                     <div className="info-item">
@@ -232,13 +233,19 @@ function EditLaundryContent({ user, laundry }){
                 </div>
             </div>
             <div className="actions flex items-center gap-2 p-2 self-end">
-                <Link to={"/laundries"} className="cancel p-2 py-1 bg-red-600 gap-2 text-white rounded-md">Cancel</Link>
+                <Link to={"/laundries"} className="cancel flex items-center justify-center w-20 py-1 gap-1 bg-red-600 text-white rounded-md text-sm">
+                    <IconChevronLeft stroke={1.5} width={20} height={20} />
+                    <span>Cancel</span>
+                </Link>
                 {
                     isLoading ?
-                    <div className="flex items-center justify-center px-4 py-1 rounded-md text-white bg-green-600 w-fit">
+                    <div className="flex items-center justify-center w-20 py-1 rounded-md text-white bg-green-600">
                         <span className="loading loading-spinner loading-md"></span>
                     </div> :
-                    <button type="button" className="save flex items-center justify-center p-2 py-1 bg-green-600 gap-2 text-white rounded-md" onClick={handleSave}>Save</button>
+                    <button type="button" className="save flex items-center justify-center w-20 py-1 gap-1 bg-green-600  text-white rounded-md text-sm" onClick={handleSave}>
+                        <IconSquareCheck stroke={1.5} width={20} height={20} />
+                        <span>Save</span>
+                    </button>
                 }
             </div>
         </div>
