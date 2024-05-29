@@ -4,7 +4,7 @@ export default function OrderTimeline(){
     return (
         <section className="w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="title text-3xl font-bold text-center">Alur Pemesanan Laundry</div>
-            <ul className="timeline timeline-vertical -ml-[75%]">
+            <ul className="timeline timeline-vertical mobile:-ml-[75%]">
                 <li>
                     <div className="timeline-middle">
                         <IconCircleCheckFilled stroke={1.5} width={20} height={20} className="text-primary" />

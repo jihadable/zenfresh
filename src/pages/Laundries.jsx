@@ -196,7 +196,7 @@ function LaundryItem({ laundry }){
                 <div className="laundry-info w-full flex flex-col gap-4">
                     <div className="info-item">
                         <div className="field text-sm">ID</div>
-                        <div className="value">{laundry.id}</div>
+                        <div className="value font-bold">{laundry.id}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status</div>

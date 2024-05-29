@@ -59,7 +59,7 @@ function EditLaundryContent({ user, laundry }){
     const navigate = useNavigate()
 
     const [
-        isFinishInput,
+        statusInput,
         categoryInput,
         weightInput,
         paymentMethodInput,
@@ -95,7 +95,7 @@ function EditLaundryContent({ user, laundry }){
     const { auth, token } = useContext(AuthContext)
     
     const handleSave = async() => {
-        const is_finish = JSON.parse(isFinishInput.current.value)
+        const status = statusInput.current.value
         const category = categoryInput.current.value
         const payment_method = paymentMethodInput.current.value
         const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
@@ -108,7 +108,7 @@ function EditLaundryContent({ user, laundry }){
             day: "numeric",
         }
 
-        const end_date = is_finish ? new Date().toLocaleDateString("id-ID", options) : null
+        const end_date = status === "Selesai" ? new Date().toLocaleDateString("id-ID", options) : null
 
         try {
             setIsLoading(true)
@@ -118,7 +118,7 @@ function EditLaundryContent({ user, laundry }){
             await axios.patch(
                 `${laundriesAPIEndpoint}/${laundry.id}`,
                 {
-                    is_finish,
+                    status,
                     end_date,
                     category,
                     payment_method,
@@ -158,11 +158,11 @@ function EditLaundryContent({ user, laundry }){
                 <div className="laundry-info w-full flex flex-col gap-4">
                     <div className="info-item">
                         <div className="field text-sm">ID</div>
-                        <div className="value">{laundry.id}</div>
+                        <div className="value font-bold">{laundry.id}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status</div>
-                        <select defaultValue={laundry.status} className="value select select-sm select-primary" ref={isFinishInput}>
+                        <select defaultValue={laundry.status} className="value select select-sm select-primary" ref={statusInput}>
                             <option>Menunggu konfirmasi</option>
                             <option>Kurir menjemput pakaian pelanggan</option>
                             <option>Menunggu proses pencucian</option>
@@ -240,7 +240,7 @@ function EditLaundryContent({ user, laundry }){
                 {
                     isLoading ?
                     <div className="flex items-center justify-center w-20 py-1 rounded-md text-white bg-green-600">
-                        <span className="loading loading-spinner loading-md"></span>
+                        <span className="loading loading-spinner loading-sm"></span>
                     </div> :
                     <button type="button" className="save flex items-center justify-center w-20 py-1 gap-1 bg-green-600  text-white rounded-md text-sm" onClick={handleSave}>
                         <IconSquareCheck stroke={1.5} width={20} height={20} />

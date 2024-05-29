@@ -99,7 +99,7 @@ function HistoryItem({ laundry }){
 
     return (
         <div className="history-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl text-sm mobile:text-xs">
-            <div className="top flex justify-between p-2 border-b">
+            <div className="top flex items-center justify-between p-2 border-b">
                 <div className="">ID: <span className="font-bold">{laundry.id}</span></div>
                 <div className={`font-bold px-2 py-1 rounded-md text-xs h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
             </div>
@@ -114,7 +114,10 @@ function HistoryItem({ laundry }){
                 {/* kurir mengantar pakaian pelanggan */}
                 {/* menunggu pembayaran */}
                 {/* selesai */}
-                <div className="">Status: {laundry.status}</div>
+                <div className="">
+                    Status: 
+                    <span className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.status === "Selesai" ? "text-green-600 bg-green-100" : `${laundry.status === "Menunggu pembayaran" ? "text-red-600 bg-red-100" : "text-yellow-600 bg-yellow-100"}`}`}>{laundry.status}</span>
+                </div>
                 <div className="wight">Berat total (kg): {laundry.weight || "--"}</div>
             </div>
             <div className="bottom flex items-end justify-between p-2 text-sm border-t">

@@ -90,7 +90,7 @@ export default function Navbar(){
                 isAdmin &&
                 <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Daftar Pesanan</Link>
             }
-                <button type="button" className="hidden mobile:block transition duration-100 hover:text-boldPurple" onClick={handleLogout}>Logout</button>
+                <button type="button" className="hidden mobile:block transition duration-100 text-red-600" onClick={handleLogout}>Logout</button>
                 </>
             }
             </div>
@@ -125,8 +125,8 @@ export default function Navbar(){
                             <span className="whitespace-nowrap">Daftar Pesanan</span>
                         </Link>
                     }
-                        <button type="button" className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20" onClick={handleLogout}>
-                            <IconLogout stroke={1.5} className="text-boldPurple" />
+                        <button type="button" className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20 text-red-600" onClick={handleLogout}>
+                            <IconLogout stroke={1.5} />
                             <span>Logout</span>
                         </button>
                     </div>
@@ -135,6 +135,12 @@ export default function Navbar(){
             {
                 login === false &&
                 <Link to="/login" className="login-btn px-4 py-2 bg-boldPurple text-white rounded-md">Login</Link>
+            }
+            {
+                login &&
+                <Link to={"/account"} onClick={goTop} className="mobile-account hidden mobile:flex">
+                    <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
+                </Link>
             }
                 <div className="mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>
                     <IconMenu2 stroke={1.5} />
