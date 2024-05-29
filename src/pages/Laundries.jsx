@@ -114,7 +114,7 @@ function LaundryContainer(){
                 <div className="laundry-items w-full flex flex-col gap-2">
                 {
                     filteredLaundries.length === 0 &&
-                    <span className="mt-4 text-center text-xl font-bold">Daftar laundry kosong</span>
+                    <span className="mt-4 text-center text-xl font-bold">Daftar pesanan kosong</span>
                 }
                 {
                     filteredLaundries.length > 0 &&
