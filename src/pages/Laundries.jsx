@@ -1,4 +1,4 @@
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconEdit, IconStarFilled, IconTrash } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -197,6 +197,19 @@ function LaundryItem({ laundry }){
                     <div className="info-item">
                         <div className="field text-sm">ID</div>
                         <div className="value font-bold">{laundry.id}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Rate dari pelanggan</div>
+                        <div className="value">
+                        {
+                            laundry.rate ? 
+                            <span className="flex items-center">
+                                <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
+                                <span>{laundry.rate}/5</span>
+                            </span> : 
+                            "Tidak ada"
+                        }
+                        </div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status</div>

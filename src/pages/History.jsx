@@ -1,5 +1,7 @@
-import { IconBottle } from "@tabler/icons-react"
+import { IconBottle, IconPencilCheck, IconStarFilled } from "@tabler/icons-react"
+import axios from "axios"
 import { useContext, useEffect, useState } from "react"
+import { toast } from "react-toastify"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
@@ -97,8 +99,36 @@ function HistoryItem({ laundry }){
 
     const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
 
+    const { token, auth } = useContext(AuthContext)
+
+    const handleRate = async(rate) => {
+        try {
+            const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+
+            const { data } = await axios.patch(
+                `${laundriesAPIEndpoint}/${laundry.id}`, 
+                {
+                    rate
+                },
+                {
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                }
+            )
+
+            console.log(data)
+
+            auth()
+
+            toast.success("Berhasil memberikan rate laundry")
+        } catch(error){
+            console.log(error)
+        }
+    }
+
     return (
-        <div className="history-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl text-sm mobile:text-xs">
+        <div className="history-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple shadow-2xl text-sm mobile:text-xs">
             <div className="top flex items-center justify-between p-2 border-b">
                 <div className="">ID: <span className="font-bold">{laundry.id}</span></div>
                 <div className={`font-bold px-2 py-1 rounded-md text-xs h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
@@ -119,6 +149,25 @@ function HistoryItem({ laundry }){
                     <span className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.status === "Selesai" ? "text-green-600 bg-green-100" : `${laundry.status === "Menunggu pembayaran" ? "text-red-600 bg-red-100" : "text-yellow-600 bg-yellow-100"}`}`}>{laundry.status}</span>
                 </div>
                 <div className="wight">Berat total (kg): {laundry.weight || "--"}</div>
+            {
+                !laundry.rate &&
+                <div className="dropdown">
+                    <button className="rate flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1">
+                        <IconPencilCheck stroke={1.5} width={16} height={16} />
+                        <span>Rate</span>
+                    </button>
+                    <ul tabIndex={0} className="dropdown-content z-[1] mt-1 bg-white rounded-md w-24 shadow-2xl overflow-hidden">
+                    {
+                        [1,2,3,4,5].map(item => (
+                            <li className="flex items-center gap-1 p-2 cursor-pointer hover:bg-black/[.1]" key={item} onClick={() => handleRate(item)}>
+                                <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
+                                <span>{item}</span>
+                            </li>
+                        ))
+                    }
+                    </ul>
+                </div>
+            }
             </div>
             <div className="bottom flex items-end justify-between p-2 text-sm border-t">
                 <div className="date text-xs">{laundry.start_date}</div>

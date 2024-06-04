@@ -1,9 +1,13 @@
 import { IconMailForward, IconQuote } from "@tabler/icons-react"
+import { useContext } from "react"
 import { Link } from "react-router-dom"
 import client1 from "../assets/client1.jpg"
 import client2 from "../assets/client2.jpg"
+import { AuthContext } from "../contexts/AuthContext"
 
 export default function Reviews(){
+
+    const { login, isAdmin } = useContext(AuthContext)
 
     const reviewsData = [
         {
@@ -42,10 +46,13 @@ export default function Reviews(){
                 ))
             }
             </div>
+        {
+            login && isAdmin === false &&
             <Link to={"/review"} className="give-review bg-boldPurple py-2 px-3 rounded-md text-white flex items-center gap-2">
                 <span>Berikan review Anda</span>
                 <IconMailForward stroke={1.5} />
             </Link>
+        }
         </section>
     )
 }
