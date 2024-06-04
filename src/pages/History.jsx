@@ -106,7 +106,7 @@ function HistoryItem({ laundry }){
             <div className="mid flex flex-col gap-2 p-2 my-4">
                 <div className="category font-bold text-base flex items-center mobile:text-sm">
                     <IconBottle stroke={1.5} className="text-boldPurple" />
-                    <span>Laundry {laundry.category.name} <span className="font-normal text-xs">({getIDCurrency(laundry.category.price)})</span></span>
+                    <span>Laundry {laundry.category.name} <span className="font-normal text-xs">({getIDCurrency(laundry.category.price)}/kg)</span></span>
                 </div>
                 {/* menunggu konfirmasi */}
                 {/* kurir menjemput pakaian pelanggan */}
