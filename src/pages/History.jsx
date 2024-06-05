@@ -148,9 +148,22 @@ function HistoryItem({ laundry }){
                     Status: 
                     <span className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.status === "Selesai" ? "text-green-600 bg-green-100" : `${laundry.status === "Menunggu pembayaran" ? "text-red-600 bg-red-100" : "text-yellow-600 bg-yellow-100"}`}`}>{laundry.status}</span>
                 </div>
-                <div className="wight">Berat total (kg): {laundry.weight || "--"}</div>
+                <div className="weight">Berat total (kg): {laundry.weight || "--"}</div>
             {
-                !laundry.rate &&
+                laundry.rate ?
+                <div className="rate flex items-center gap-1">
+                    Rate dari Anda:
+                    <span>
+                    {
+                        laundry.rate ? 
+                        <span className="flex items-center">
+                            <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
+                            <span>{laundry.rate}/5</span>
+                        </span> : 
+                        "Tidak ada"
+                    }
+                    </span>
+                </div> :
                 <div className="dropdown">
                     <button className="rate flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1">
                         <IconPencilCheck stroke={1.5} width={16} height={16} />

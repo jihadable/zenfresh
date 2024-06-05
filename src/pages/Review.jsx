@@ -11,9 +11,9 @@ import NotFound from "./NotFound";
 
 export default function Review(){
 
-    const { login } = useContext(AuthContext)
+    const { login, isAdmin } = useContext(AuthContext)
 
-    if (login === false){
+    if (login === false || isAdmin === false){
         return <NotFound />
     }
 

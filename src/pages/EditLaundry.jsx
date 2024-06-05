@@ -1,4 +1,4 @@
-import { IconChevronLeft, IconSquareCheck } from "@tabler/icons-react";
+import { IconChevronLeft, IconSquareCheck, IconStarFilled } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -218,6 +218,19 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                 </div>
                 <div className="user-info w-full flex flex-col gap-4">
+                    <div className="info-item">
+                        <div className="field text-sm">Rate dari pelanggan</div>
+                        <div className="value">
+                        {
+                            laundry.rate ? 
+                            <span className="flex items-center">
+                                <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
+                                <span>{laundry.rate}/5</span>
+                            </span> : 
+                            "Tidak ada"
+                        }
+                        </div>
+                    </div>
                     <div className="info-item">
                         <div className="field text-sm">Nama lengkap Pelanggan</div>
                         <div className="value">{user.fullname}</div>
