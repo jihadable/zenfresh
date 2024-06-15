@@ -123,7 +123,6 @@ function HistoryItem({ laundry }){
     useEffect(() => {
         const getTransactionStatus = async() => {
             if (!laundry.transaction_id){
-                console.log(laundry)
                 setIsPaid(false)
 
                 return
@@ -151,7 +150,7 @@ function HistoryItem({ laundry }){
         try {
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
 
-            const { data } = await axios.patch(
+            await axios.patch(
                 `${laundriesAPIEndpoint}/${laundry.id}`, 
                 {
                     rate
@@ -162,8 +161,6 @@ function HistoryItem({ laundry }){
                     }
                 }
             )
-
-            console.log(data)
 
             auth()
 
