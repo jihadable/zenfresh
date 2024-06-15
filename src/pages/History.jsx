@@ -1,4 +1,4 @@
-import { IconBottle, IconPencilCheck, IconStarFilled } from "@tabler/icons-react"
+import { IconArrowRight, IconBottle, IconPencilCheck, IconStarFilled } from "@tabler/icons-react"
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { toast } from "react-toastify"
@@ -10,9 +10,26 @@ import NotFound from "./NotFound"
 
 export default function History(){
 
-    document.title = "ZenFresh | History"
+    document.title = "ZenFresh | Pesanan Saya"
 
     const { login, isAdmin } = useContext(AuthContext)
+
+    useEffect(() => {
+        const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js"
+        const clientKey = import.meta.env.VITE_CLIENT_KEY
+
+        const script = document.createElement("script")
+
+        script.src = snapScript
+        script.setAttribute("data-client-key", clientKey)
+        script.async = true
+
+        document.body.appendChild(script)
+
+        return () => {
+            document.body.removeChild(script)
+        }
+    }, [])
 
     if (login === false || isAdmin){
         return <NotFound />
@@ -101,6 +118,35 @@ function HistoryItem({ laundry }){
 
     const { token, auth } = useContext(AuthContext)
 
+    const [isPaid, setIsPaid] = useState(null)
+
+    useEffect(() => {
+        const getTransactionStatus = async() => {
+            if (!laundry.transaction_id){
+                console.log(laundry)
+                setIsPaid(false)
+
+                return
+            }
+
+            try {
+                const paymentAPIEndpoint = import.meta.env.VITE_PAYMENT_API_ENDPOINT
+    
+                const { data } = await axios.get(`${paymentAPIEndpoint}/status/${laundry.transaction_id}`)
+    
+                const transactionStatus = data.transaction.transaction_status
+    
+                setIsPaid(transactionStatus === "settlement" || transactionStatus === "capture" ? true : false)
+            } catch(error){
+                console.log(error)
+    
+                setIsPaid(false)
+            }
+        }
+
+        getTransactionStatus()
+    }, [laundry])
+
     const handleRate = async(rate) => {
         try {
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
@@ -127,11 +173,29 @@ function HistoryItem({ laundry }){
         }
     }
 
+    const handlePay = async(id, total) => {
+        try {
+            const paymentAPIEndpoint = import.meta.env.VITE_PAYMENT_API_ENDPOINT
+            
+            const { data } = await axios.post(`${paymentAPIEndpoint}/token`, {
+                laundry_id: id,
+                total
+            })
+
+            window.snap.pay(data.token)
+        } catch(error){
+            console.log(error)
+        }
+    }
+
     return (
         <div className="history-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple shadow-2xl text-sm mobile:text-xs">
             <div className="top flex items-center justify-between p-2 border-b">
                 <div className="">ID: <span className="font-bold">{laundry.id}</span></div>
-                <div className={`font-bold px-2 py-1 rounded-md text-xs h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
+            {
+                isPaid !== null &&
+                <div className={`font-bold px-2 py-1 rounded-md text-xs h-fit ${isPaid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{isPaid ? "Sudah bayar" : "Belum bayar"}</div>
+            }
             </div>
             <div className="mid flex flex-col gap-2 p-2 my-4">
                 <div className="category font-bold text-base flex items-center mobile:text-sm">
@@ -165,7 +229,7 @@ function HistoryItem({ laundry }){
                     </span>
                 </div> :
                 <div className="dropdown">
-                    <button className="rate flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1">
+                    <button type="button" className="rate flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1">
                         <IconPencilCheck stroke={1.5} width={16} height={16} />
                         <span>Rate</span>
                     </button>
@@ -180,6 +244,13 @@ function HistoryItem({ laundry }){
                     }
                     </ul>
                 </div>
+            }
+            {
+                laundry.weight && isPaid === false &&
+                <button type="button" className="pay-btn self-end flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1 px-2" onClick={() => handlePay(laundry.id, Math.ceil(laundry.weight * laundry.category.price))}>
+                    <span>Bayar</span>
+                    <IconArrowRight stroke={1.5} width={16} height={16} />
+                </button>
             }
             </div>
             <div className="bottom flex items-end justify-between p-2 text-sm border-t">

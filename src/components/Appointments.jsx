@@ -231,7 +231,7 @@ function Confirm({ laundry, setShowTab, setDate }){
                     <div className="days">Durasi pengerjaan: {laundry.category.duration}</div>
                     <div className="price">{getIDCurrency(laundry.category.price)}/kg</div>
                 </div>
-                <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(dikenakan ongkir s.d. Rp 5.000)</span></div>
+                <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(gratis ongkir)</span></div>
                 {
                     !handleValidUser() &&
                     <div className="flex flex-col items-end">

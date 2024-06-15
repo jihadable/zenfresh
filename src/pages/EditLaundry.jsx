@@ -62,10 +62,8 @@ function EditLaundryContent({ user, laundry }){
         statusInput,
         categoryInput,
         weightInput,
-        paymentMethodInput,
-        isPaidInput
+        paymentMethodInput
     ] = [
-        useRef(null),
         useRef(null),
         useRef(null),
         useRef(null),
@@ -99,16 +97,6 @@ function EditLaundryContent({ user, laundry }){
         const category = categoryInput.current.value
         const payment_method = paymentMethodInput.current.value
         const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
-        const is_paid = JSON.parse(isPaidInput.current.value)
-
-        const options = {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        }
-
-        const end_date = status === "Selesai" ? new Date().toLocaleDateString("id-ID", options) : null
 
         try {
             setIsLoading(true)
@@ -119,11 +107,9 @@ function EditLaundryContent({ user, laundry }){
                 `${laundriesAPIEndpoint}/${laundry.id}`,
                 {
                     status,
-                    end_date,
                     category,
                     payment_method,
-                    weight,
-                    is_paid
+                    weight
                 },
                 {
                     headers: {
@@ -168,7 +154,6 @@ function EditLaundryContent({ user, laundry }){
                             <option>Menunggu proses pencucian</option>
                             <option>Kurir mengantar pakaian pelanggan</option>
                             <option>Menunggu pembayaran</option>
-                            <option>Selesai</option>
                         </select>
                     </div>
                 {
@@ -211,10 +196,7 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status pembayaran</div>
-                        <select defaultValue={laundry.is_paid} className="value select select-sm select-primary" ref={isPaidInput}>
-                            <option value={false}>Belum bayar</option>
-                            <option value={true}>Sudah bayar</option>
-                        </select>
+                        <div className={`font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
                     </div>
                 </div>
                 <div className="user-info w-full flex flex-col gap-4">

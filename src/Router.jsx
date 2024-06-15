@@ -14,6 +14,24 @@ import Review from "./pages/Review";
 import Services from "./pages/Services";
 
 export default function Router(){
+
+    // useEffect(() => {
+    //     const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js"
+    //     const clientKey = import.meta.env.VITE_CLIENT_KEY
+
+    //     const script = document.createElement("script")
+
+    //     script.src = snapScript
+    //     script.setAttribute("data-client-key", clientKey)
+    //     script.async = true
+
+    //     document.body.appendChild(script)
+
+    //     return () => {
+    //         document.body.removeChild(script)
+    //     }
+    // }, [])
+
     return (
         <BrowserRouter>
             <AuthProvider>
