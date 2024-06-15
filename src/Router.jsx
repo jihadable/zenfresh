@@ -9,28 +9,12 @@ import Laundries from "./pages/Laundries";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
+import PaymentStatus from "./pages/PaymentStatus";
 import Register from "./pages/Register";
 import Review from "./pages/Review";
 import Services from "./pages/Services";
 
 export default function Router(){
-
-    // useEffect(() => {
-    //     const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js"
-    //     const clientKey = import.meta.env.VITE_CLIENT_KEY
-
-    //     const script = document.createElement("script")
-
-    //     script.src = snapScript
-    //     script.setAttribute("data-client-key", clientKey)
-    //     script.async = true
-
-    //     document.body.appendChild(script)
-
-    //     return () => {
-    //         document.body.removeChild(script)
-    //     }
-    // }, [])
 
     return (
         <BrowserRouter>
@@ -47,6 +31,7 @@ export default function Router(){
                     <Route path="/laundries" element={<Laundries />}></Route>
                     <Route path="/edit/:id" element={<EditLaundry />}></Route>
                     <Route path="/history" element={<History />}></Route>
+                    <Route path="/processing-payment-status" element={<PaymentStatus />}></Route>
                     <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </AuthProvider>
