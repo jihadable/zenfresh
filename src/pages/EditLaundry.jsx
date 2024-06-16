@@ -11,31 +11,33 @@ import NotFound from "./NotFound";
 
 export default function EditLaundry(){
 
-    document.title = "ZenFresh | Edit Laundry"
-
     const { id } = useParams()
     const { login, isAdmin, laundries } = useContext(AuthContext)
-
+    
     const [laundry, setLaundry] = useState(null)
-
+    
     useEffect(() => {
         if (laundries !== null){
             setLaundry(laundries.filter(laundry => laundry.id === id)[0])
         }
     }, [id, laundries])
-
+    
     if (login === false || isAdmin === false || (laundry === undefined && laundries !== null)){
         return <NotFound />
     }
 
-    return (
-        <>
-        <Navbar />
-        <Hero page={"Edit Laundry"} path={"/edit/" + id} />
-        <EditLaundryContainer laundry={laundry} />
-        <Footer />
-        </>
-    )
+    if (login === true && isAdmin && laundries !== null && laundry !== undefined){
+        document.title = "ZenFresh | Edit Laundry"
+
+        return (
+            <>
+            <Navbar />
+            <Hero page={"Edit Laundry"} path={"/edit/" + id} />
+            <EditLaundryContainer laundry={laundry} />
+            <Footer />
+            </>
+        )
+    }
 }
 
 function EditLaundryContainer({ laundry }){
@@ -128,7 +130,7 @@ function EditLaundryContent({ user, laundry }){
         }
     }
 
-    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
+    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
 
     return (
         <div className="edit-laundry-content w-full flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl bg-white">
@@ -146,6 +148,7 @@ function EditLaundryContent({ user, laundry }){
                             <option>Menunggu proses pencucian</option>
                             <option>Kurir mengantar pakaian pelanggan</option>
                             <option>Menunggu pembayaran</option>
+                            <option>Selesai</option>
                         </select>
                     </div>
                 {

@@ -1,19 +1,32 @@
 import { IconQuote } from "@tabler/icons-react"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
+import { AuthContext } from "../contexts/AuthContext"
+import NotFound from "./NotFound"
 
 export default function Reviews(){
-    return (
-        <>
-        <Navbar />
-        <Hero page={"Reviews"} path={"/reviews"} />
-        <ReviewsSection />
-        <Footer />
-        </>
-    )
+
+    const { login, isAdmin } = useContext(AuthContext)
+
+    if (login === false || isAdmin === false){
+        return <NotFound />
+    }
+
+    if (login === true && isAdmin){
+        document.title = "ZenFresh | Reviews"
+
+        return (
+            <>
+            <Navbar />
+            <Hero page={"Reviews"} path={"/reviews"} />
+            <ReviewsSection />
+            <Footer />
+            </>
+        )
+    }
 }
 
 function ReviewsSection(){
@@ -28,7 +41,6 @@ function ReviewsSection(){
                 const { data } = await axios.get(reviewsAPIEndpoint)
 
                 setReviews(data.reviews)
-                console.log(data)
             } catch(error){
                 console.log(error)
             }

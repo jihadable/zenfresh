@@ -10,15 +10,15 @@ import NotFound from "./NotFound";
 
 export default function Account(){
 
-    document.title = "ZenFresh | Akun"
-
     const { login } = useContext(AuthContext)
-
+    
     if (login === false){
         return <NotFound />
     }
-
+    
     if (login === true){
+        document.title = "ZenFresh | Akun"
+
         return (
             <>
             <Navbar />
@@ -92,12 +92,17 @@ function MyAccount(){
 function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
 
     const [isLoading, setIsLoading] = useState(false)
-
     const [alamatInput, noHPInput] = [useRef(null), useRef(null)]
-
+    const noHPPattern = /^08\d{8,13}$/
     const { auth, token } = useContext(AuthContext)
 
     const handleSaveEditedData = async() => {
+        if (!noHPPattern.test(noHPInput.current.value)){
+            toast.error("No HP yang Anda masukkan tidak valid")
+
+            return
+        }
+
         try {
             setIsLoading(true)
 

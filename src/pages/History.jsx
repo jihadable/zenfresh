@@ -10,8 +10,6 @@ import NotFound from "./NotFound"
 
 export default function History(){
 
-    document.title = "ZenFresh | Pesanan Saya"
-
     const { login, isAdmin } = useContext(AuthContext)
 
     useEffect(() => {
@@ -36,6 +34,8 @@ export default function History(){
     }
     
     if (login === true && isAdmin === false){
+        document.title = "ZenFresh | Pesanan Saya"
+        
         return (
             <>
             <Navbar />

@@ -11,8 +11,6 @@ import NotFound from "./NotFound";
 
 export default function Laundries(){
 
-    document.title = "ZenFresh | Daftar Laundry"
-
     const { login, isAdmin } = useContext(AuthContext)
 
     if (login === false || isAdmin === false){
@@ -20,6 +18,8 @@ export default function Laundries(){
     }
 
     if (login === true && isAdmin){
+        document.title = "ZenFresh | Daftar Laundry"
+
         return (
             <>
             <Navbar />
@@ -153,7 +153,7 @@ function LaundryItem({ laundry }){
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
+    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
 
     const { user } = laundry
 

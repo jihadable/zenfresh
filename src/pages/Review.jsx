@@ -17,14 +17,18 @@ export default function Review(){
         return <NotFound />
     }
 
-    return (
-        <>
-        <Navbar />
-        <Hero page={"Review"} path={"/review"} />
-        <ReviewForm />
-        <Footer />
-        </>
-    )
+    if (login === true && isAdmin === false){
+        document.title = "ZenFresh | Review"
+
+        return (
+            <>
+            <Navbar />
+            <Hero page={"Review"} path={"/review"} />
+            <ReviewForm />
+            <Footer />
+            </>
+        )
+    }
 }
 
 function ReviewForm(){

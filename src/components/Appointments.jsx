@@ -1,7 +1,7 @@
 import { IconBottle, IconChevronLeft } from "@tabler/icons-react"
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import Calendar from 'react-calendar'
+import Calendar from "react-calendar"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import { AuthContext } from "../contexts/AuthContext"
@@ -18,10 +18,10 @@ export default function Appointments(){
 
     useEffect(() => {
         const options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
         }
 
         setLaundry(laundry => ({...laundry, date: date.toLocaleDateString("id-ID", options)}))
@@ -82,7 +82,7 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
         setShowTab(2)
     }
 
-    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
+    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
 
     return (
         <div className="categories w-full flex flex-col items-center gap-4">
@@ -167,7 +167,7 @@ function Confirm({ laundry, setShowTab, setDate }){
         setShowTab(2)
     }
 
-    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
+    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
 
     const [isLoading, setIsLoading] = useState(false)
 
