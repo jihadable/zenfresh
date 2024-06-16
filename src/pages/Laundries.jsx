@@ -3,7 +3,6 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import qris from "../assets/qris.png";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
@@ -175,16 +174,12 @@ function LaundryItem({ laundry }){
     
                 auth()
 
-                toast.success("Berhasil menghapus data laundry")
+                toast.success("Berhasil menghapus pesanan")
 
                 setIsLoading(false)
             } catch(error){
-                const response = error.response.data
-                
-                if (response.status === 404){
-                    toast.error("Laundry tidak ditemukan")
-                }
-
+                console.log(error)
+                toast.error("Gagal menghapus pesanan") 
                 setIsLoading(false)
             }
         }
@@ -233,17 +228,11 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Metode pembayaran</div>
-                        <div className="value">
-                        {
-                            laundry.payment_method === "Cash" ? 
-                            "Cash" : 
-                            <img src={qris} alt="QRIS" className="w-10" />
-                        }
-                        </div>
+                        <div className="value">{laundry.payment_method || "--"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <div className="value">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
+                        <div className="value font-bold text-boldPurple">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status pembayaran</div>

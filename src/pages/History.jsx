@@ -117,37 +117,14 @@ function HistoryItem({ laundry }){
     const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
 
     const { token, auth } = useContext(AuthContext)
-
-    // const [isPaid, setIsPaid] = useState(null)
-
-    // useEffect(() => {
-    //     const getTransactionStatus = async() => {
-    //         if (!laundry.transaction_id){
-    //             setIsPaid(false)
-
-    //             return
-    //         }
-
-    //         try {
-    //             const paymentAPIEndpoint = import.meta.env.VITE_PAYMENT_API_ENDPOINT
     
-    //             const { data } = await axios.get(`${paymentAPIEndpoint}/status/${laundry.transaction_id}`)
-    
-    //             const transactionStatus = data.transaction.transaction_status
-    
-    //             setIsPaid(transactionStatus === "settlement" || transactionStatus === "capture" ? true : false)
-    //         } catch(error){
-    //             console.log(error)
-    
-    //             setIsPaid(false)
-    //         }
-    //     }
-
-    //     getTransactionStatus()
-    // }, [laundry])
+    const [isRateBtnLoading, setIsRateBtnLoading] = useState(false)
+    const [isPayBtnLoading, setIsPayBtnLoading] = useState(false)
 
     const handleRate = async(rate) => {
         try {
+            setIsRateBtnLoading(true)
+
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
 
             await axios.patch(
@@ -165,23 +142,34 @@ function HistoryItem({ laundry }){
             auth()
 
             toast.success("Berhasil memberikan rate laundry")
+
+            setIsRateBtnLoading(false)
         } catch(error){
             console.log(error)
+            setIsRateBtnLoading(false)
+            toast.success("Gagal memberikan rate laundry")
         }
     }
 
-    const handlePay = async(id, total) => {
+    const handlePay = async(id, weight, price) => {
         try {
+            const total = Math.round(weight * price)
+            setIsPayBtnLoading(true)
+
             const paymentAPIEndpoint = import.meta.env.VITE_PAYMENT_API_ENDPOINT
             
             const { data } = await axios.post(`${paymentAPIEndpoint}/token`, {
                 laundry_id: id,
                 total
             })
-
+            
             window.snap.pay(data.token)
+            
+            setIsPayBtnLoading(false)
         } catch(error){
             console.log(error)
+            setIsPayBtnLoading(false)
+            toast.error("Tidak bisa melakukan pembayaran")
         }
     }
 
@@ -222,6 +210,10 @@ function HistoryItem({ laundry }){
                     }
                     </span>
                 </div> :
+                isRateBtnLoading ?
+                <div className="w-fit py-1 px-[19px] flex items-center justify-center bg-boldPurple rounded-md">
+                    <span className="loading loading-spinner loading-sm bg-white"></span>
+                </div> :
                 <div className="dropdown">
                     <button type="button" className="rate flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1">
                         <IconPencilCheck stroke={1.5} width={16} height={16} />
@@ -241,10 +233,16 @@ function HistoryItem({ laundry }){
             }
             {
                 laundry.weight && !laundry.is_paid &&
-                <button type="button" className="pay-btn self-end flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1 px-2" onClick={() => handlePay(laundry.id, Math.ceil(laundry.weight * laundry.category.price))}>
-                    <span>Bayar</span>
-                    <IconArrowRight stroke={1.5} width={16} height={16} />
-                </button>
+                (
+                    isPayBtnLoading ?
+                    <div className="self-end py-1 px-[26.75px] flex items-center justify-center bg-boldPurple rounded-md">
+                        <span className="loading loading-spinner loading-sm bg-white"></span>
+                    </div> :
+                    <button type="button" className="pay-btn self-end flex items-center gap-1 rounded-md bg-boldPurple text-white p-1 px-2" onClick={() => handlePay(laundry.id, laundry.weight, laundry.category.price)}>
+                        <span>Bayar</span>
+                        <IconArrowRight stroke={1.5} width={16} height={16} />
+                    </button>
+                )
             }
             </div>
             <div className="bottom flex items-end justify-between p-2 text-sm border-t">

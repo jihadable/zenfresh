@@ -61,10 +61,8 @@ function EditLaundryContent({ user, laundry }){
     const [
         statusInput,
         categoryInput,
-        weightInput,
-        paymentMethodInput
+        weightInput
     ] = [
-        useRef(null),
         useRef(null),
         useRef(null),
         useRef(null)
@@ -95,7 +93,6 @@ function EditLaundryContent({ user, laundry }){
     const handleSave = async() => {
         const status = statusInput.current.value
         const category = categoryInput.current.value
-        const payment_method = paymentMethodInput.current.value
         const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
 
         try {
@@ -108,7 +105,6 @@ function EditLaundryContent({ user, laundry }){
                 {
                     status,
                     category,
-                    payment_method,
                     weight
                 },
                 {
@@ -120,18 +116,14 @@ function EditLaundryContent({ user, laundry }){
 
             auth()
 
-            toast.success("Berhasil memperbarui laundry")
+            toast.success("Berhasil memperbarui pesanan")
 
             setIsLoading(false)
 
             navigate("/laundries")
         } catch(error) {
-            const response = error.response.data
-
-            if (response.status === 404){
-                toast.error("Laundry tidak ditemukan")
-            }
-
+            console.log(error)
+            toast.error("Gagal memperbarui pesanan")
             setIsLoading(false)
         }
     }
@@ -163,7 +155,7 @@ function EditLaundryContent({ user, laundry }){
                         <select defaultValue={laundry.category.id} className="value select select-sm select-primary" ref={categoryInput}>
                         {
                             categories.map(category => (
-                                <option value={category.id} key={category.id}>{category.name}</option>
+                                <option value={category.id} key={category.id}>{category.name} ({getIDCurrency(category.price)})</option>
                             ))
                         }
                         </select>
@@ -181,18 +173,15 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Tanggal selesai</div>
-                        <div className="value">{laundry.end_date || "-"}</div>
+                        <div className="value">{laundry.end_date || "--"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Metode pembayaran</div>
-                        <select defaultValue={laundry.payment_method} className="value select select-sm select-primary" ref={paymentMethodInput}>
-                            <option>Cash</option>
-                            <option>QRIS</option>
-                        </select>
+                        <div className="field">{laundry.payment_method || "--"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <div className="value flex items-center gap-1">{laundry.weight !== null ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp-"}</div>
+                        <div className="value font-bold text-boldPurple">{laundry.weight !== null ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status pembayaran</div>
