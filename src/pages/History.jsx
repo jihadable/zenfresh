@@ -235,7 +235,7 @@ function HistoryItem({ laundry }){
                 laundry.weight && !laundry.is_paid &&
                 (
                     isPayBtnLoading ?
-                    <div className="self-end py-1 px-[26.75px] flex items-center justify-center bg-boldPurple rounded-md mobile:px-[26.25px]">
+                    <div className="self-end py-1 px-[26.5px] flex items-center justify-center bg-boldPurple rounded-md mobile:px-[26.25px]">
                         <span className="loading loading-spinner loading-sm bg-white mobile:loading-xs"></span>
                     </div> :
                     <button type="button" className="pay-btn self-end flex items-center gap-1 rounded-md bg-boldPurple text-white p-1 px-2" onClick={() => handlePay(laundry.id, laundry.weight, laundry.category.price)}>

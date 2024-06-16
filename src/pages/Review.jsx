@@ -13,7 +13,7 @@ export default function Review(){
 
     const { login, isAdmin } = useContext(AuthContext)
 
-    if (login === false || isAdmin === false){
+    if (login === false || isAdmin){
         return <NotFound />
     }
 
@@ -31,6 +31,12 @@ function ReviewForm(){
 
     const [isloading, setIsLoading] = useState(false)
     const reviewContent = useRef(null)
+    const maxChars = 300
+    const [chars, setChars] = useState(0)
+
+    const handleInput = (e) => {
+        setChars(e.target.value.length)
+    }
 
     const navigate = useNavigate()
 
@@ -51,6 +57,12 @@ function ReviewForm(){
 
     const handleSubmit = async(e) => {
         e.preventDefault()
+
+        if (chars > maxChars){
+            toast.error(`Review idak boleh melebihi ${maxChars} karakter`)
+
+            return
+        }
 
         try {
             setIsLoading(true)
@@ -86,7 +98,8 @@ function ReviewForm(){
         <section className="review-form w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="title text-3xl font-bold text-center">Review</div>
             <form className="w-1/2 flex flex-col gap-2 mobile:w-full" onSubmit={handleSubmit}>
-                <textarea rows={10} placeholder="Berikan review Anda" className="resize-none w-full outline-none p-2 rounded-md shadow-2xl border-2 border-white focus:border-boldPurple" ref={reviewContent}></textarea>
+                <div className="max-chars self-end text-xs">{chars}/{maxChars}</div>
+                <textarea rows={10} placeholder="Berikan review Anda" className="resize-none w-full outline-none p-2 rounded-md shadow-2xl border-2 border-white focus:border-boldPurple" ref={reviewContent} onChange={handleInput}></textarea>
             {
                 isloading ?
                 <div className="py-2 w-24 rounded-md bg-boldPurple text-white flex items-center justify-center self-end">

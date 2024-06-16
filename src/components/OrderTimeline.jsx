@@ -41,7 +41,7 @@ export default function OrderTimeline(){
                     <div className="timeline-middle">
                         <IconCircleCheckFilled stroke={1.5} width={20} height={20} className="text-primary" />
                     </div>
-                    <div className="timeline-end timeline-box border-none shadow-md">Pelanggan melakukan pembarayan melauli kurir (Cash/QRIS)</div>
+                    <div className="timeline-end timeline-box border-none shadow-md">Pelanggan melakukan pembarayan</div>
                     <hr className="bg-primary"/>
                 </li>
                 <li>

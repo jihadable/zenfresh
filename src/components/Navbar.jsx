@@ -1,4 +1,4 @@
-import { IconBottle, IconChevronDown, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
+import { IconBottle, IconChevronDown, IconLogout, IconMenu2, IconMessage, IconUserCircle, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
@@ -88,7 +88,10 @@ export default function Navbar(){
             }
             {
                 isAdmin &&
+                <>
                 <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Daftar Pesanan</Link>
+                <Link to={"/reviews"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Reviews</Link>
+                </>
             }
                 <button type="button" className="hidden mobile:block transition duration-100 text-red-600" onClick={handleLogout}>Logout</button>
                 </>
@@ -120,10 +123,16 @@ export default function Navbar(){
                     }
                     {
                         isAdmin &&
+                        <>
                         <Link to={"/laundries"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconBottle stroke={1.5} className="text-boldPurple" />
                             <span className="whitespace-nowrap">Daftar Pesanan</span>
                         </Link>
+                        <Link to={"/reviews"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                            <IconMessage stroke={1.5} className="text-boldPurple" />
+                            <span className="whitespace-nowrap">Reviews</span>
+                        </Link>
+                        </>
                     }
                         <button type="button" className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20 text-red-600" onClick={handleLogout}>
                             <IconLogout stroke={1.5} />

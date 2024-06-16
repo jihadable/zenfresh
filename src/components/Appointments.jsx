@@ -185,8 +185,7 @@ function Confirm({ laundry, setShowTab, setDate }){
                     ...laundry, 
                     status: "Menunggu konfirmasi",
                     category: laundry.category.id, 
-                    start_date: laundry.date,
-                    payment_method: "Cash"
+                    start_date: laundry.date
                 }, 
                 {
                     headers: {
