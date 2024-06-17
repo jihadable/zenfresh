@@ -26,7 +26,7 @@ export default function Register(){
                 fullname: fullnameInput.current.value,
                 email: emailInput.current.value,
                 password: passwordInput.current.value,
-                role: "user"
+                role: "customer"
             })
             
             localStorage.setItem("token", response.token)
