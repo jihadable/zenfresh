@@ -120,8 +120,13 @@ function HistoryItem({ laundry }){
     
     const [isRateBtnLoading, setIsRateBtnLoading] = useState(false)
     const [isPayBtnLoading, setIsPayBtnLoading] = useState(false)
+    const [rating, setRating] = useState(1)
 
-    const handleRate = async(rate) => {
+    const handleRatingChange = (e) => {
+        setRating(parseInt(e.target.value))
+    }
+
+    const handleRate = async() => {
         try {
             setIsRateBtnLoading(true)
 
@@ -130,7 +135,7 @@ function HistoryItem({ laundry }){
             await axios.patch(
                 `${laundriesAPIEndpoint}/${laundry.id}`, 
                 {
-                    rate
+                    rate: rating
                 },
                 {
                     headers: {
@@ -173,6 +178,20 @@ function HistoryItem({ laundry }){
         }
     }
 
+    const getArrayOfStarsFromRating = rate => {
+        const arr = []
+
+        for (let i = 1; i <= rate; i++){
+            arr.push(true)
+        }
+
+        for (let i = rate + 1; i <= 5; i++){
+            arr.push(false)
+        }
+
+        return arr
+    }
+
     return (
         <div className="history-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple shadow-2xl text-sm mobile:text-xs">
             <div className="top flex items-center justify-between p-2 border-b">
@@ -197,38 +216,45 @@ function HistoryItem({ laundry }){
                 <div className="weight">Berat total (kg): {laundry.weight || "--"}</div>
             {
                 laundry.rate ?
-                <div className="rate flex items-center gap-1">
-                    Rate dari Anda:
-                    <span>
+                <div className="rate-from-customer flex items-center gap-1">
+                    <div>Rate dari Anda: </div>
+                    <div className="flex items-center">
                     {
-                        laundry.rate ? 
-                        <span className="flex items-center">
-                            <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
-                            <span>{laundry.rate}/5</span>
-                        </span> : 
-                        "Tidak ada"
+                        getArrayOfStarsFromRating(laundry.rate).map((item, index) => (
+                            <IconStarFilled className={`${item ? "text-boldPurple" : "text-neutral"}`} width={12} height={12} key={index} />
+                        ))
                     }
-                    </span>
+                    </div>
                 </div> :
                 isRateBtnLoading ?
                 <div className="w-fit py-1 px-[19px] flex items-center justify-center bg-boldPurple rounded-md">
                     <span className="loading loading-spinner loading-sm bg-white mobile:loading-xs"></span>
                 </div> :
-                <div className="dropdown">
-                    <button type="button" className="rate flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1">
+                <div className="rate">
+                    <label htmlFor="my_modal_7" className="rate-btn flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1 cursor-pointer">
                         <IconPencilCheck stroke={1.5} width={16} height={16} />
                         <span>Rate</span>
-                    </button>
-                    <ul tabIndex={0} className="dropdown-content z-[1] mt-1 bg-white rounded-md w-24 shadow-2xl overflow-hidden">
-                    {
-                        [1,2,3,4,5].map(item => (
-                            <li className="flex items-center gap-1 p-2 cursor-pointer hover:bg-black/[.1]" key={item} onClick={() => handleRate(item)}>
-                                <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
-                                <span>{item}</span>
-                            </li>
-                        ))
-                    }
-                    </ul>
+                    </label>
+                    <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+                    <div className="modal" role="dialog">
+                        <div className="modal-box pb-0 flex flex-col items-center justify-center">
+                            <div className="rating">
+                                <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" defaultChecked value={1} onChange={handleRatingChange} />
+                                <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={2} onChange={handleRatingChange} />
+                                <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={3} onChange={handleRatingChange} />
+                                <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={4} onChange={handleRatingChange} />
+                                <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={5} onChange={handleRatingChange} />
+                            </div>
+                            <button type="button" className="flex items-center gap-1 rounded-md bg-boldPurple text-white w-fit p-1 pr-2 mt-4" onClick={handleRate}>
+                                <IconPencilCheck stroke={1.5} />
+                                <span>Submit</span>
+                            </button>
+                            <div className="modal-action">
+                                <label htmlFor="my_modal_7" className="btn border-none btn-sm btn-circle hover:bg-boldPurple/[.2] absolute right-2 top-2">✕</label>
+                            </div>
+                        </div>
+                        <label className="modal-backdrop" htmlFor="my_modal_7"></label>
+                    </div>
                 </div>
             }
             {

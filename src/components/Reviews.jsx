@@ -1,8 +1,6 @@
 import { IconMailForward, IconQuote } from "@tabler/icons-react"
 import { useContext } from "react"
 import { Link } from "react-router-dom"
-import client1 from "../assets/client1.jpg"
-import client2 from "../assets/client2.jpg"
 import { AuthContext } from "../contexts/AuthContext"
 
 export default function Reviews(){
@@ -11,16 +9,14 @@ export default function Reviews(){
 
     const reviewsData = [
         {
-            name: "Dewi",
-            place: "Sleman",
-            text: "Saya sudah menjadi pelanggan ZenFresh selama lebih dari setahun, dan saya tidak pernah kecewa. Layanan mereka sangat nyaman, terutama bagi seseorang dengan jadwal sibuk seperti saya. Pakaian saya selalu kembali dalam kondisi sempurna, dan aroma segarnya luar biasa.",
-            img: client1
+            fullname: "Dewi",
+            address: "Condongcatur, Sleman",
+            content: "Saya sudah menjadi pelanggan ZenFresh selama lebih dari setahun, dan saya tidak pernah kecewa. Layanan mereka sangat nyaman, terutama bagi seseorang dengan jadwal sibuk seperti saya. Pakaian saya selalu kembali dalam kondisi sempurna, dan aroma segarnya luar biasa."
         },
         {
-            name: "Yanto",
-            place: "Yogyakarta",
-            text: "Saya baru-baru ini mencoba ZenFresh setelah mendapat beberapa rekomendasi dari teman. Hasilnya luar biasa! Layanan penjemputan dan pengantaran sangat efisien, dan pakaian saya kembali lebih bersih dan segar dibandingkan saat saya mencucinya sendiri. Saya sangat senang telah menemukan ZenFresh.",
-            img: client2
+            fullname: "Yanto",
+            address: "Kota Gede, Yogyakarta",
+            content: "Saya baru-baru ini mencoba ZenFresh setelah mendapat beberapa rekomendasi dari teman. Hasilnya luar biasa! Layanan penjemputan dan pengantaran sangat efisien, dan pakaian saya kembali lebih bersih dan segar dibandingkan saat saya mencucinya sendiri. Saya sangat senang telah menemukan ZenFresh."
         }
     ]
 
@@ -31,13 +27,13 @@ export default function Reviews(){
             {
                 reviewsData.map((item, index) => (
                     <div className="item rounded-xl bg-white shadow-2xl p-4 flex flex-col gap-4" key={index}>
-                        <div className="text text-black/[.7]">{item.text}</div>
+                        <div className="text text-black/[.7]">{item.content}</div>
                         <div className="info flex justify-between items-center">
                             <div className="img-name flex items-center gap-4">
-                                <img src={item.img} alt="Image" className="w-16 rounded-full h-fit" />
+                            <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${item.fullname}`}alt="Image" className="w-10 rounded-full h-fit" />
                                 <div className="name-place flex flex-col">
-                                    <div className="name font-bold">{item.name}</div>
-                                    <div className="place text-black/[.7]">{item.place}</div>
+                                    <div className="name font-bold">{item.fullname}</div>
+                                    <div className="place text-black/[.7]">{item.address}</div>
                                 </div>
                             </div>
                             <IconQuote width={36} height={36} className="text-boldPurple" />

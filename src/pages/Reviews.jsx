@@ -1,4 +1,4 @@
-import { IconQuote } from "@tabler/icons-react"
+import { IconQuote, IconStarFilled } from "@tabler/icons-react"
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import Footer from "../components/Footer"
@@ -62,11 +62,26 @@ function ReviewsSection(){
 }
 
 function ReviewsContainer({ reviews }){
+
+    const getArrayOfStarsFromRating = rate => {
+        const arr = []
+
+        for (let i = 1; i <= rate; i++){
+            arr.push(true)
+        }
+
+        for (let i = rate + 1; i <= 5; i++){
+            arr.push(false)
+        }
+
+        return arr
+    }
+
     return (
         <div className="reviews-container w-full flex gap-4 mobile:flex-col">
         {
             reviews.length === 0 &&
-            <span className="mt-4 text-center text-xl font-bold">Tidak ada review</span>
+            <span className="mt-4 w-full text-center text-xl font-bold">Tidak ada review</span>
         }
         {
             reviews.length <= 2 &&
@@ -74,6 +89,16 @@ function ReviewsContainer({ reviews }){
             {
                 reviews.map((review, index) => (
                     <div className="review-item rounded-xl bg-white shadow-2xl p-4 flex flex-col gap-4 w-full h-fit" key={index}>
+                        <div className="rating-date flex items-center justify-between">
+                            <div className="flex items-center">
+                            {
+                                getArrayOfStarsFromRating(review.rate).map((item, index) => (
+                                    <IconStarFilled className={`${item ? "text-boldPurple" : "text-neutral"}`} width={12} height={12} key={index} />
+                                ))
+                            }
+                            </div>
+                            <div className="date text-xs">{review.date}</div>
+                        </div>
                         <div className="text text-black/[.7]">{review.content}</div>
                         <div className="info flex justify-between items-center">
                             <div className="img-name flex items-center gap-4">

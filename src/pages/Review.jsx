@@ -37,6 +37,11 @@ function ReviewForm(){
     const reviewContent = useRef(null)
     const maxChars = 300
     const [chars, setChars] = useState(0)
+    const [rating, setRating] = useState(1)
+
+    const handleRatingChange = (e) => {
+        setRating(parseInt(e.target.value))
+    }
 
     const handleInput = (e) => {
         setChars(e.target.value.length)
@@ -79,6 +84,7 @@ function ReviewForm(){
                 reviewsAPIEndpoint, 
                 {
                     content, 
+                    rate: rating,
                     date                
                 },
                 {
@@ -101,15 +107,25 @@ function ReviewForm(){
     return (
         <section className="review-form w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="title text-3xl font-bold text-center">Review</div>
-            <form className="w-1/2 flex flex-col gap-2 mobile:w-full" onSubmit={handleSubmit}>
+            <form className="w-1/2 flex flex-col items-center mobile:w-full" onSubmit={handleSubmit}>
                 <div className="max-chars self-end text-xs">{chars}/{maxChars}</div>
                 <textarea rows={10} placeholder="Berikan review Anda" className="resize-none w-full outline-none p-2 rounded-md shadow-2xl border-2 border-white focus:border-boldPurple" ref={reviewContent} onChange={handleInput}></textarea>
+                <div className="flex self-center flex-col items-center my-4 mb-6">
+                    <div>Rating</div>
+                    <div className="rating">
+                        <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" defaultChecked value={1} onChange={handleRatingChange} />
+                        <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={2} onChange={handleRatingChange} />
+                        <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={3} onChange={handleRatingChange} />
+                        <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={4} onChange={handleRatingChange} />
+                        <input type="radio" name="rating-1" className="mask mask-star-2 bg-boldPurple" value={5} onChange={handleRatingChange} />
+                    </div>
+                </div>
             {
                 isloading ?
                 <div className="py-2 w-24 rounded-md bg-boldPurple text-white flex items-center justify-center self-end">
                     <span className="loading loading-spinner loading-md"></span>
                 </div> :
-                <button type="submit" className="w-24 py-2 bg-boldPurple flex justify-center items-center gap-1 text-white rounded-md self-end">
+                <button type="submit" className="w-24 py-2 bg-boldPurple flex justify-center items-center gap-1 text-white rounded-md">
                     <IconMailForward stroke={1.5} />
                     <span>Submit</span>
                 </button>

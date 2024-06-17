@@ -185,6 +185,20 @@ function LaundryItem({ laundry }){
         }
     }
 
+    const getArrayOfStarsFromRating = rate => {
+        const arr = []
+
+        for (let i = 1; i <= rate; i++){
+            arr.push(true)
+        }
+
+        for (let i = rate + 1; i <= 5; i++){
+            arr.push(false)
+        }
+
+        return arr
+    }
+
     return (
         <div className="laundry-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
             <div className="content flex p-2 mobile:flex-col mobile:gap-4">
@@ -192,19 +206,6 @@ function LaundryItem({ laundry }){
                     <div className="info-item">
                         <div className="field text-sm">ID</div>
                         <div className="value font-bold">{laundry.id}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Rate dari pelanggan</div>
-                        <div className="value">
-                        {
-                            laundry.rate ? 
-                            <span className="flex items-center">
-                                <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
-                                <span>{laundry.rate}/5</span>
-                            </span> : 
-                            "Tidak ada"
-                        }
-                        </div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status</div>
@@ -240,6 +241,16 @@ function LaundryItem({ laundry }){
                     </div>
                 </div>
                 <div className="user-info w-full flex flex-col gap-4">
+                    <div className="info-item">
+                        <div className="field text-sm">Rate dari pelanggan</div>
+                        <div className="value flex items-center">
+                        {
+                            getArrayOfStarsFromRating(laundry.rate).map((item, index) => (
+                                <IconStarFilled className={`${item ? "text-boldPurple" : "text-neutral"}`} width={12} height={12} key={index} />
+                            ))
+                        }
+                        </div>
+                    </div>
                     <div className="info-item">
                         <div className="field text-sm">Nama lengkap Pelanggan</div>
                         <div className="value">{user.fullname}</div>
