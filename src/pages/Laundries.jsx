@@ -245,9 +245,11 @@ function LaundryItem({ laundry }){
                         <div className="field text-sm">Rate dari pelanggan</div>
                         <div className="value flex items-center">
                         {
+                            laundry.rate ?
                             getArrayOfStarsFromRating(laundry.rate).map((item, index) => (
                                 <IconStarFilled className={`${item ? "text-boldPurple" : "text-neutral"}`} width={12} height={12} key={index} />
-                            ))
+                            )) : 
+                            "Tidak ada"
                         }
                         </div>
                     </div>

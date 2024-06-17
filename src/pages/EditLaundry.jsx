@@ -132,6 +132,20 @@ function EditLaundryContent({ user, laundry }){
 
     const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
 
+    const getArrayOfStarsFromRating = rate => {
+        const arr = []
+
+        for (let i = 1; i <= rate; i++){
+            arr.push(true)
+        }
+
+        for (let i = rate + 1; i <= 5; i++){
+            arr.push(false)
+        }
+
+        return arr
+    }
+
     return (
         <div className="edit-laundry-content w-full flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl bg-white">
             <div className="edit-laundry-content w-full flex gap-2 p-2 mobile:flex-col mobile:gap-4">
@@ -196,11 +210,10 @@ function EditLaundryContent({ user, laundry }){
                         <div className="field text-sm">Rate dari pelanggan</div>
                         <div className="value">
                         {
-                            laundry.rate ? 
-                            <span className="flex items-center">
-                                <IconStarFilled stroke={1.5} width={16} height={16} className="text-yellow-500" />
-                                <span>{laundry.rate}/5</span>
-                            </span> : 
+                            laundry.rate ?
+                            getArrayOfStarsFromRating(laundry.rate).map((item, index) => (
+                                <IconStarFilled className={`${item ? "text-boldPurple" : "text-neutral"}`} width={12} height={12} key={index} />
+                            )) : 
                             "Tidak ada"
                         }
                         </div>
