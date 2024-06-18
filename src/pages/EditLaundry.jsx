@@ -208,7 +208,7 @@ function EditLaundryContent({ user, laundry }){
                 <div className="user-info w-full flex flex-col gap-4">
                     <div className="info-item">
                         <div className="field text-sm">Rate dari pelanggan</div>
-                        <div className="value">
+                        <div className="value flex items-center">
                         {
                             laundry.rate ?
                             getArrayOfStarsFromRating(laundry.rate).map((item, index) => (

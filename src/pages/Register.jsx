@@ -41,6 +41,9 @@ export default function Register(){
             if (response.status === 400){
                 toast.error("Email yang dimasukkan sudah terdaftar")
             }
+            else {
+                toast.error("Gagal melakukan registrasi")
+            }
 
             setIsLoading(false)
         }

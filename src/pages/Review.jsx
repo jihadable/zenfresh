@@ -101,6 +101,8 @@ function ReviewForm(){
             navigate("/")
         } catch(error){
             console.log(error)
+            setIsLoading(false)
+            toast.error("Gagal memberikan review")
         }
     }
 

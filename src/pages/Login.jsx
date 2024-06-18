@@ -37,7 +37,10 @@ export default function Login(){
             const response = error.response.data
             
             if (response.status === 401){
-                toast.error("Email atau password invalid")
+                toast.error("Email atau password salah")
+            }
+            else {
+                toast.error("Gagal melakukan login")
             }
             
             setIsLoading(false)

@@ -205,6 +205,7 @@ function Confirm({ laundry, setShowTab, setDate }){
             setIsLoading(false)
         } catch (error){
             setIsLoading(false)
+            toast.error("Gagal melakukan pemesanan")
         }
     }
 

@@ -130,6 +130,7 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
             setEditTime(false)
         } catch(error){
             setIsLoading(false)
+            toast.error("Gagal memperbarui data user")
         }
     }
 
