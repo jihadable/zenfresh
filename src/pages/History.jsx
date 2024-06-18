@@ -156,7 +156,7 @@ function HistoryItem({ laundry }){
         }
     }
 
-    const handlePay = async(id, weight, price) => {
+    const handlePay = async(id, category_name, weight, price) => {
         try {
             const total = Math.round(weight * price)
             setIsPayBtnLoading(true)
@@ -165,6 +165,7 @@ function HistoryItem({ laundry }){
             
             const { data } = await axios.post(`${paymentAPIEndpoint}/token`, {
                 laundry_id: id,
+                category_name,
                 total
             })
             
@@ -264,7 +265,7 @@ function HistoryItem({ laundry }){
                     <div className="self-end py-1 px-[26.5px] flex items-center justify-center bg-boldPurple rounded-md mobile:px-[26.25px]">
                         <span className="loading loading-spinner loading-sm bg-white mobile:loading-xs"></span>
                     </div> :
-                    <button type="button" className="pay-btn self-end flex items-center gap-1 rounded-md bg-boldPurple text-white p-1 px-2" onClick={() => handlePay(laundry.id, laundry.weight, laundry.category.price)}>
+                    <button type="button" className="pay-btn self-end flex items-center gap-1 rounded-md bg-boldPurple text-white p-1 px-2" onClick={() => handlePay(laundry.id, laundry.category.name, laundry.weight, laundry.category.price)}>
                         <span>Bayar</span>
                         <IconArrowRight stroke={1.5} width={16} height={16} />
                     </button>
