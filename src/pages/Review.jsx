@@ -49,18 +49,20 @@ function ReviewForm(){
 
     const navigate = useNavigate()
 
-    const getTodayDate = () => {
-        const options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        }
+    // const getTodayDate = () => {
+    //     const options = {
+    //         weekday: 'long',
+    //         year: 'numeric',
+    //         month: 'long',
+    //         day: 'numeric',
+    //     }
 
-        const today = new Date()
+    //     const today = new Date()
 
-        return today.toLocaleDateString("id-ID", options)
-    }
+    //     console.log(today)
+
+    //     return today.toLocaleDateString("id-ID", options)
+    // }
 
     const { token } = useContext(AuthContext)
 
@@ -70,6 +72,8 @@ function ReviewForm(){
         if (chars > maxChars){
             toast.error(`Review idak boleh melebihi ${maxChars} karakter`)
 
+            // console.log(getTodayDate())
+
             return
         }
 
@@ -78,14 +82,14 @@ function ReviewForm(){
 
             const reviewsAPIEndpoint = import.meta.env.VITE_REVIEWS_API_ENDPOINT
             const content = reviewContent.current.value
-            const date = getTodayDate()
+            // const date = getTodayDate()
 
             await axios.post(
                 reviewsAPIEndpoint, 
                 {
                     content, 
                     rate: rating,
-                    date                
+                    date: new Date()              
                 },
                 {
                     headers: {
@@ -124,7 +128,7 @@ function ReviewForm(){
                 </div>
             {
                 isloading ?
-                <div className="py-2 w-24 rounded-md bg-boldPurple text-white flex items-center justify-center self-end">
+                <div className="py-2 w-24 rounded-md bg-boldPurple text-white flex items-center justify-center">
                     <span className="loading loading-spinner loading-md"></span>
                 </div> :
                 <button type="submit" className="w-24 py-2 bg-boldPurple flex justify-center items-center gap-1 text-white rounded-md">

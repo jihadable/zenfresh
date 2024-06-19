@@ -5,7 +5,7 @@ import Calendar from "react-calendar"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import { AuthContext } from "../contexts/AuthContext"
-import goTop from "./goTop"
+import goTop from "../utils/goTop"
 
 export default function Appointments(){
 

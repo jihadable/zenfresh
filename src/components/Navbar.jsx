@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
 import { AuthContext } from "../contexts/AuthContext"
-import goTop from "./goTop"
+import goTop from "../utils/goTop"
 
 export default function Navbar(){
 

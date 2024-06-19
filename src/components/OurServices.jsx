@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import dryCleaning from "../assets/dry-cleaning.jpg"
 import ironing from "../assets/ironing.jpg"
 import stainRemoval from "../assets/stain-removal.jpg"
-import goTop from "./goTop"
+import goTop from "../utils/goTop"
 
 export default function OurServices(){
 

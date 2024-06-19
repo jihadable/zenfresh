@@ -1,6 +1,6 @@
 import { IconChevronRight, IconShoppingBag } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import goTop from "./goTop";
+import goTop from "../utils/goTop";
 
 export default function HomeHero(){
     return (

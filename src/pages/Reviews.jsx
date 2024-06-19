@@ -1,10 +1,12 @@
 import { IconQuote, IconStarFilled } from "@tabler/icons-react"
 import axios from "axios"
+import moment from "moment"
 import { useContext, useEffect, useState } from "react"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
 import { AuthContext } from "../contexts/AuthContext"
+import { id } from "../utils/id"
 import NotFound from "./NotFound"
 
 export default function Reviews(){
@@ -63,6 +65,8 @@ function ReviewsSection(){
 
 function ReviewsContainer({ reviews }){
 
+    moment.updateLocale("id", id)
+
     const getArrayOfStarsFromRating = rate => {
         const arr = []
 
@@ -97,7 +101,7 @@ function ReviewsContainer({ reviews }){
                                 ))
                             }
                             </div>
-                            <div className="date text-xs">{review.date}</div>
+                            <div className="date text-xs" title={moment(review.date).format("dddd, D MMMM YYYY")}>{moment(review.date).fromNow()}</div>
                         </div>
                         <div className="text text-black/[.7]">{review.content}</div>
                         <div className="info flex justify-between items-center">
@@ -130,7 +134,7 @@ function ReviewsContainer({ reviews }){
                                 ))
                             }
                             </div>
-                            <div className="date text-xs">{review.date}</div>
+                            <div className="date text-xs" title={moment(review.date).format("dddd, D MMMM YYYY")}>{moment(review.date).fromNow()}</div>
                         </div>
                         <div className="text text-black/[.7]">{review.content}</div>
                         <div className="info flex justify-between items-center">
@@ -159,7 +163,7 @@ function ReviewsContainer({ reviews }){
                                 ))
                             }
                             </div>
-                            <div className="date text-xs">{review.date}</div>
+                            <div className="date text-xs" title={moment(review.date).format("dddd, D MMMM YYYY")}>{moment(review.date).fromNow()}</div>
                         </div>
                         <div className="text text-black/[.7]">{review.content}</div>
                         <div className="info flex justify-between items-center">
@@ -188,7 +192,7 @@ function ReviewsContainer({ reviews }){
                                 ))
                             }
                             </div>
-                            <div className="date text-xs">{review.date}</div>
+                            <div className="date text-xs" title={moment(review.date).format("dddd, D MMMM YYYY")}>{moment(review.date).fromNow()}</div>
                         </div>
                         <div className="text text-black/[.7]">{review.content}</div>
                         <div className="info flex justify-between items-center">

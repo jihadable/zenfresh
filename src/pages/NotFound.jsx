@@ -1,6 +1,6 @@
 import { IconChevronLeft, IconHome } from "@tabler/icons-react"
 import { Link } from "react-router-dom"
-import goTop from "../components/goTop"
+import goTop from "../utils/goTop"
 
 export default function NotFound(){
 

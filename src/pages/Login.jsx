@@ -3,8 +3,8 @@ import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import goTop from "../components/goTop";
 import { AuthContext } from "../contexts/AuthContext";
+import goTop from "../utils/goTop";
 
 export default function Login(){
 
