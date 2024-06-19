@@ -98,7 +98,7 @@ function EditLaundryContent({ user, laundry }){
         const status = statusInput.current.value
         const category = categoryInput.current.value
         const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
-        const end_date = getIdDate(new Date())
+        const end_date = status === "Selesai" ? getIdDate(new Date()) : null
 
         try {
             setIsLoading(true)
