@@ -1,0 +1,1 @@
+export const getIdCurrency = total => "Rp " + total.toLocaleString("id-ID")

@@ -5,6 +5,8 @@ import Calendar from "react-calendar"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import { AuthContext } from "../contexts/AuthContext"
+import { getIdCurrency } from "../utils/getIdCurrency"
+import { getIdDate } from "../utils/getIdDate"
 import goTop from "../utils/goTop"
 
 export default function Appointments(){
@@ -17,14 +19,7 @@ export default function Appointments(){
     })
 
     useEffect(() => {
-        const options = {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        }
-
-        setLaundry(laundry => ({...laundry, date: date.toLocaleDateString("id-ID", options)}))
+        setLaundry(laundry => ({...laundry, date: getIdDate(date)}))
     }, [date])
 
     const tabData = ["Kategori", "Tanggal", "Konfirmasi"]
@@ -82,8 +77,6 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
         setShowTab(2)
     }
 
-    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
-
     return (
         <div className="categories w-full flex flex-col items-center gap-4">
             <div className="categories-items w-full grid grid-cols-2 gap-4 mobile:flex mobile:flex-col">
@@ -107,7 +100,7 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
                         <div className="info flex flex-col">
                             <div className="title font-bold text-xl">{category.name}</div>
                             <div className="price-days flex gap-2 items-center text-black/[.7]">
-                                {getIDCurrency(category.price)}/kg • {category.duration}
+                                {getIdCurrency(category.price)}/kg • {category.duration}
                             </div>
                         </div>
                     </div>
@@ -166,8 +159,6 @@ function Confirm({ laundry, setShowTab, setDate }){
 
         setShowTab(2)
     }
-
-    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -229,7 +220,7 @@ function Confirm({ laundry, setShowTab, setDate }){
                 <div className="info flex flex-col gap-2 pb-4 border-b">
                     <div className="date-drop">Penjemputan pakaian: {laundry.date}</div>
                     <div className="days">Durasi pengerjaan: {laundry.category.duration}</div>
-                    <div className="price">{getIDCurrency(laundry.category.price)}/kg</div>
+                    <div className="price">{getIdCurrency(laundry.category.price)}/kg</div>
                 </div>
                 <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(gratis ongkir)</span></div>
                 {

@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
+import { getIdCurrency } from "../utils/getIdCurrency";
 import NotFound from "./NotFound";
 
 export default function Laundries(){
@@ -153,8 +154,6 @@ function LaundryItem({ laundry }){
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
-
     const { user } = laundry
 
     const { auth, token } = useContext(AuthContext)
@@ -213,7 +212,7 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Kategori</div>
-                        <div className="value">{laundry.category.name} ({getIDCurrency(laundry.category.price)}/kg)</div>
+                        <div className="value">{laundry.category.name} ({getIdCurrency(laundry.category.price)}/kg)</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Berat total(kg)</div>
@@ -233,7 +232,7 @@ function LaundryItem({ laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <div className="value font-bold text-boldPurple">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
+                        <div className="value font-bold text-boldPurple">{laundry.weight ? getIdCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status pembayaran</div>

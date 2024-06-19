@@ -7,6 +7,8 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
+import { getIdCurrency } from "../utils/getIdCurrency";
+import { getIdDate } from "../utils/getIdDate";
 import NotFound from "./NotFound";
 
 export default function EditLaundry(){
@@ -96,6 +98,7 @@ function EditLaundryContent({ user, laundry }){
         const status = statusInput.current.value
         const category = categoryInput.current.value
         const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
+        const end_date = getIdDate(new Date())
 
         try {
             setIsLoading(true)
@@ -107,7 +110,8 @@ function EditLaundryContent({ user, laundry }){
                 {
                     status,
                     category,
-                    weight
+                    weight,
+                    end_date
                 },
                 {
                     headers: {
@@ -129,8 +133,6 @@ function EditLaundryContent({ user, laundry }){
             setIsLoading(false)
         }
     }
-
-    const getIDCurrency = total => "Rp " + total.toLocaleString("id-ID")
 
     const getArrayOfStarsFromRating = rate => {
         const arr = []
@@ -172,7 +174,7 @@ function EditLaundryContent({ user, laundry }){
                         <select defaultValue={laundry.category.id} className="value select select-sm select-primary" ref={categoryInput}>
                         {
                             categories.map(category => (
-                                <option value={category.id} key={category.id}>{category.name} ({getIDCurrency(category.price)})</option>
+                                <option value={category.id} key={category.id}>{category.name} ({getIdCurrency(category.price)})</option>
                             ))
                         }
                         </select>
@@ -198,7 +200,7 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Total pembayaran</div>
-                        <div className="value font-bold text-boldPurple">{laundry.weight !== null ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
+                        <div className="value font-bold text-boldPurple">{laundry.weight !== null ? getIdCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Status pembayaran</div>

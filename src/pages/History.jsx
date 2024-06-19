@@ -6,6 +6,7 @@ import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
 import { AuthContext } from "../contexts/AuthContext"
+import { getIdCurrency } from "../utils/getIdCurrency"
 import NotFound from "./NotFound"
 
 export default function History(){
@@ -114,8 +115,6 @@ function OrderHistory(){
 
 function HistoryItem({ laundry }){
 
-    const getIDCurrency = total => "Rp " + total.toLocaleString('id-ID')
-
     const { token, auth } = useContext(AuthContext)
     
     const [isRateBtnLoading, setIsRateBtnLoading] = useState(false)
@@ -202,7 +201,7 @@ function HistoryItem({ laundry }){
             <div className="mid flex flex-col gap-2 p-2 my-4">
                 <div className="category font-bold text-base flex items-center mobile:text-sm">
                     <IconBottle stroke={1.5} className="text-boldPurple" />
-                    <span>Laundry {laundry.category.name} <span className="font-normal text-xs">({getIDCurrency(laundry.category.price)}/kg)</span></span>
+                    <span>Laundry {laundry.category.name} <span className="font-normal text-xs">({getIdCurrency(laundry.category.price)}/kg)</span></span>
                 </div>
                 {/* menunggu konfirmasi */}
                 {/* kurir menjemput pakaian pelanggan */}
@@ -276,7 +275,7 @@ function HistoryItem({ laundry }){
                 <div className="date text-xs">{laundry.start_date}</div>
                 <div className="flex flex-col items-end">
                     <span className="mobile:text-xs">Total pembayaran</span>
-                    <span className="text-boldPurple font-bold text-base mobile:text-sm">{laundry.weight ? getIDCurrency(laundry.weight * laundry.category.price) : "Rp --"}</span>
+                    <span className="text-boldPurple font-bold text-base mobile:text-sm">{laundry.weight ? getIdCurrency(laundry.weight * laundry.category.price) : "Rp --"}</span>
                 </div>
             </div>
         </div>
