@@ -9,10 +9,9 @@ import goTop from "../utils/goTop";
 export default function Login(){
 
     const navigate = useNavigate()
-
-    const { setToken } = useContext(AuthContext)
     
     const [isLoading, setIsLoading] = useState(false)
+    const { setLogin, setUser, setIsAdmin } = useContext(AuthContext)
 
     const handleLogin = async(e) => {
         e.preventDefault()
@@ -22,26 +21,22 @@ export default function Login(){
 
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
             
-            const { data: response } = await axios.post(`${usersAPIEndpoint}/login`, {
+            const { data } = await axios.post(`${usersAPIEndpoint}/login`, {
                 email: emailInput.current.value,
                 password: passwordInput.current.value
             })
             
-            localStorage.setItem("token", response.token)
-            setToken(localStorage.getItem("token"))
+            localStorage.setItem("token", data.token)
+            setLogin(true)
+            setUser(data.user)
+            setIsAdmin(data.user.role === "admin")
 
             setIsLoading(false)
             
             navigate("/")
         } catch (error){
-            const response = error.response.data
-            
-            if (response.status === 401){
-                toast.error("Email atau password salah")
-            }
-            else {
-                toast.error("Gagal melakukan login")
-            }
+            const { message } = error.response.data
+            toast.error(message)
             
             setIsLoading(false)
         }

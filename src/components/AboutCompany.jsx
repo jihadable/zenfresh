@@ -7,7 +7,7 @@ export default function AboutCompany(){
         {
             title: "Mesin Cuci",
             svg: <IconWashMachine stroke={1.5} width={40} height={40} />,
-            number: 125
+            number: 75
         },
         {
             title: "Cabang",

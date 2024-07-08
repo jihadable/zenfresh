@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
+import { LaundryContext } from "../contexts/LaundryContext";
 import { getIdCurrency } from "../utils/getIdCurrency";
 import { getIdDate } from "../utils/getIdDate";
 import NotFound from "./NotFound";
@@ -14,7 +15,8 @@ import NotFound from "./NotFound";
 export default function EditLaundry(){
 
     const { id } = useParams()
-    const { login, isAdmin, laundries } = useContext(AuthContext)
+    const { login, isAdmin } = useContext(AuthContext)
+    const { laundries } = useContext(LaundryContext)
     
     const [laundry, setLaundry] = useState(null)
     
@@ -29,12 +31,12 @@ export default function EditLaundry(){
     }
 
     if (login === true && isAdmin && laundries !== null && laundry !== undefined){
-        document.title = "ZenFresh | Edit Laundry"
+        document.title = "ZenFresh | Edit Pesanan"
 
         return (
             <>
             <Navbar />
-            <Hero page={"Edit Laundry"} path={"/edit/" + id} />
+            <Hero page={"Edit Pesanan"} path={"/edit/" + id} />
             <EditLaundryContainer laundry={laundry} />
             <Footer />
             </>
@@ -45,7 +47,7 @@ export default function EditLaundry(){
 function EditLaundryContainer({ laundry }){
     return (
         <section className="edit-laundry-container w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Edit Laundry</div>
+            <div className="title text-3xl font-bold text-center">Edit Pesanan</div>
             {
                 laundry === null &&
                 <span className="loading loading-spinner loading-lg bg-boldPurple"></span>
@@ -76,15 +78,11 @@ function EditLaundryContent({ user, laundry }){
 
     useEffect(() => {
         const getAllCategories = async() => {
-            try {
-                const categoriesAPIEndpoint = import.meta.env.VITE_CATEGORIES_API_ENDPOINT
+            const categoriesAPIEndpoint = import.meta.env.VITE_CATEGORIES_API_ENDPOINT
 
-                const { data: response } = await axios.get(categoriesAPIEndpoint)
+            const { data } = await axios.get(categoriesAPIEndpoint)
 
-                setCategories(response.categories)
-            } catch (error){
-                console.log(error)
-            }
+            setCategories(data.categories)
         }
 
         getAllCategories()
@@ -92,27 +90,22 @@ function EditLaundryContent({ user, laundry }){
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const { auth, token } = useContext(AuthContext)
+    const { setLaundries } = useContext(LaundryContext)
     
     const handleSave = async() => {
         const status = statusInput.current.value
         const category = categoryInput.current.value
         const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
-        const end_date = status === "Selesai" ? getIdDate(new Date()) : null
 
         try {
             setIsLoading(true)
 
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+            const token = localStorage.getItem("token")
 
-            await axios.patch(
+            const { data } = await axios.patch(
                 `${laundriesAPIEndpoint}/${laundry.id}`,
-                {
-                    status,
-                    category,
-                    weight,
-                    end_date
-                },
+                { status, category,weight },
                 {
                     headers: {
                         "Authorization": "Bearer " + token
@@ -120,15 +113,13 @@ function EditLaundryContent({ user, laundry }){
                 }
             )
 
-            auth()
-
+            setLaundries(laundries => laundries.map(l => l.id === laundry.id ? data.laundry : l))
             toast.success("Berhasil memperbarui pesanan")
 
             setIsLoading(false)
 
             navigate("/laundries")
         } catch(error) {
-            console.log(error)
             toast.error("Gagal memperbarui pesanan")
             setIsLoading(false)
         }
@@ -187,12 +178,8 @@ function EditLaundryContent({ user, laundry }){
                         </div>
                     </div>
                     <div className="info-item">
-                        <div className="field text-sm">Tanggal mulai</div>
-                        <div className="value">{laundry.start_date}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Tanggal selesai</div>
-                        <div className="value">{laundry.end_date || "--"}</div>
+                        <div className="field text-sm">Tanggal</div>
+                        <div className="value">{getIdDate(laundry.date)}</div>
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">Metode pembayaran</div>
@@ -230,7 +217,7 @@ function EditLaundryContent({ user, laundry }){
                     </div>
                     <div className="info-item">
                         <div className="field text-sm">No HP</div>
-                        <div className="value">{user.no_hp || "-"}</div>
+                        <div className="value">{user.phone || "-"}</div>
                     </div>
                 </div>
             </div>

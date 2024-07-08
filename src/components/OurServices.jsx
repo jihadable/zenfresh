@@ -26,7 +26,7 @@ export default function OurServices(){
 
     return (
         <section className="our-services w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Services Kami</div>
+            <div className="title text-3xl font-bold text-center">Layanan Kami</div>
             <div className="services-items w-full flex gap-4 mobile:flex-col">
             {
                 servicesData.map((item, index) => {

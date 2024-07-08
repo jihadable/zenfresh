@@ -15,8 +15,7 @@ export default function Account(){
     if (login === false){
         return <NotFound />
     }
-    
-    if (login === true){
+    else if (login === true){
         document.title = "ZenFresh | Akun"
 
         return (
@@ -27,6 +26,9 @@ export default function Account(){
             <Footer />
             </>
         )
+    }
+    else {
+        return null
     }
 }
 
@@ -60,7 +62,7 @@ function MyAccount(){
                         </div>
                     {
                         editTime &&
-                        <EditForm setEditTime={setEditTime} alamatInitialValue={user.address} noHPInitialValue={user.no_hp} />
+                        <EditForm setEditTime={setEditTime} alamatInitialValue={user.address} phoneInitialValue={user.phone} />
                     }
                     {
                         isAdmin === false && !editTime &&
@@ -71,7 +73,7 @@ function MyAccount(){
                         </div>
                         <div className="item">
                             <div className="field text-sm">No HP</div>
-                            <div className="value bg-white p-2 rounded-md shadow-lg">{user.no_hp || "-"}</div>
+                            <div className="value bg-white p-2 rounded-md shadow-lg">{user.phone || "-"}</div>
                         </div>
                         </>
                     }
@@ -89,15 +91,20 @@ function MyAccount(){
     )
 }
 
-function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
+function EditForm({ setEditTime, alamatInitialValue, phoneInitialValue }){
 
     const [isLoading, setIsLoading] = useState(false)
-    const [alamatInput, noHPInput] = [useRef(null), useRef(null)]
-    const noHPPattern = /^08\d{8,13}$/
-    const { auth, token } = useContext(AuthContext)
-
+    const [addressInput, phoneInput] = [useRef(null), useRef(null)]
+    const { setUser } = useContext(AuthContext)
+    
     const handleSaveEditedData = async() => {
-        if (!noHPPattern.test(noHPInput.current.value)){
+        const phonePattern = /^08\d{8,13}$/
+        const [phone, address] = [
+            phoneInput.current.value,
+            addressInput.current.value
+        ]
+
+        if (!phonePattern.test(phone)){
             toast.error("No HP yang Anda masukkan tidak valid")
 
             return
@@ -107,13 +114,11 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
             setIsLoading(true)
 
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
+            const token = localStorage.getItem("token")
 
             await axios.patch(
                 usersAPIEndpoint, 
-                {
-                    address: alamatInput.current.value === "" ? null : alamatInput.current.value,
-                    no_hp: noHPInput.current.value === "" ? null : noHPInput.current.value
-                }, 
+                { phone, address }, 
                 {
                     headers: {
                         "Authorization": "Bearer " + token
@@ -121,16 +126,15 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
                 }
             )
 
-            auth()
-            
+            setUser(user => ({...user, phone, address}))
             toast.success("Berhasil memperbarui data user")
 
             setIsLoading(false)
-            
             setEditTime(false)
         } catch(error){
-            setIsLoading(false)
             toast.error("Gagal memperbarui data user")
+            setIsLoading(false)
+            setEditTime(false)
         }
     }
 
@@ -138,11 +142,11 @@ function EditForm({ setEditTime, alamatInitialValue, noHPInitialValue }){
         <>
         <div className="item">
             <div className="field text-sm">Alamat</div>
-            <input type="text" autoFocus className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={alamatInitialValue} ref={alamatInput} />
+            <input type="text" autoFocus className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={alamatInitialValue} required ref={addressInput} />
         </div>
         <div className="item">
             <div className="field text-sm">No HP</div>
-            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={noHPInitialValue} ref={noHPInput} />
+            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={phoneInitialValue} required ref={phoneInput} />
         </div>
         <div className="btns flex gap-2 mt-2">
             <button type="button" className="w-full bg-red-600 p-2 text-white rounded-md" onClick={() => setEditTime(false)}>Cancel</button>

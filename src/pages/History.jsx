@@ -6,7 +6,9 @@ import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
 import { AuthContext } from "../contexts/AuthContext"
+import { LaundryContext } from "../contexts/LaundryContext"
 import { getIdCurrency } from "../utils/getIdCurrency"
+import { getIdDate } from "../utils/getIdDate"
 import NotFound from "./NotFound"
 
 export default function History(){
@@ -50,11 +52,10 @@ export default function History(){
 
 function OrderHistory(){
 
+    const { laundries } = useContext(LaundryContext)
+
     const filterLabels = ["Semua", "Belum Bayar", "Sedang Dikerjakan", "Selesai"]
-
     const [selectedFilter, setSelectedFilter] = useState("Semua")
-
-    const { laundries } = useContext(AuthContext)
 
     const [filteredLaundries, setFilteredLaundries] = useState(laundries)
 
@@ -114,9 +115,9 @@ function OrderHistory(){
 }
 
 function HistoryItem({ laundry }){
-
-    const { token, auth } = useContext(AuthContext)
     
+    const { setLaundries } = useContext(LaundryContext)
+
     const [isRateBtnLoading, setIsRateBtnLoading] = useState(false)
     const [isPayBtnLoading, setIsPayBtnLoading] = useState(false)
     const [rating, setRating] = useState(1)
@@ -130,8 +131,9 @@ function HistoryItem({ laundry }){
             setIsRateBtnLoading(true)
 
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+            const token = localStorage.getItem("token")
 
-            await axios.patch(
+            const { data } = await axios.patch(
                 `${laundriesAPIEndpoint}/${laundry.id}`, 
                 {
                     rate: rating
@@ -143,15 +145,13 @@ function HistoryItem({ laundry }){
                 }
             )
 
-            auth()
-
+            setLaundries(laundries => laundries.map(l => l.id === laundry.id ? data.laundry : l))
             toast.success("Berhasil memberikan rate laundry")
 
             setIsRateBtnLoading(false)
         } catch(error){
-            console.log(error)
             setIsRateBtnLoading(false)
-            toast.success("Gagal memberikan rate laundry")
+            toast.error("Gagal memberikan rate laundry")
         }
     }
 
@@ -161,18 +161,25 @@ function HistoryItem({ laundry }){
             setIsPayBtnLoading(true)
 
             const paymentAPIEndpoint = import.meta.env.VITE_PAYMENT_API_ENDPOINT
+            const token = localStorage.getItem("token")
             
-            const { data } = await axios.post(`${paymentAPIEndpoint}/token`, {
-                laundry_id: id,
-                category_name,
-                total
-            })
+            const { data } = await axios.post(`${paymentAPIEndpoint}/token`, 
+                {
+                    laundry_id: id,
+                    category_name,
+                    total
+                },
+                {
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                }
+            )
             
             window.snap.pay(data.token)
             
             setIsPayBtnLoading(false)
         } catch(error){
-            console.log(error)
             setIsPayBtnLoading(false)
             toast.error("Tidak bisa melakukan pembayaran")
         }
@@ -272,7 +279,7 @@ function HistoryItem({ laundry }){
             }
             </div>
             <div className="bottom flex items-end justify-between p-2 text-sm border-t">
-                <div className="date text-xs">{laundry.start_date}</div>
+                <div className="date text-xs">{getIdDate(laundry.date)}</div>
                 <div className="flex flex-col items-end">
                     <span className="mobile:text-xs">Total pembayaran</span>
                     <span className="text-boldPurple font-bold text-base mobile:text-sm">{laundry.weight ? getIdCurrency(laundry.weight * laundry.category.price) : "Rp --"}</span>

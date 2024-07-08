@@ -23,7 +23,7 @@ export default function Review(){
         return (
             <>
             <Navbar />
-            <Hero page={"Review"} path={"/review"} />
+            <Hero page={"Ulasan"} path={"/review"} />
             <ReviewForm />
             <Footer />
             </>
@@ -49,30 +49,11 @@ function ReviewForm(){
 
     const navigate = useNavigate()
 
-    // const getTodayDate = () => {
-    //     const options = {
-    //         weekday: 'long',
-    //         year: 'numeric',
-    //         month: 'long',
-    //         day: 'numeric',
-    //     }
-
-    //     const today = new Date()
-
-    //     console.log(today)
-
-    //     return today.toLocaleDateString("id-ID", options)
-    // }
-
-    const { token } = useContext(AuthContext)
-
     const handleSubmit = async(e) => {
         e.preventDefault()
 
         if (chars > maxChars){
-            toast.error(`Review idak boleh melebihi ${maxChars} karakter`)
-
-            // console.log(getTodayDate())
+            toast.error(`Ulasan idak boleh melebihi ${maxChars} karakter`)
 
             return
         }
@@ -81,8 +62,9 @@ function ReviewForm(){
             setIsLoading(true)
 
             const reviewsAPIEndpoint = import.meta.env.VITE_REVIEWS_API_ENDPOINT
+            const token = localStorage.getItem("token")
+
             const content = reviewContent.current.value
-            // const date = getTodayDate()
 
             await axios.post(
                 reviewsAPIEndpoint, 
@@ -98,24 +80,23 @@ function ReviewForm(){
                 }
             )
 
-            toast.success("Terima kasih atas review Anda")
+            toast.success("Terima kasih atas ulasan Anda")
 
             setIsLoading(false)
 
             navigate("/")
         } catch(error){
-            console.log(error)
             setIsLoading(false)
-            toast.error("Gagal memberikan review")
+            toast.error("Gagal memberikan ulasan")
         }
     }
 
     return (
         <section className="review-form w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Review</div>
+            <div className="title text-3xl font-bold text-center">Ulasan</div>
             <form className="w-1/2 flex flex-col items-center mobile:w-full" onSubmit={handleSubmit}>
                 <div className="max-chars self-end text-xs">{chars}/{maxChars}</div>
-                <textarea rows={10} placeholder="Berikan review Anda" className="resize-none w-full outline-none p-2 rounded-md shadow-2xl border-2 border-white focus:border-boldPurple" ref={reviewContent} onChange={handleInput}></textarea>
+                <textarea rows={10} placeholder="Berikan ulasan Anda" className="resize-none w-full outline-none p-2 rounded-md shadow-2xl border-2 border-white focus:border-boldPurple" ref={reviewContent} onChange={handleInput}></textarea>
                 <div className="flex self-center flex-col items-center my-4 mb-6">
                     <div>Rating</div>
                     <div className="rating">

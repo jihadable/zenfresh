@@ -1,4 +1,4 @@
-import { IconEdit, IconStarFilled, IconTrash } from "@tabler/icons-react";
+import { IconBottle, IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -7,7 +7,9 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
+import { LaundryContext } from "../contexts/LaundryContext";
 import { getIdCurrency } from "../utils/getIdCurrency";
+import { getIdDate } from "../utils/getIdDate";
 import NotFound from "./NotFound";
 
 export default function Laundries(){
@@ -19,7 +21,7 @@ export default function Laundries(){
     }
 
     if (login === true && isAdmin){
-        document.title = "ZenFresh | Daftar Laundry"
+        document.title = "ZenFresh | Daftar Pesanan"
 
         return (
             <>
@@ -34,20 +36,16 @@ export default function Laundries(){
 
 function LaundryContainer(){
 
+    const { laundries } = useContext(LaundryContext)
+
     const filterLabels = ["Semua", "Belum Bayar", "Sedang Dikerjakan", "Selesai"]
-
     const [selectedFilter, setSelectedFilter] = useState("Semua")
-
-    const { laundries } = useContext(AuthContext)
 
     const [filteredLaundries, setFilteredLaundries] = useState(laundries)
 
     const [searchParams, setSearchParams] = useSearchParams()
-
     const currentPage = parseInt(searchParams.get("page") || 1)
-
     const laundriesPerPage = 5
-
     const [pages, setPages] = useState([])
 
     useEffect(() => {
@@ -66,13 +64,14 @@ function LaundryContainer(){
     }, [laundries, selectedFilter])
 
     useEffect(() => {
+        const len = filteredLaundries?.length
         let firstPage = 1
-        let lastPage = Math.ceil(filteredLaundries.length / 5)
+        let lastPage = Math.ceil(len / 5)
         
-        if (filteredLaundries.length <= 10){
+        if (len <= 10){
             setPages([1,2])
         }
-        else if (filteredLaundries.length > 10){
+        else if (len > 10){
 
             if (currentPage === firstPage){
                 setPages([1,2,3])
@@ -152,136 +151,78 @@ function LaundryContainer(){
 
 function LaundryItem({ laundry }){
 
-    const [isLoading, setIsLoading] = useState(false)
+    const { setLaundries } = useContext(LaundryContext)
 
-    const { user } = laundry
+    const handleDeleteLaundry = async(e) => {
+        e.preventDefault()
 
-    const { auth, token } = useContext(AuthContext)
-
-    const handleDeleteLaundry = async() => {
         if (confirm("Apakah Anda yakin akan menghapus item ini?")){
             try {
-                setIsLoading(true)
 
                 const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+                const token = localStorage.getItem("token")
     
                 await axios.delete(`${laundriesAPIEndpoint}/${laundry.id}`, {
                     headers: {
                         "Authorization": "Bearer " + token
                     }
                 })
-    
-                auth()
 
+                setLaundries(laundries => laundries.filter(l => l.id !== laundry.id))
                 toast.success("Berhasil menghapus pesanan")
-
-                setIsLoading(false)
             } catch(error){
-                console.log(error)
-                toast.error("Gagal menghapus pesanan") 
-                setIsLoading(false)
+                toast.error("Gagal menghapus pesanan")
             }
         }
     }
 
-    const getArrayOfStarsFromRating = rate => {
-        const arr = []
-
-        for (let i = 1; i <= rate; i++){
-            arr.push(true)
-        }
-
-        for (let i = rate + 1; i <= 5; i++){
-            arr.push(false)
-        }
-
-        return arr
-    }
-
     return (
-        <div className="laundry-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl">
-            <div className="content flex p-2 mobile:flex-col mobile:gap-4">
-                <div className="laundry-info w-full flex flex-col gap-4">
-                    <div className="info-item">
-                        <div className="field text-sm">ID</div>
-                        <div className="value font-bold">{laundry.id}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Status</div>
-                        <div className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.status === "Selesai" ? "text-green-600 bg-green-100" : `${laundry.status === "Menunggu pembayaran" ? "text-red-600 bg-red-100" : "text-yellow-600 bg-yellow-100"}`}`}>{laundry.status}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Kategori</div>
-                        <div className="value">{laundry.category.name} ({getIdCurrency(laundry.category.price)}/kg)</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Berat total(kg)</div>
-                        <div className="value">{laundry.weight || "--"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Tanggal mulai</div>
-                        <div className="value">{laundry.start_date}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Tanggal selesai</div>
-                        <div className="value">{laundry.end_date || "--"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Metode pembayaran</div>
-                        <div className="value">{laundry.payment_method || "--"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Total pembayaran</div>
-                        <div className="value font-bold text-boldPurple">{laundry.weight ? getIdCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Status pembayaran</div>
-                        <div className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
-                    </div>
-                </div>
-                <div className="user-info w-full flex flex-col gap-4">
-                    <div className="info-item">
-                        <div className="field text-sm">Rate dari pelanggan</div>
-                        <div className="value flex items-center">
-                        {
-                            laundry.rate ?
-                            getArrayOfStarsFromRating(laundry.rate).map((item, index) => (
-                                <IconStarFilled className={`${item ? "text-boldPurple" : "text-neutral"}`} width={12} height={12} key={index} />
-                            )) : 
-                            "Tidak ada"
-                        }
+        <Link to={`/detail/${laundry.id}`} className="laundry-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl cursor-pointer">
+            <div className="top flex items-center justify-between p-2 border-b">
+                <div className="">ID: <span className="font-bold">{laundry.id}</span></div>
+                <div className="flex items-center gap-2">
+                    <div className={`font-bold px-2 py-1 rounded-md text-xs h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" onClick={(e) => e.preventDefault()} className="p-1">
+                            <IconDotsVertical stroke={1.5} width={20} height={20} />
                         </div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Nama lengkap Pelanggan</div>
-                        <div className="value">{user.fullname}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Alamat</div>
-                        <div className="value">{user.address || "--"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">No HP</div>
-                        <div className="value">{user.no_hp || "--"}</div>
+                        <ul tabIndex={0} className="dropdown-content flex flex-col mt-2 rounded-md z-[1] bg-white shadow-[0_0_20px_rgb(0,0,0,.2)] overflow-hidden">
+                            <Link to={`/edit/${laundry.id}`} className="flex items-center gap-1 p-2 hover:bg-boldPurple/20">
+                                <IconEdit stroke={1.5} className="text-primary" />
+                                <span>Edit</span>
+                            </Link>
+                            <button type="button" onClick={handleDeleteLaundry} className="flex items-center gap-1 p-2 hover:bg-boldPurple/20">
+                                <IconTrash stroke={1.5} className="text-red-600" />
+                                <span>Hapus</span>
+                            </button>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div className="actions flex items-center gap-2 p-2 self-end">
-                <Link to={"/edit/" + laundry.id} type="button" className="edit flex items-center justify-center gap-1 p-1 w-20 text-sm rounded-md bg-boldPurple text-white">
-                    <IconEdit stroke={1.5} width={20} height={20} />
-                    <span>Edit</span>
-                </Link>
-                {
-                    isLoading ?
-                    <div className="flex items-center justify-center w-20 py-1 rounded-md text-white bg-red-600">
-                        <span className="loading loading-spinner loading-sm"></span>
-                    </div> :
-                    <button type="button" className="delete flex items-center justify-center gap-1 py-1 w-20 text-sm rounded-md bg-red-600 text-white" onClick={handleDeleteLaundry}>
-                        <IconTrash stroke={1.5} width={20} height={20} />
-                        <span>Hapus</span>
-                    </button>
-                }
+            <div className="mid flex flex-col gap-2 p-2 my-4">
+                <div className="category font-bold text-base flex items-center mobile:text-sm">
+                    <IconBottle stroke={1.5} className="text-boldPurple" />
+                    <span>Laundry {laundry.category.name} <span className="font-normal text-xs">({getIdCurrency(laundry.category.price)}/kg)</span></span>
+                </div>
+                {/* menunggu konfirmasi */}
+                {/* kurir menjemput pakaian pelanggan */}
+                {/* menunggu proses pencucian */}
+                {/* kurir mengantar pakaian pelanggan */}
+                {/* menunggu pembayaran */}
+                {/* selesai */}
+                <div className="">
+                    Status: 
+                    <span className={`value font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.status === "Selesai" ? "text-green-600 bg-green-100" : `${laundry.status === "Menunggu pembayaran" ? "text-red-600 bg-red-100" : "text-yellow-600 bg-yellow-100"}`}`}>{laundry.status}</span>
+                </div>
+                <div className="user">Pelanggan: {laundry.user.fullname}</div>
             </div>
-        </div>
+            <div className="bottom flex items-end justify-between p-2 text-sm border-t">
+                <div className="date text-xs">{getIdDate(laundry.date)}</div>
+                <div className="flex flex-col items-end">
+                    <span className="mobile:text-xs">Total pembayaran</span>
+                    <span className="text-boldPurple font-bold text-base mobile:text-sm">{laundry.weight ? getIdCurrency(laundry.weight * laundry.category.price) : "Rp --"}</span>
+                </div>
+            </div>
+        </Link>
     )
 }

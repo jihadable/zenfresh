@@ -1,4 +1,6 @@
 export const getIdDate = (date) => {
+    date = new Date(date)
+    
     const options = {
         weekday: "long",
         year: "numeric",

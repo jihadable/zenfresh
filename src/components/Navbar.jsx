@@ -14,30 +14,24 @@ export default function Navbar(){
         },
         {
             path: "/about",
-            title: "About"
+            title: "Tentang"
         },
         {
             path: "/services",
-            title: "Services"
+            title: "Layanan"
         },
         {
             path: "/order",
-            title: "Order"
+            title: "Pesan"
         }
     ]
 
-    const [showAccountMenu, setShowAccountMenu] = useState(false)
     const [showMobileMenu, setShowMobileMenu] = useState(false)
 
-    const accountMenuBtn = useRef(null)
     const mobileMenuBtn = useRef(null)
 
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!accountMenuBtn.current.contains(e.target)) {
-                setShowAccountMenu(false)
-            }
-
             if (!mobileMenuBtn.current.contains(e.target)) {
                 setShowMobileMenu(false)
             }
@@ -52,12 +46,11 @@ export default function Navbar(){
 
     const navigate = useNavigate()
     
-    const { setToken, login, isAdmin, user } = useContext(AuthContext)
+    const { login, setLogin, isAdmin, user } = useContext(AuthContext)
 
     const handleLogout = () => {
         localStorage.removeItem("token")
-        
-        setToken(localStorage.getItem("token"))
+        setLogin(false)
 
         navigate("/")
 
@@ -90,7 +83,7 @@ export default function Navbar(){
                 isAdmin &&
                 <>
                 <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Daftar Pesanan</Link>
-                <Link to={"/reviews"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Reviews</Link>
+                <Link to={"/reviews"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Ulasan</Link>
                 </>
             }
                 <button type="button" className="hidden mobile:block transition duration-100 text-red-600" onClick={handleLogout}>Logout</button>
@@ -104,12 +97,12 @@ export default function Navbar(){
             }
             {
                 login &&
-                <div className="account-container flex relative mobile:hidden">
-                    <button type="button" className="flex items-center gap-1 bg-black/[.1] rounded-full p-1" onClick={() => setShowAccountMenu(!showAccountMenu)} ref={accountMenuBtn}>
+                <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className="flex items-center gap-1 bg-black/[.1] rounded-full p-1" >
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-8 rounded-full" />
                         <IconChevronDown width={16} height={16} />
-                    </button>
-                    <div className={`account-menu absolute ${showAccountMenu ? "flex" : "hidden"} flex-col bg-white shadow-[0_0_30px_rgb(0,0,0,.3)] rounded-md top-[105%] right-0 py-1`}>
+                    </div>
+                    <ul tabIndex={0} className="dropdown-content flex flex-col mt-1 rounded-md z-[1] bg-white shadow-[0_0_20px_rgb(0,0,0,.2)] overflow-hidden">
                         <Link to={"/account"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconUserCircle stroke={1.5} className="text-boldPurple" />
                             <span>Akun</span>
@@ -130,7 +123,7 @@ export default function Navbar(){
                         </Link>
                         <Link to={"/reviews"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconMessage stroke={1.5} className="text-boldPurple" />
-                            <span className="whitespace-nowrap">Reviews</span>
+                            <span className="whitespace-nowrap">Ulasan</span>
                         </Link>
                         </>
                     }
@@ -138,7 +131,7 @@ export default function Navbar(){
                             <IconLogout stroke={1.5} />
                             <span>Logout</span>
                         </button>
-                    </div>
+                    </ul>
                 </div>
             }
             {

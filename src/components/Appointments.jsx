@@ -1,28 +1,20 @@
 import { IconBottle, IconChevronLeft } from "@tabler/icons-react"
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import Calendar from "react-calendar"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import { AuthContext } from "../contexts/AuthContext"
+import { LaundryContext } from "../contexts/LaundryContext"
 import { getIdCurrency } from "../utils/getIdCurrency"
 import { getIdDate } from "../utils/getIdDate"
 import goTop from "../utils/goTop"
 
 export default function Appointments(){
-
-    const [date, setDate] = useState(getYesterdayDate())
-
     const [laundry, setLaundry] = useState({
-        date: date,
         category: {}
     })
 
-    useEffect(() => {
-        setLaundry(laundry => ({...laundry, date: getIdDate(date)}))
-    }, [date])
-
-    const tabData = ["Kategori", "Tanggal", "Konfirmasi"]
+    const tabData = ["Kategori", "Konfirmasi"]
     const [showTab, setShowTab] = useState(1)
 
     return (
@@ -36,8 +28,7 @@ export default function Appointments(){
             }
             </ul>
             {showTab === 1 && <ChooseCategories laundry={laundry} setLaundry={setLaundry} setShowTab={setShowTab} />}
-            {showTab === 2 && <ChooseDate setLaundry={setLaundry} setShowTab={setShowTab} date={date} setDate={setDate} />}
-            {showTab === 3 && <Confirm laundry={laundry} setLaundry={setLaundry} setShowTab={setShowTab} setDate={setDate} />}
+            {showTab === 2 && <Confirm laundry={laundry} setLaundry={setLaundry} setShowTab={setShowTab} />}
         </section>
     )
 }
@@ -111,72 +102,32 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
     )
 }
 
-const getYesterdayDate = () => {
-    const yesterday = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-
-    return yesterday
-}
-
-function ChooseDate({ setLaundry, setShowTab, date, setDate }){
-
-    function dateDisabled({ date }){
-        const yesterday = getYesterdayDate()
-        const today = new Date()
-        
-        if (date.toDateString() === today.toDateString() && today.getHours() >= 18) {
-            return true
-        }
-    
-        return date < yesterday 
-    }
-
-    const handleChoose = value => {
-        setDate(value)
-
-        setShowTab(3)
-    }
+function Confirm({ laundry, setShowTab, setLaundry }){
 
     const handleBackBtn = () => {
-        setDate(getYesterdayDate())
-        setLaundry(laundry => ({...laundry, category: ""}))
+        setLaundry(laundry => ({...laundry, category: {}}))
 
         setShowTab(1)
     }
 
-    return (
-        <div className="date w-full flex flex-col items-center gap-4">
-            <BackBtn handleBackBtn={handleBackBtn} />
-            <Calendar className="border-none w-full shadow-2xl rounded-md" value={date} onChange={value => handleChoose(value)} tileDisabled={dateDisabled} locale="id-ID" />
-        </div>
-    )
-}
-
-function Confirm({ laundry, setShowTab, setDate }){
-
-    const handleBackBtn = () => {
-        setDate(getYesterdayDate())
-
-        setShowTab(2)
-    }
-
     const [isLoading, setIsLoading] = useState(false)
-
-    const { auth, token, login, user } = useContext(AuthContext)
+    const { login, user } = useContext(AuthContext)
+    const { setLaundries } = useContext(LaundryContext)
 
     const handleOrder = async() => {
         try {
             setIsLoading(true)
 
             const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+            const token = localStorage.getItem("token")
     
-            await axios.post(
+            const { data} = await axios.post(
                 laundriesAPIEndpoint, 
                 {
-                    ...laundry, 
+                    category: laundry.category.id,
+                    date: new Date(),
+                    is_paid: false,
                     status: "Menunggu konfirmasi",
-                    category: laundry.category.id, 
-                    start_date: laundry.date
                 }, 
                 {
                     headers: {
@@ -185,13 +136,12 @@ function Confirm({ laundry, setShowTab, setDate }){
                 }
             )
 
+            setLaundries(laundries => ([...laundries, data.laundry]))
             toast.success("Pemesanan berhasil")
 
             setTimeout(() => {
                 toast.info("Mohon menunggu konfirmasi")
             }, 750);
-
-            auth()
             
             setIsLoading(false)
         } catch (error){
@@ -218,9 +168,9 @@ function Confirm({ laundry, setShowTab, setDate }){
                     <span>Laundry {laundry.category.name}</span>
                 </div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
-                    <div className="date-drop">Penjemputan pakaian: {laundry.date}</div>
-                    <div className="days">Durasi pengerjaan: {laundry.category.duration}</div>
-                    <div className="price">{getIdCurrency(laundry.category.price)}/kg</div>
+                    <div className="date-drop">Tanggal: {getIdDate(new Date())}</div>
+                    <div className="days">Estimasi pengerjaan: {laundry.category.duration}</div>
+                    <div className="price font-bold text-primary">{getIdCurrency(laundry.category.price)}/kg</div>
                 </div>
                 <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(gratis ongkir)</span></div>
                 {

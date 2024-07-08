@@ -9,51 +9,67 @@ import goTop from "../utils/goTop";
 export default function Register(){
 
     const navigate = useNavigate()
-
-    const { setToken } = useContext(AuthContext)
     
     const [isLoading, setIsLoading] = useState(false)
+    const { setLogin, setUser, setIsAdmin } = useContext(AuthContext)
 
     const handleRegister = async(e) => {
         e.preventDefault()
+
+        const phonePattern = /^08\d{8,13}$/
+        const [
+            fullname, email, password, phone, address
+        ] = [
+            fullnameInput.current.value,
+            emailInput.current.value,
+            passwordInput.current.value,
+            phoneInput.current.value,
+            addressInput.current.value
+        ]
+
+        if (!phonePattern.test(phone)){
+            toast.error("No HP yang Anda masukkan tidak valid")
+
+            return
+        }
+        if (!password.length < 8){
+            toast.error("Password harus melebihi 8 karakter")
+
+            return
+        }
         
         try {
             setIsLoading(true)
 
             const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
             
-            const { data: response } = await axios.post(`${usersAPIEndpoint}/register`, {
-                fullname: fullnameInput.current.value,
-                email: emailInput.current.value,
-                password: passwordInput.current.value,
-                role: "customer"
+            const { data } = await axios.post(`${usersAPIEndpoint}/register`, {
+                fullname, email, password, phone, address, role: "customer"
             })
             
-            localStorage.setItem("token", response.token)
-            setToken(localStorage.getItem("token"))
+            localStorage.setItem("token", data.token)
+            setLogin(true)
+            setUser(data.user)
+            setIsAdmin(data.user.role === "admin")
             
             setIsLoading(false)
             
             navigate("/")
         } catch (error){
-            const response = error.response.data
-            
-            if (response.status === 400){
-                toast.error("Email yang dimasukkan sudah terdaftar")
-            }
-            else {
-                toast.error("Gagal melakukan registrasi")
-            }
+            const { message } = error.response.data
+            toast.error(message)
 
             setIsLoading(false)
         }
     }
 
-    const [fullnameInput, emailInput, passwordInput] = [useRef(null), useRef(null), useRef(null)]
+    const [fullnameInput, emailInput, passwordInput, phoneInput, addressInput] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)]
     
     const [isLabelFullnameInputOpen, setIsLabelFullnameInputOpen] = useState(false)
     const [isLabelEmailInputOpen, setIsLabelEmailInputOpen] = useState(false)
     const [isLabelPasswordInputOpen, setIsLabelPasswordInputOpen] = useState(false)
+    const [isLabelPhoneInputOpen, setIsLabelPhoneInputOpen] = useState(false)
+    const [isLabelAddressInputOpen, setIsLabelAddressInputOpen] = useState(false)
 
     const handleFieldBlur = (field) => {
         if (field === "fullname"){
@@ -61,14 +77,24 @@ export default function Register(){
                 setIsLabelFullnameInputOpen(false)
             }
         }
-        if (field === "email"){
+        else if (field === "email"){
             if (emailInput.current.value === ""){
                 setIsLabelEmailInputOpen(false)
             }
         }
-        if (field === "password"){
+        else if (field === "password"){
             if (passwordInput.current.value === ""){
                 setIsLabelPasswordInputOpen(false)
+            }
+        }
+        else if (field === "phone"){
+            if (phoneInput.current.value === ""){
+                setIsLabelPhoneInputOpen(false)
+            }
+        }
+        else if (field === "address"){
+            if (addressInput.current.value === ""){
+                setIsLabelAddressInputOpen(false)
             }
         }
     }
@@ -91,6 +117,14 @@ export default function Register(){
                 <div className={`password ${formFieldStyle}`}>
                     <label htmlFor="password-input" className={`${fieldLabelStyle} ${isLabelPasswordInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Password</label>
                     <input type="password" id="password-input" className={fieldInputStyle} required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
+                </div>
+                <div className={`phone ${formFieldStyle}`}>
+                    <label htmlFor="phone-input" className={`${fieldLabelStyle} ${isLabelPhoneInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>No HP</label>
+                    <input type="text" id="phone-input" className={fieldInputStyle} required onFocus={() => setIsLabelPhoneInputOpen(true)} onBlur={() => handleFieldBlur("phone")} ref={phoneInput} />
+                </div>
+                <div className={`address ${formFieldStyle}`}>
+                    <label htmlFor="address-input" className={`${fieldLabelStyle} ${isLabelAddressInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Alamat</label>
+                    <input type="text" id="address-input" className={fieldInputStyle} required onFocus={() => setIsLabelAddressInputOpen(true)} onBlur={() => handleFieldBlur("address")} ref={addressInput} />
                 </div>
                 {
                     isLoading ?

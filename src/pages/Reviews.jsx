@@ -23,7 +23,7 @@ export default function Reviews(){
         return (
             <>
             <Navbar />
-            <Hero page={"Reviews"} path={"/reviews"} />
+            <Hero page={"Ulasan"} path={"/reviews"} />
             <ReviewsSection />
             <Footer />
             </>
@@ -39,8 +39,13 @@ function ReviewsSection(){
         const getAllReviews = async() => {
             try {
                 const reviewsAPIEndpoint = import.meta.env.VITE_REVIEWS_API_ENDPOINT
+                const token = localStorage.getItem("token")
 
-                const { data } = await axios.get(reviewsAPIEndpoint)
+                const { data } = await axios.get(reviewsAPIEndpoint, {
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                })
 
                 setReviews(data.reviews)
             } catch(error){
@@ -53,7 +58,7 @@ function ReviewsSection(){
 
     return (
         <section className="reviews-section w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Reviews</div>
+            <div className="title text-3xl font-bold text-center">Ulasan</div>
         {
             reviews === null ?
             <span className="loading loading-spinner loading-lg bg-boldPurple"></span> :
