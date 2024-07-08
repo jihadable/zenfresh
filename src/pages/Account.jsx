@@ -127,12 +127,12 @@ function EditForm({ setEditTime, alamatInitialValue, phoneInitialValue }){
             )
 
             setUser(user => ({...user, phone, address}))
-            toast.success("Berhasil memperbarui data user")
+            toast.success("Berhasil memperbarui data pengguna")
 
             setIsLoading(false)
             setEditTime(false)
         } catch(error){
-            toast.error("Gagal memperbarui data user")
+            toast.error("Gagal memperbarui data pengguna")
             setIsLoading(false)
             setEditTime(false)
         }

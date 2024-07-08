@@ -178,9 +178,9 @@ function LaundryItem({ laundry }){
 
     return (
         <Link to={`/detail/${laundry.id}`} className="laundry-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple overflow-hidden shadow-2xl cursor-pointer">
-            <div className="top flex items-center justify-between p-2 border-b">
-                <div className="">ID: <span className="font-bold">{laundry.id}</span></div>
-                <div className="flex items-center gap-2">
+            <div className="top flex items-center justify-between p-2 border-b mobile:flex-col-reverse">
+                <div className="mobile:self-start">ID: <span className="font-bold">{laundry.id}</span></div>
+                <div className="flex items-center gap-2 mobile:self-end">
                     <div className={`font-bold px-2 py-1 rounded-md text-xs h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" onClick={(e) => e.preventDefault()} className="p-1">

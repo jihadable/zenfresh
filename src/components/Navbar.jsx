@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
 import { AuthContext } from "../contexts/AuthContext"
+import { LaundryContext } from "../contexts/LaundryContext"
 import goTop from "../utils/goTop"
 
 export default function Navbar(){
@@ -10,7 +11,7 @@ export default function Navbar(){
     const linksData = [
         {
             path: "/",
-            title: "Home"
+            title: "Beranda"
         },
         {
             path: "/about",
@@ -46,11 +47,14 @@ export default function Navbar(){
 
     const navigate = useNavigate()
     
-    const { login, setLogin, isAdmin, user } = useContext(AuthContext)
+    const { login, setLogin, isAdmin, user, setUser } = useContext(AuthContext)
+    const { setLaundries } = useContext(LaundryContext)
 
     const handleLogout = () => {
         localStorage.removeItem("token")
         setLogin(false)
+        setUser(null)
+        setLaundries(null)
 
         navigate("/")
 
@@ -97,7 +101,7 @@ export default function Navbar(){
             }
             {
                 login &&
-                <div className="dropdown dropdown-end">
+                <div className="dropdown dropdown-end mobile:hidden">
                     <div tabIndex={0} role="button" className="flex items-center gap-1 bg-black/[.1] rounded-full p-1" >
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-8 rounded-full" />
                         <IconChevronDown width={16} height={16} />

@@ -7,7 +7,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import goTop from "../utils/goTop";
 
 export default function Register(){
-
+    document.title = "ZenFresh | Register"
+    
     const navigate = useNavigate()
     
     const [isLoading, setIsLoading] = useState(false)
@@ -32,7 +33,7 @@ export default function Register(){
 
             return
         }
-        if (!password.length < 8){
+        if (password.length < 8){
             toast.error("Password harus melebihi 8 karakter")
 
             return

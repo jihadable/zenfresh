@@ -7,6 +7,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import goTop from "../utils/goTop";
 
 export default function Login(){
+    document.title = "ZenFresh | Login"
 
     const navigate = useNavigate()
     

@@ -9,7 +9,7 @@ export default function HomeHero(){
             <div className="text text-[#ccc] text-center mobile:px-4">We Care for Your Clothes, So You Can Care for Your Life.</div>
             <div className="btns flex items-center gap-4 mobile:flex-col">
                 <Link to="/services" onClick={goTop} className="bg-white w-fit flex gap-2 items-center px-4 py-2 text-black rounded-md">
-                    <span>Services kami</span>
+                    <span>Layanan kami</span>
                     <IconChevronRight stroke={1.5} />
                 </Link>
                 <Link to="/order" onClick={goTop} className="bg-boldPurple w-fit flex gap-2 items-center text-white px-4 py-2 rounded-md">

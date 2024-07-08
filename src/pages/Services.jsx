@@ -77,7 +77,7 @@ function OurServices(){
 
     return (
         <section className="our-services w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title font-bold text-3xl">Services Kami</div>
+            <div className="title font-bold text-3xl">Layanan Kami</div>
             <div className="services-items grid grid-cols-3 gap-4 mobile:flex mobile:flex-col">
             {
                 servicesData.map((item, index) => {
