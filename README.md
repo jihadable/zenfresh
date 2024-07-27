@@ -1,4 +1,4 @@
-# ZenFresh 🧼 
+# ZenFresh - Frontend
 
 ZenFresh adalah solusi terpercaya untuk kebutuhan laundry. Terdapat fitur pemesanan online yang memudahkan Pengguna untuk melakukan pemesanan secara praktis dan efisien.
 
