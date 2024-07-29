@@ -14,8 +14,6 @@ import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
 import PaymentStatus from "./pages/PaymentStatus";
 import Register from "./pages/Register";
-import Review from "./pages/Review";
-import Reviews from "./pages/Reviews";
 import Services from "./pages/Services";
 
 export default function Router(){
@@ -38,8 +36,6 @@ export default function Router(){
                     <Route path="/about" element={<About />}></Route>
                     <Route path="/services" element={<Services />}></Route>
                     <Route path="/order" element={<Order />}></Route>
-                    <Route path="/review" element={<Review />}></Route>
-                    <Route path="/reviews" element={<Reviews />}></Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />}></Route>
                     <Route path="/account" element={<Account />}></Route>
