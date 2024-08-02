@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 export const AuthContext = createContext()
 
@@ -40,8 +39,6 @@ export default function AuthProvider({ children }){
                 setLogin(false)
                 setIsAdmin(false)
                 setUser(null)
-                
-                toast.warn("Session habis, silahkan masuk ulang")
             }         
         }
 
