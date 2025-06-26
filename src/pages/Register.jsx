@@ -11,7 +11,7 @@ export default function Register(){
     
     const navigate = useNavigate()
     
-    const { login, setLogin, setUser, setIsAdmin } = useContext(AuthContext)
+    const { login, setLogin, setUser } = useContext(AuthContext)
     const [isLoading, setIsLoading] = useState(false)
 
     const handleRegister = async(e) => {
@@ -29,12 +29,12 @@ export default function Register(){
         ]
 
         if (!phonePattern.test(phone)){
-            toast.error("No HP yang Anda masukkan tidak valid")
+            toast.error("Phone number is invalid")
 
             return
         }
         if (password.length < 8){
-            toast.error("Password harus melebihi 8 karakter")
+            toast.error("Password must be contains 8 or more carachters")
 
             return
         }
@@ -42,22 +42,33 @@ export default function Register(){
         try {
             setIsLoading(true)
 
-            const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
+            const usersAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
             
-            const { data } = await axios.post(`${usersAPIEndpoint}/register`, {
-                fullname, email, password, phone, address, role: "customer"
+            const { data } = await axios.post(usersAPIEndpoint, {
+                query:
+                `mutation {
+                    register(
+                        name: "${fullname}"
+                        email: "${email}"
+                        password: "${password}"
+                        phone: "${phone}"
+                        address: "${address}"
+                    ){
+                        token
+                        user { id, name, email, phone, address, role }
+                    }
+                }`
             })
             
-            localStorage.setItem("token", data.token)
+            localStorage.setItem("token", data.register.token)
             setLogin(true)
-            setUser(data.user)
-            setIsAdmin(data.user.role === "admin")
+            setUser(data.register.user)
             
             setIsLoading(false)
             
             navigate("/")
         } catch (error){
-            toast.error("Gagl registrasi")
+            toast.error("Register fail")
 
             setIsLoading(false)
         }
@@ -114,7 +125,7 @@ export default function Register(){
             <div className="register w-full h-[100vh] flex flex-col gap-4 items-center justify-center mobile:px-4">
                 <form className="w-[40vw] flex flex-col items-center gap-4 bg-white/[.3] backdrop-blur-md p-4 rounded-md mobile:w-full tablet:w-[50vw]" onSubmit={handleRegister}>
                     <div className={`full-name ${formFieldStyle}`}>
-                        <label htmlFor="fullname-input" className={`${fieldLabelStyle} ${isLabelFullnameInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Nama lengkap</label>
+                        <label htmlFor="fullname-input" className={`${fieldLabelStyle} ${isLabelFullnameInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Name</label>
                         <input type="text" id="fullname-input" className={fieldInputStyle} required onFocus={() => setIsLabelFullnameInputOpen(true)} onBlur={() => handleFieldBlur("fullname")} ref={fullnameInput} />
                     </div>
                     <div className={`email ${formFieldStyle}`}>
@@ -126,11 +137,11 @@ export default function Register(){
                         <input type="password" id="password-input" className={fieldInputStyle} required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
                     </div>
                     <div className={`phone ${formFieldStyle}`}>
-                        <label htmlFor="phone-input" className={`${fieldLabelStyle} ${isLabelPhoneInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>No HP</label>
+                        <label htmlFor="phone-input" className={`${fieldLabelStyle} ${isLabelPhoneInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Phone</label>
                         <input type="text" id="phone-input" className={fieldInputStyle} required onFocus={() => setIsLabelPhoneInputOpen(true)} onBlur={() => handleFieldBlur("phone")} ref={phoneInput} />
                     </div>
                     <div className={`address ${formFieldStyle}`}>
-                        <label htmlFor="address-input" className={`${fieldLabelStyle} ${isLabelAddressInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Alamat</label>
+                        <label htmlFor="address-input" className={`${fieldLabelStyle} ${isLabelAddressInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Address</label>
                         <input type="text" id="address-input" className={fieldInputStyle} required onFocus={() => setIsLabelAddressInputOpen(true)} onBlur={() => handleFieldBlur("address")} ref={addressInput} />
                     </div>
                     {
@@ -143,13 +154,13 @@ export default function Register(){
                         </button>
                     }
                     <div className="extra">
-                        Sudah punya akun? <Link to={"/login"} className="text-white link-hover">Login</Link>
+                        Already have account? <Link to={"/login"} className="text-white link-hover">Login</Link>
                     </div>
                 </form>
                 <Link to="/" onClick={goTop} className="flex gap-2 items-center link-hover text-black">
                     <IconChevronLeft stroke={1.5} width={20} height={20} />
                     <IconHome stroke={1.5} />
-                    <span>Beranda</span>
+                    <span>Home</span>
                 </Link>
             </div>
         )

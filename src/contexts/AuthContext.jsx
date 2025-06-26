@@ -22,17 +22,25 @@ export default function AuthProvider({ children }){
             }
     
             try {
-                const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
+                const usersAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
     
-                const { data: response } = await axios.get(usersAPIEndpoint, {
-                    headers: {
-                        "Authorization" : "Bearer " + token
+                const { data } = await axios.post(usersAPIEndpoint, 
+                    {
+                        query:
+                        `query {
+                            user { id, name, email, phone, address, role }
+                        }`
+                    },
+                    {
+                        headers: {
+                            "Authorization" : "Bearer " + token
+                        }
                     }
-                })
+                )
     
                 setLogin(true)
-                setIsAdmin(response.user.role === "admin")
-                setUser(response.user)
+                setIsAdmin(data.data.user.role === "admin")
+                setUser(data.data.user)
             } catch (error){
                 localStorage.removeItem("token")
     

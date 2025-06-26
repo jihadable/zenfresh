@@ -5,33 +5,63 @@ import { AuthContext } from "./AuthContext";
 export const LaundryContext = createContext()
 
 export default function LaundryProvider({ children }){
-    const { login } = useContext(AuthContext)
+    const { login, user } = useContext(AuthContext)
     const [laundries, setLaundries] = useState(null)
 
     useEffect(() => {
         const getAllLaundries = async() => {
-            if (!login){
+            if (!login || !user){
                 return
             }
 
             try {
-                const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+                const laundriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
                 const token = localStorage.getItem("token")
 
-                const { data } = await axios.get(laundriesAPIEndpoint, {
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    }
-                })
+                let query
+                if (user.role === "admin"){
+                    query = 
+                    `query {
+                        orders {
+                            id, status, total_price, date, 
+                            category { id, name, price, description }
+                            user { id, name, email, phone, address }
+                        }
+                    }`
+                } else if (user.role === "customer"){
+                    query =
+                    `query {
+                        user_orders {
+                            id, status, total_price, date, 
+                            category { id, name, price, description }
+                            user { id, name, email, phone, address }
+                        }
+                    }`
+                }
 
-                setLaundries(data.laundries)
+                const { data } = await axios.post(laundriesAPIEndpoint, 
+                    {
+                        query
+                    },
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        }
+                    }
+                )
+
+                if (user.role === "admin"){
+                    setLaundries(data.data.orders)
+                } else if (user.role === "customer"){
+                    setLaundries(data.data.user_orders)
+                }
             } catch(error){
                 console.log(error)
             }
         }
 
         getAllLaundries()
-    }, [login])
+    }, [login, user])
     
     return (
         <LaundryContext.Provider value={{ laundries, setLaundries }}>

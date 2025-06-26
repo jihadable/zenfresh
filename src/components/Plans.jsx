@@ -4,30 +4,30 @@ export default function Plans(){
 
     const plansData = [
         {
-            title: "Pilih Waktu untuk Pemesanan",
+            title: "Choose Any Time For Delivery",
             svg: <IconAlarm stroke={1.5} width={64} height={64} />,
-            text: "Pilih waktu pengiriman yang sesuai dengan jadwal Anda."
+            text: "Select a convenient delivery time that fits your schedule."
         },
         {
-            title: "Kami Mencuci dan Mengeringkan Cucian Kotor",
+            title: "We Wash And Dry Dirty Laundry",
             svg: <IconBottle stroke={1.5} width={64} height={64} /> ,
-            text: "Tim kami menangani pencucian dan pengeringan pakaian kotor Anda dengan presisi."
+            text: "Our expert team takes care of washing and drying your soiled garments with precision."
         },
         {
-            title: "Kami Mengembalikan Cucian Bersih Anda",
+            title: "We Return Your Clean Laundry",
             svg: <IconTruckReturn stroke={1.5} width={64} height={64} />,
-            text: "Kami akan segera mengembalikan cucian Anda dalam keadaan segar, bersih, dan siap pakai."
+            text: "We'll promptly return your laundry, fresh, clean, and ready to wear."
         },
         {
-            title: "Bersantai dan Nikmati Pakaian Bersih Anda",
+            title: "Relax And Enjoy Clean Clothes",
             svg: <IconHeartHandshake stroke={1.5} width={64} height={64} />,
-            text: "Duduk, bersantai, dan nikmati kemewahan pakaian bersih dan rapi tanpa repot."
+            text: "Sit back, relax, and relish the luxury of clean, crisp clothes without the hassle."
         }
     ]
 
     return (
         <section className="plans w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Laundry mudah dan cepat</div>
+            <div className="title text-3xl font-bold text-center">Quick and easy laundry</div>
             <div className="plans-items flex gap-4 mobile:flex-col">
             {
                 plansData.map((item, index) => {

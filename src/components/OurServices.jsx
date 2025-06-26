@@ -8,25 +8,25 @@ export default function OurServices(){
 
     const servicesData = [
         {
-            title: "Cuci Kering",
-            text: "ZenFresh menawarkan layanan dry cleaning untuk kain halus dan khusus yang memerlukan metode pembersihan lembut untuk menjaga kualitasnya.",
+            title: "Dry Cleaning",
+            text: "ZenFresh offers dry cleaning services for delicate and special fabrics that require gentle cleaning methods to maintain their quality.",
             img: dryCleaning
         },
         {
-            title: "Penyetrikaan Pakaian",
-            text: "ZenFresh menyediakan layanan menyetrika untuk memberikan pakaian Anda tampilan yang rapi dan halus, memastikan pakaian bebas kusut dan siap dipakai.",
+            title: "Pressing and Ironing",
+            text: "ZenFresh provides pressing and ironing services to give your clothes a crisp and polished look, ensuring they are wrinkle-free and ready to wear.",
             img: ironing
         },
         {
-            title: "Penghapusan Noda",
-            text: "ZenFresh memiliki keahlian dalam menghilangkan noda, memastikan bahwa noda membandel sekalipun dapat ditangani secara efektif, sehingga meningkatkan peluang keberhasilan penghapusan.",
+            title: "Stain Removal",
+            text: "ZenFresh may have expertise in stain removal, ensuring that even stubborn stains are treated effectively, increasing the chances of successful removal.",
             img: stainRemoval
         }
     ]
 
     return (
         <section className="our-services w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Layanan Kami</div>
+            <div className="title text-3xl font-bold text-center">Our services</div>
             <div className="services-items w-full flex gap-4 mobile:flex-col">
             {
                 servicesData.map((item, index) => {

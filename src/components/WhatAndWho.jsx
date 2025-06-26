@@ -4,12 +4,12 @@ export default function WhatAndWho(){
 
     const whatAndWhoData = [
         {
-            title: "Siapa kami",
-            text: "Kami lebih dari sekedar layanan laundry. Kami adalah tim profesional berdedikasi yang bersemangat memberikan perawatan yang luar biasa. Perjalanan kami dimulai dengan visi untuk memberikan pengalaman laundry yang memadukan kenyamanan, kualitas, dan keberlanjutan ekonomi. Dengan keahlian bertahun-tahun di industri laundry, kami telah berkembang menjadi nama yang terpercaya. Kami bangga atas komitmen kami terhadap kepuasan pelanggan dan praktik sadar lingkungan. Kenali wajah-wajah di balik Zenfresh dan temukan layanan laundry yang peduli."
+            title: "Who We Are",
+            text: "We're more than just a laundry service. We're a team of dedicated professionals who are passionate about delivering exceptional garment care. Our journey began with a vision to provide a laundry experience that combines convenience, quality, and sustainability. With years of expertise in the laundry industry, we've grown to become a trusted name. We're proud of our commitment to customer satisfaction and environmentally conscious practices. Get to know the faces behind Zenfresh and discover a laundry service that cares."
         },
         {
-            title: "Apa yang kami kerjakan",
-            text: "Misi inti kami sederhana: membuat hidup Anda lebih mudah dan pakaian Anda lebih segar. Kami menawarkan layanan komprehensif yang mencakup pencucian, pengeringan, pelipatan, dan bahkan perawatan khusus untuk kain halus. Opsi penjemputan dan pengantaran kami yang efisien dirancang agar sesuai dengan jadwal Anda, memberikan Anda kenyamanan yang layak Anda dapatkan. Selain kebersihan, kami memprioritaskan umur panjang pakaian Anda dan kesejahteraan bumi kita. Melalui praktik ramah lingkungan dan keahlian laundry terbaik, kami bertujuan untuk mendefinisikan kembali pengalaman laundry Anda."
+            title: "What We Do",
+            text: "Our core mission is simple: to make your life easier and your clothes fresher. We specialize in the art of laundry, offering comprehensive services that include washing, drying, folding, and even specialized care for delicate fabrics. Our efficient pickup and delivery options are designed to fit seamlessly into your schedule, providing you with the convenience you deserve. Beyond cleanliness, we prioritize the longevity of your garments and the well-being of our planet. Through eco-friendly practices and top-notch laundry expertise, we aim to redefine your laundry experience."
         }
     ]
 

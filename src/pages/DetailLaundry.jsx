@@ -28,7 +28,7 @@ export default function DetailLaundry(){
     }
 
     if (login === true && isAdmin && laundries !== null && laundry !== undefined){
-        document.title = "ZenFresh | Detail Pesanan"
+        document.title = "ZenFresh | Order Detail"
 
         return (
             <>

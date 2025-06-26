@@ -14,16 +14,16 @@ export default function Appointments(){
         category: {}
     })
 
-    const tabData = ["Kategori", "Konfirmasi"]
+    const tabData = ["Category", "Confirmation"]
     const [showTab, setShowTab] = useState(1)
 
     return (
         <section className="appointments w-[80vw] mx-auto my-32 flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold">Pemesanan</div>
+            <div className="title text-3xl font-bold">Order</div>
             <ul className="steps">
             {
                 tabData.map((item, index) => {
-                    return <li className={`step step-neutral ${showTab > index ? "step-primary" : "step-neutral"}`} key={index}>{item}</li>
+                    return <li className={`step ${showTab > index ? "step-primary" : ""}`} key={index}>{item}</li>
                 })
             }
             </ul>
@@ -37,7 +37,7 @@ function BackBtn({ handleBackBtn }){
     return (
         <div className="back flex items-center gap-2 cursor-pointer self-start" onClick={handleBackBtn}>
             <IconChevronLeft stroke={1.5} className="text-black" />
-            <span>Kembali</span>
+            <span>Back</span>
         </div>
     )
 }
@@ -49,11 +49,16 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
     useEffect(() => {
         const getAllCategories = async() => {
             try {
-                const categoriesAPIEndpoint = import.meta.env.VITE_CATEGORIES_API_ENDPOINT
+                const categoriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
 
-                const { data: response } = await axios.get(categoriesAPIEndpoint)
+                const { data } = await axios.post(categoriesAPIEndpoint, {
+                    query: 
+                    `query {
+                        categories { id, name, price, description }
+                    }`
+                })
 
-                setCategories(response.categories)
+                setCategories(data.data.categories)
             } catch (error){
                 console.log(error)
             }
@@ -89,9 +94,9 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
                     <div className={`item w-full p-4 flex items-center gap-4 rounded-md shadow-2xl cursor-pointer ${laundry.category.name === category.name ? "bg-boldPurple text-white" : "bg-white"}`} key={index} onClick={() => handleChoose(category)}>
                         <IconBottle stroke={1.5} width={48} height={48} className={`${laundry.category.name === category.name ? "text-black" : "text-boldPurple"}`} />
                         <div className="info flex flex-col">
-                            <div className="title font-bold text-xl">{category.name}</div>
+                            <div className="title font-bold text-xl">{category.name} <span className="text-base font-normal">• {getIdCurrency(category.price)}/kg</span></div>
                             <div className="price-days flex gap-2 items-center text-black/[.7]">
-                                {getIdCurrency(category.price)}/kg • {category.duration}
+                                {category.description}
                             </div>
                         </div>
                     </div>
@@ -118,16 +123,20 @@ function Confirm({ laundry, setShowTab, setLaundry }){
         try {
             setIsLoading(true)
 
-            const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+            const laundriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
             const token = localStorage.getItem("token")
     
-            const { data} = await axios.post(
+            const { data } = await axios.post(
                 laundriesAPIEndpoint, 
                 {
-                    category: laundry.category.id,
-                    date: new Date(),
-                    is_paid: false,
-                    status: "Menunggu konfirmasi",
+                    query:
+                    `mutation {
+                        post_order(category: "${laundry.category.id}"){
+                            id, status, total_price, date, 
+                            category { id, name, price, description }
+                            user { id, name, email, phone, address }
+                        }
+                    }`
                 }, 
                 {
                     headers: {
@@ -136,18 +145,18 @@ function Confirm({ laundry, setShowTab, setLaundry }){
                 }
             )
 
-            setLaundries(laundries => ([...laundries, data.laundry]))
-            toast.success("Pemesanan berhasil")
+            setLaundries(laundries => ([...laundries, data.data.post_order]))
+            toast.success("Order placed")
 
             setTimeout(() => {
-                toast.info("Mohon menunggu konfirmasi")
+                toast.info("Please wait for confirmation")
             }, 750);
             
             setIsLoading(false)
         } catch (error){
             console.log(error)
             setIsLoading(false)
-            toast.error("Gagal melakukan pemesanan")
+            toast.error("Order fail")
         }
     }
 
@@ -166,19 +175,19 @@ function Confirm({ laundry, setShowTab, setLaundry }){
             <div className="confirm-info flex flex-col p-4 gap-4 rounded-md bg-white shadow-2xl">
                 <div className="title text-xl font-bold pb-4 border-b flex items-center gap-2">
                     <IconBottle stroke={1.5} className="text-boldPurple w-8 h-8" />
-                    <span>Laundry {laundry.category.name}</span>
+                    <span>{laundry.category.name}</span>
                 </div>
                 <div className="info flex flex-col gap-2 pb-4 border-b">
-                    <div className="date-drop">Tanggal: {getIdDate(new Date())}</div>
-                    <div className="days">Estimasi pengerjaan: {laundry.category.duration}</div>
+                    <div className="date-drop">Date: {getIdDate(new Date())}</div>
+                    <div className="desc">{laundry.category.description}</div>
                     <div className="price font-bold text-primary">{getIdCurrency(laundry.category.price)}/kg</div>
                 </div>
-                <div className="drop-and-pickup pb-4 border-b">Antar - Jemput oleh kurir <span className="font-bold">(gratis ongkir)</span></div>
+                <div className="drop-and-pickup pb-4 border-b">Pick up - delivery by courier <span className="font-bold">(free)</span></div>
                 {
                     !handleValidUser() &&
                     <div className="flex flex-col items-end">
                         <Link to={login === false ? "/login" : "/account"} className="px-4 py-2 rounded-md bg-boldPurple text-white self-end" onClick={goTop}>{login === false ? "Login" : "Perbarui akun"}</Link>
-                        <span className="text-xs text-red-600">Belum bisa melakukan pemesanan!, {login === false ? "silahkan login terlebih dahulu" : "data alamat atau No HP Anda masih kosong"}</span>
+                        <span className="text-xs text-red-600">Can not place order!, {login === false ? "please login" : "address or phone number is still empty"}</span>
                     </div>
                 }
                 { 
@@ -189,7 +198,7 @@ function Confirm({ laundry, setShowTab, setLaundry }){
                 }
                 {
                     handleValidUser() && !isLoading &&
-                    <button type="button" className="flex items-center justify-center w-36 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Pesan sekarang</button>
+                    <button type="button" className="flex items-center justify-center w-36 py-2 rounded-md bg-boldPurple text-white self-end" onClick={handleOrder}>Order now</button>
                 }
             </div>
         </div>

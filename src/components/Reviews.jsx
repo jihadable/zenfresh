@@ -4,14 +4,14 @@ export default function Reviews(){
 
     const reviewsData = [
         {
-            fullname: "Dewi",
-            address: "Condongcatur, Sleman",
-            content: "Saya sudah menjadi pelanggan ZenFresh selama lebih dari setahun, dan saya tidak pernah kecewa. Layanan mereka sangat nyaman, terutama bagi seseorang dengan jadwal sibuk seperti saya. Pakaian saya selalu kembali dalam kondisi sempurna, dan aroma segarnya luar biasa."
+            fullname: "Sarah Watson",
+            address: "Sleman",
+            content: "I've been a ZenFresh customer for over a year now, and I've never been disappointed. Their service is incredibly convenient, especially for someone with a busy schedule like mine. My clothes always come back in perfect condition, and the fresh scent is amazing. I couldn't ask for more from a laundry service."
         },
         {
-            fullname: "Yanto",
-            address: "Kota Gede, Yogyakarta",
-            content: "Saya baru-baru ini mencoba ZenFresh setelah mendapat beberapa rekomendasi dari teman. Hasilnya luar biasa! Layanan penjemputan dan pengantaran sangat efisien, dan pakaian saya kembali lebih bersih dan segar dibandingkan saat saya mencucinya sendiri. Saya sangat senang telah menemukan ZenFresh."
+            fullname: "John Doe",
+            address: "Yogyakarta",
+            content: "I recently tried ZenFresh after several recommendations from friends. The results have been outstanding! The pickup and delivery service is highly efficient, and my clothes come back cleaner and fresher than when I wash them myself. I'm thrilled to have discovered ZenFresh."
         }
     ]
 
@@ -25,7 +25,7 @@ export default function Reviews(){
                         <div className="text text-black/[.7]">{item.content}</div>
                         <div className="info flex justify-between items-center">
                             <div className="img-name flex items-center gap-4">
-                            <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${item.fullname}`}alt="Image" className="w-10 rounded-full h-fit" />
+                            <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${item.fullname}`}alt="Image" className="w-10 rounded-full h-fit" />
                                 <div className="name-place flex flex-col">
                                     <div className="name font-bold">{item.fullname}</div>
                                     <div className="place text-black/[.7]">{item.address}</div>

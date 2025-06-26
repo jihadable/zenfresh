@@ -12,7 +12,6 @@ import Laundries from "./pages/Laundries";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
-import PaymentStatus from "./pages/PaymentStatus";
 import Register from "./pages/Register";
 import Services from "./pages/Services";
 
@@ -43,7 +42,6 @@ export default function Router(){
                     <Route path="/detail/:id" element={<DetailLaundry />}></Route>
                     <Route path="/edit/:id" element={<EditLaundry />}></Route>
                     <Route path="/history" element={<History />}></Route>
-                    <Route path="/processing-payment-status" element={<PaymentStatus />}></Route>
                     <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </LaundryProvider>

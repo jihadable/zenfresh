@@ -1,3 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark;
+}
+
+button {
+  cursor: pointer;
+}
+
+@theme {
+  --color-boldPurple: #6c35de;
+  --color-primary: #6c35de;
+  --color-neutral: #dddddd;
+} 
+
+@custom-variant mobile (@media (max-width: 480px));
+@custom-variant tablet (@media (min-width: 481px) and (max-width: 1023px));

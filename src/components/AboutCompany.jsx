@@ -5,17 +5,17 @@ export default function AboutCompany(){
 
     const aboutUsData = [
         {
-            title: "Mesin Cuci",
+            title: "Wash machine",
             svg: <IconWashMachine stroke={1.5} width={40} height={40} />,
             number: 75
         },
         {
-            title: "Cabang",
+            title: "Outlets",
             svg: <IconBuildingWarehouse stroke={1.5} width={40} height={40} />,
             number: 5
         },
         {
-            title: "Karyawan",
+            title: "Employees",
             svg: <IconUsers stroke={1.5} width={40} height={40} />,
             number: 35
         }
@@ -24,7 +24,7 @@ export default function AboutCompany(){
     return(
         <section className="about-company w-[80vw] mx-auto my-32 flex gap-8 mobile:flex-col-reverse mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="left w-2/5 left-0 flex flex-col items-end gap-8 mobile:w-full">
-                <div className="title font-bold text-3xl text-right">Bersantai dalam Kenyamanan Murni</div>
+                <div className="title font-bold text-3xl text-right">Unwind in Pristine Comfort</div>
                 <div className="items flex flex-col items-end gap-4 mobile:items-center mobile:w-full">
                 {
                     aboutUsData.map((item, index) => {

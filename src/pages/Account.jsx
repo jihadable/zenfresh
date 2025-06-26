@@ -16,12 +16,12 @@ export default function Account(){
         return <NotFound />
     }
     else if (login === true){
-        document.title = "ZenFresh | Akun"
+        document.title = "ZenFresh | Account"
 
         return (
             <>
             <Navbar />
-            <Hero page={"Akun"} path={"/account"} />
+            <Hero page={"Account"} path={"/account"} />
             <MyAccount />
             <Footer />
             </>
@@ -40,7 +40,7 @@ function MyAccount(){
 
     return (
         <section className="my-account w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Akun Saya</div>
+            <div className="title text-3xl font-bold text-center">My account</div>
             {
                 user === null &&
                 <span className="loading loading-spinner loading-lg bg-boldPurple"></span>
@@ -49,30 +49,30 @@ function MyAccount(){
                 user && 
                 <div className="profile flex gap-4 mobile:w-full mobile:flex-col mobile:items-center">
                     <div className="img-profile">
-                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-48 rounded-full" />
+                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.name}`} alt="Image" className="w-48 rounded-full" />
                     </div>
                     <div className="profile-items w-60 flex flex-col gap-4 mobile:w-full">
-                        <div className="item flex flex-col">
-                            <div className="field text-sm">Nama Lengkap</div>
-                            <div className="value bg-white p-2 rounded-md shadow-lg">{user.fullname}</div>
-                        </div>
-                        <div className="item">
-                            <div className="field text-sm">Email</div>
-                            <div className="value bg-white p-2 rounded-md shadow-lg">{user.email}</div>
-                        </div>
                     {
                         editTime &&
-                        <EditForm setEditTime={setEditTime} alamatInitialValue={user.address} phoneInitialValue={user.phone} />
+                        <EditForm setEditTime={setEditTime} user={user} />
                     }
                     {
                         isAdmin === false && !editTime &&
                         <>
                         <div className="item">
-                            <div className="field text-sm">Alamat</div>
+                            <div className="field text-sm">Name</div>
+                            <div className="value bg-white p-2 rounded-md shadow-lg">{user.name || "-"}</div>
+                        </div>
+                        <div className="item">
+                            <div className="field text-sm">Email</div>
+                            <div className="value bg-white p-2 rounded-md shadow-lg">{user.email || "-"}</div>
+                        </div>
+                        <div className="item">
+                            <div className="field text-sm">Address</div>
                             <div className="value bg-white p-2 rounded-md shadow-lg">{user.address || "-"}</div>
                         </div>
                         <div className="item">
-                            <div className="field text-sm">No HP</div>
+                            <div className="field text-sm">Phone number</div>
                             <div className="value bg-white p-2 rounded-md shadow-lg">{user.phone || "-"}</div>
                         </div>
                         </>
@@ -91,21 +91,32 @@ function MyAccount(){
     )
 }
 
-function EditForm({ setEditTime, alamatInitialValue, phoneInitialValue }){
+function EditForm({ setEditTime, user }){
 
     const [isLoading, setIsLoading] = useState(false)
-    const [addressInput, phoneInput] = [useRef(null), useRef(null)]
+    const [nameInput, addressInput, phoneInput] = [useRef(null), useRef(null), useRef(null)]
     const { setUser } = useContext(AuthContext)
     
     const handleSaveEditedData = async() => {
         const phonePattern = /^08\d{8,13}$/
-        const [phone, address] = [
+        const [name, phone, address] = [
+            nameInput.current.value,
             phoneInput.current.value,
             addressInput.current.value
         ]
 
-        if (!phonePattern.test(phone)){
-            toast.error("No HP yang Anda masukkan tidak valid")
+        if (name === ""){
+            toast.warn("Name can not be empty")
+
+            return
+        }
+        if (!phonePattern.test(phone) || phone === ""){
+            toast.warn("Phone number is invalid")
+
+            return
+        }
+        if (address === ""){
+            toast.warn("Address can not be empty")
 
             return
         }
@@ -113,26 +124,36 @@ function EditForm({ setEditTime, alamatInitialValue, phoneInitialValue }){
         try {
             setIsLoading(true)
 
-            const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
+            const usersAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
             const token = localStorage.getItem("token")
 
-            await axios.patch(
-                usersAPIEndpoint, 
-                { phone, address }, 
+            await axios.post(usersAPIEndpoint, 
+                {
+                    query:
+                    `mutation {
+                        update_user(
+                            name: "${name}"
+                            phone: "${phone}",
+                            address: "${address}"
+                        ){
+                            id, name, email, phone, address, role    
+                        }
+                    }`
+                },
                 {
                     headers: {
-                        "Authorization": "Bearer " + token
+                        "Authorization": `Bearer ${token}`
                     }
                 }
             )
 
-            setUser(user => ({...user, phone, address}))
-            toast.success("Berhasil memperbarui data pengguna")
+            setUser(user => ({...user, name, phone, address}))
+            toast.success("Update user profile successfully")
 
             setIsLoading(false)
             setEditTime(false)
         } catch(error){
-            toast.error("Gagal memperbarui data pengguna")
+            toast.error("Update user profile failed")
             setIsLoading(false)
             setEditTime(false)
         }
@@ -141,12 +162,20 @@ function EditForm({ setEditTime, alamatInitialValue, phoneInitialValue }){
     return (
         <>
         <div className="item">
-            <div className="field text-sm">Alamat</div>
-            <input type="text" autoFocus className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={alamatInitialValue} required ref={addressInput} />
+            <div className="field text-sm">Name</div>
+            <input type="text" autoFocus className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={user.name} required ref={nameInput} />
         </div>
         <div className="item">
-            <div className="field text-sm">No HP</div>
-            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={phoneInitialValue} required ref={phoneInput} />
+            <div className="field text-sm">Email</div>
+            <div className="value bg-white p-2 rounded-md shadow-lg">{user.email}</div>
+        </div>
+        <div className="item">
+            <div className="field text-sm">Address</div>
+            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={user.address} required ref={addressInput} />
+        </div>
+        <div className="item">
+            <div className="field text-sm">Phone number</div>
+            <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={user.phone} required ref={phoneInput} />
         </div>
         <div className="btns flex gap-2 mt-2">
             <button type="button" className="w-full bg-red-600 p-2 text-white rounded-md" onClick={() => setEditTime(false)}>Cancel</button>

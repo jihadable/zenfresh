@@ -6,18 +6,18 @@ export default function WhyChooseUs(){
 
     const whyChooseUsData = [
         {
-            title: "Tim laundry yang expert",
-            text: "Tim laundry kami memiliki pengalaman bertahun-tahun dalam memberikan layanan laundry terbaik. Dari penghilangan noda hingga perawatan kain, kami unggul dalam setiap aspek pembersihan pakaian. Percayakan kepada kami untuk menghidupkan kembali pakaian Anda dan menjaganya tetap dalam kondisi murni.",
+            title: "Outstanding Laundry Expertise",
+            text: "Our team of laundry experts has years of experience in delivering top-notch laundry services. From stain removal to fabric care, we excel in every aspect of garment cleaning. Trust us to revive your clothes and keep them in pristine condition.",
             svg: <IconWashMachine stroke={1.5} className="w-14 h-1/4 mobile:w-10 mobile:h-10" />
         },
         {
-            title: "Kenyamanan sampai ujung jari Anda",
-            text: "Kami memahami gaya hidup Anda yang sibuk, itulah sebabnya kami menawarkan opsi penjadwalan dan pengiriman tanpa kerumitan. Dengan ZeFfresh, Anda dapat menikmati kenyamanan pakaian yang bersih dan segar tanpa mengganggu rutinitas harian Anda.",
+            title: "Convenience at Your Fingertips",
+            text: "We understand your busy lifestyle, which is why we offer hassle-free scheduling and delivery options. With ZeFfresh, you can enjoy the convenience of clean, fresh clothes without interrupting your daily routine.",
             svg: <IconTruckDelivery stroke={1.5} className="w-14 h-1/4 mobile:w-10 mobile:h-10" />
         },
         {
-            title: "Komitmen dalam Ekosistem",
-            text: "Di ZenFresh, kami peduli terhadap lingkungan. Laundry kami ramah lingkungan, menggunakan mesin yang efisien dan deterjen yang dapat terurai secara hayati. Bergabunglah dengan kami dalam komitmen kami terhadap kehidupan berkelanjutan sambil menikmati pakaian yang bersih dan harum.",
+            title: "Commitment to Sustainability",
+            text: "At ZenFresh, we care about the environment. Our laundry practices are eco-friendly, utilizing efficient machines and biodegradable detergents. Join us in our commitment to sustainable living while enjoying clean, fragrant garments.",
             svg: <IconPlant stroke={1.5} className="w-14 h-1/4 mobile:w-10 mobile:h-10" />
         }
     ]
@@ -26,7 +26,7 @@ export default function WhyChooseUs(){
         <section className="why-choose-us w-[80vw] mx-auto my-32 flex gap-8 mobile:flex-col mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="left flex flex-col gap-4 w-3/5 h-fit sticky top-20 mobile:static mobile:w-full mobile:items-center tablet:w-2/5">
                 <div className="title font-bold text-3xl mobile:text-center">Kenapa memilih ZenFresh?</div>
-                <div className="text text-black/[.7] mobile:text-center">Di ZenFresh, kami bangga menjadi layanan laundry pilihan Anda karena berbagai alasan. Laundry kami menghadirkan pengalaman yang berkesan, memastikan pakaian Anda menerima perawatan terbaik. Kami memahami pentingnya kenyamanan dalam hidup Anda, itulah sebabnya kami menawarkan pilihan penjadwalan dan pengiriman yang mudah.</div>
+                <div className="text text-black/[.7] mobile:text-center">At ZenFresh, we take pride in being your go-to laundry service for a myriad of reasons. Our laundry experts bring years of experience to the table, ensuring your clothes receive the best care possible. We understand the importance of convenience in your life, which is why we offer easy scheduling and delivery options.</div>
                 <Link to="/order" onClick={goTop} className="flex w-fit rounded-md gap-2 items-center px-4 py-2 bg-boldPurple text-white">
                     <span>Pesan sekarang</span>
                     <IconShoppingBag stroke={1.5} />

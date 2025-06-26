@@ -1,12 +1,8 @@
-export const getIdDate = (date) => {
-    date = new Date(date)
-    
-    const options = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    }
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
-    return date.toLocaleDateString("id-ID", options)
+dayjs.extend(relativeTime)
+
+export const getIdDate = (timestamp) => {
+    return dayjs(Number(timestamp)).fromNow()
 }

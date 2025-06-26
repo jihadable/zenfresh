@@ -1,4 +1,4 @@
-import { IconBottle, IconChevronDown, IconLogout, IconMenu2, IconMessage, IconUserCircle, IconX } from "@tabler/icons-react"
+import { IconBottle, IconChevronDown, IconLogout, IconMenu2, IconUserCircle, IconX } from "@tabler/icons-react"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
@@ -11,19 +11,19 @@ export default function Navbar(){
     const linksData = [
         {
             path: "/",
-            title: "Beranda"
+            title: "Home"
         },
         {
             path: "/about",
-            title: "Tentang"
+            title: "About"
         },
         {
             path: "/services",
-            title: "Layanan"
+            title: "Services"
         },
         {
             path: "/order",
-            title: "Pesan"
+            title: "Order"
         }
     ]
 
@@ -78,16 +78,15 @@ export default function Navbar(){
             {
                 login &&
                 <>
-                <Link to={"/account"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Akun</Link>
+                <Link to={"/account"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Account</Link>
             {
                 isAdmin === false &&   
-                <Link to={"/history"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Pesanan Saya</Link>
+                <Link to={"/history"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Order history</Link>
             }
             {
                 isAdmin &&
                 <>
-                <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Daftar Pesanan</Link>
-                <Link to={"/reviews"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Ulasan</Link>
+                <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Order history</Link>
                 </>
             }
                 <button type="button" className="hidden mobile:block transition duration-100 text-red-600" onClick={handleLogout}>Logout</button>
@@ -102,20 +101,20 @@ export default function Navbar(){
             {
                 login &&
                 <div className="dropdown dropdown-end mobile:hidden">
-                    <div tabIndex={0} role="button" className="flex items-center gap-1 bg-black/[.1] rounded-full p-1" >
-                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-8 rounded-full" />
+                    <button type="button" tabIndex={0} role="button" className="flex items-center gap-1 bg-black/[.1] rounded-full p-1" >
+                        <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.name}`} alt="Image" className="w-8 rounded-full" />
                         <IconChevronDown width={16} height={16} />
-                    </div>
+                    </button>
                     <ul tabIndex={0} className="dropdown-content flex flex-col mt-1 rounded-md z-[1] bg-white shadow-[0_0_20px_rgb(0,0,0,.2)] overflow-hidden">
                         <Link to={"/account"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconUserCircle stroke={1.5} className="text-boldPurple" />
-                            <span>Akun</span>
+                            <span>Account</span>
                         </Link>
                     {
                         isAdmin === false &&   
                         <Link to={"/history"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconBottle stroke={1.5} className="text-boldPurple" />
-                            <span className="whitespace-nowrap">Pesanan Saya</span>
+                            <span className="whitespace-nowrap">Order history</span>
                         </Link>
                     }
                     {
@@ -123,11 +122,7 @@ export default function Navbar(){
                         <>
                         <Link to={"/laundries"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
                             <IconBottle stroke={1.5} className="text-boldPurple" />
-                            <span className="whitespace-nowrap">Daftar Pesanan</span>
-                        </Link>
-                        <Link to={"/reviews"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
-                            <IconMessage stroke={1.5} className="text-boldPurple" />
-                            <span className="whitespace-nowrap">Ulasan</span>
+                            <span className="whitespace-nowrap">Order list</span>
                         </Link>
                         </>
                     }
@@ -145,7 +140,7 @@ export default function Navbar(){
             {
                 login &&
                 <Link to={"/account"} onClick={goTop} className="mobile-account hidden mobile:flex">
-                    <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
+                    <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
                 </Link>
             }
                 <div className="mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>

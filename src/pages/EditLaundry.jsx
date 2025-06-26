@@ -1,4 +1,4 @@
-import { IconChevronLeft, IconSquareCheck, IconStarFilled } from "@tabler/icons-react";
+import { IconChevronLeft, IconSquareCheck } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -31,12 +31,12 @@ export default function EditLaundry(){
     }
 
     if (login === true && isAdmin && laundries !== null && laundry !== undefined){
-        document.title = "ZenFresh | Edit Pesanan"
+        document.title = "ZenFresh | Edit Order"
 
         return (
             <>
             <Navbar />
-            <Hero page={"Edit Pesanan"} path={"/edit/" + id} />
+            <Hero page={"Edit Order"} path={"/edit/" + id} />
             <EditLaundryContainer laundry={laundry} />
             <Footer />
             </>
@@ -47,7 +47,7 @@ export default function EditLaundry(){
 function EditLaundryContainer({ laundry }){
     return (
         <section className="edit-laundry-container w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <div className="title text-3xl font-bold text-center">Edit Pesanan</div>
+            <div className="title text-3xl font-bold text-center">Edit order</div>
             {
                 laundry === null &&
                 <span className="loading loading-spinner loading-lg bg-boldPurple"></span>
@@ -64,29 +64,7 @@ function EditLaundryContent({ user, laundry }){
 
     const navigate = useNavigate()
 
-    const [
-        statusInput,
-        categoryInput,
-        weightInput
-    ] = [
-        useRef(null),
-        useRef(null),
-        useRef(null)
-    ]
-
-    const [categories, setCategories] = useState(null)
-
-    useEffect(() => {
-        const getAllCategories = async() => {
-            const categoriesAPIEndpoint = import.meta.env.VITE_CATEGORIES_API_ENDPOINT
-
-            const { data } = await axios.get(categoriesAPIEndpoint)
-
-            setCategories(data.categories)
-        }
-
-        getAllCategories()
-    }, [])
+    const [statusInput, totalPriceInput] = [useRef(null), useRef(null)]
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -94,18 +72,29 @@ function EditLaundryContent({ user, laundry }){
     
     const handleSave = async() => {
         const status = statusInput.current.value
-        const category = categoryInput.current.value
-        const weight = weightInput.current.value === "" || weightInput.current.value === "0" ? null : parseFloat(weightInput.current.value)
+        const totalPrice = totalPriceInput.current.value
 
         try {
             setIsLoading(true)
 
-            const laundriesAPIEndpoint = import.meta.env.VITE_LAUNDRIES_API_ENDPOINT
+            const laundriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
             const token = localStorage.getItem("token")
 
-            const { data } = await axios.patch(
-                `${laundriesAPIEndpoint}/${laundry.id}`,
-                { status, category,weight },
+            const { data } = await axios.post(laundriesAPIEndpoint,
+                {
+                    query:
+                    `mutation {
+                        update_order(
+                            id: "${laundry.id}"
+                            status: "${status}"
+                            total_price: ${totalPrice}
+                        ){
+                            id, status, total_price, date, 
+                            category { id, name, price, description }
+                            user { id, name, email, phone, address }
+                        }
+                    }`
+                },
                 {
                     headers: {
                         "Authorization": "Bearer " + token
@@ -113,30 +102,16 @@ function EditLaundryContent({ user, laundry }){
                 }
             )
 
-            setLaundries(laundries => laundries.map(l => l.id === laundry.id ? data.laundry : l))
-            toast.success("Berhasil memperbarui pesanan")
+            setLaundries(laundries => laundries.map(l => l.id === laundry.id ? data.data.update_order : l))
+            toast.success("Update order successfully")
 
             setIsLoading(false)
 
             navigate("/laundries")
         } catch(error) {
-            toast.error("Gagal memperbarui pesanan")
+            toast.error("Update order failed")
             setIsLoading(false)
         }
-    }
-
-    const getArrayOfStarsFromRating = rate => {
-        const arr = []
-
-        for (let i = 1; i <= rate; i++){
-            arr.push(true)
-        }
-
-        for (let i = rate + 1; i <= 5; i++){
-            arr.push(false)
-        }
-
-        return arr
     }
 
     return (
@@ -150,92 +125,74 @@ function EditLaundryContent({ user, laundry }){
                     <div className="info-item">
                         <div className="field text-sm">Status</div>
                         <select defaultValue={laundry.status} className="value select select-sm select-primary" ref={statusInput}>
-                            <option>Menunggu konfirmasi</option>
-                            <option>Kurir menjemput pakaian pelanggan</option>
-                            <option>Menunggu proses pencucian</option>
-                            <option>Kurir mengantar pakaian pelanggan</option>
-                            <option>Menunggu pembayaran</option>
-                            <option>Selesai</option>
+                            <option>Pending confirmation</option>
+                            <option>Pickup in progress</option>
+                            <option>Processing</option>
+                            <option>Delivery in progress</option>
+                            <option>Awaiting payment</option>
+                            <option>Cancelled</option>
+                            <option>Completed</option>
                         </select>
+                    </div>
+                    <div className="info-item">
+                        <div className="field text-sm">Category</div>
+                        <div className="value font-bold">{laundry.category.name} ({getIdCurrency(laundry.category.price)}/kg)</div>
                     </div>
                 {
-                    categories !== null &&   
-                    <div className="info-item">
-                        <div className="field text-sm">Kategori</div>
-                        <select defaultValue={laundry.category.id} className="value select select-sm select-primary" ref={categoryInput}>
-                        {
-                            categories.map(category => (
-                                <option value={category.id} key={category.id}>{category.name} ({getIdCurrency(category.price)})</option>
-                            ))
-                        }
-                        </select>
-                    </div>
+                    // categories !== null &&   
+                    // <div className="info-item">
+                    //     <div className="field text-sm">Category</div>
+                    //     <select defaultValue={laundry.category.id} className="value select select-sm select-primary" ref={categoryInput}>
+                    //     {
+                    //         categories.map(category => (
+                    //             <option value={category.id} key={category.id}>{category.name} ({getIdCurrency(category.price)}/kg)</option>
+                    //         ))
+                    //     }
+                    //     </select>
+                    // </div>
                 }
                     <div className="info-item">
-                        <div className="field text-sm">Berat total(kg)</div>
-                        <div className="value flex items-center gap-1">
-                            <input type="number" min={0} className="p-2 py-1 rounded-md border border-boldPurple outline-none" defaultValue={laundry.weight ? laundry.weight : 0} ref={weightInput} />
+                        <div className="field text-sm">Total</div>
+                        <div>
+                            <span>Rp </span>
+                            <input type="number" min={0} className="value border border-primary rounded-sm outline-none p-1" defaultValue={laundry.total_price || 0} ref={totalPriceInput} />
                         </div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Tanggal</div>
-                        <div className="value">{getIdDate(laundry.date)}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Metode pembayaran</div>
-                        <div className="field">{laundry.payment_method || "--"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Total pembayaran</div>
-                        <div className="value font-bold text-boldPurple">{laundry.weight !== null ? getIdCurrency(laundry.weight * laundry.category.price) : "Rp --"}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Status pembayaran</div>
-                        <div className={`font-bold px-2 py-1 rounded-md text-xs w-fit h-fit ${laundry.is_paid ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100"}`}>{laundry.is_paid ? "Sudah bayar" : "Belum bayar"}</div>
+                        {/* <div className="value font-bold text-boldPurple">{laundry.total_price ? getIdCurrency(laundry.total_price) : "Rp --"}</div> */}
                     </div>
                 </div>
                 <div className="user-info w-full flex flex-col gap-4">
                     <div className="info-item">
-                        <div className="field text-sm">Rate dari pelanggan</div>
-                        <div className="value flex items-center">
-                        {
-                            laundry.rate ?
-                            getArrayOfStarsFromRating(laundry.rate).map((item, index) => (
-                                <IconStarFilled className={`${item ? "text-boldPurple" : "text-neutral"}`} width={12} height={12} key={index} />
-                            )) : 
-                            "Tidak ada"
-                        }
-                        </div>
+                        <div className="field text-sm">Name</div>
+                        <div className="value">{user.name}</div>
                     </div>
                     <div className="info-item">
-                        <div className="field text-sm">Nama lengkap Pelanggan</div>
-                        <div className="value">{user.fullname}</div>
-                    </div>
-                    <div className="info-item">
-                        <div className="field text-sm">Alamat</div>
+                        <div className="field text-sm">Address</div>
                         <div className="value">{user.address || "-"}</div>
                     </div>
                     <div className="info-item">
-                        <div className="field text-sm">No HP</div>
+                        <div className="field text-sm">Phone</div>
                         <div className="value">{user.phone || "-"}</div>
                     </div>
                 </div>
             </div>
-            <div className="actions flex items-center gap-2 p-2 self-end">
-                <Link to={"/laundries"} className="cancel flex items-center justify-center w-20 py-1 gap-1 bg-red-600 text-white rounded-md text-sm">
-                    <IconChevronLeft stroke={1.5} width={20} height={20} />
-                    <span>Cancel</span>
-                </Link>
-                {
-                    isLoading ?
-                    <div className="flex items-center justify-center w-20 py-1 rounded-md text-white bg-green-600">
-                        <span className="loading loading-spinner loading-sm"></span>
-                    </div> :
-                    <button type="button" className="save flex items-center justify-center w-20 py-1 gap-1 bg-green-600  text-white rounded-md text-sm" onClick={handleSave}>
-                        <IconSquareCheck stroke={1.5} width={20} height={20} />
-                        <span>Save</span>
-                    </button>
-                }
+            <div className="actions flex items-end justify-between p-2">
+                <div className="text-sm">{getIdDate(laundry.date)}</div>
+                <div className="flex items-center gap-2 self-end">
+                    <Link to={"/laundries"} className="cancel flex items-center justify-center w-20 py-1 gap-1 bg-red-600 text-white rounded-md text-sm">
+                        <IconChevronLeft stroke={1.5} width={20} height={20} />
+                        <span>Cancel</span>
+                    </Link>
+                    {
+                        isLoading ?
+                        <div className="flex items-center justify-center w-20 py-1 rounded-md text-white bg-green-600">
+                            <span className="loading loading-spinner loading-sm"></span>
+                        </div> :
+                        <button type="button" className="save flex items-center justify-center w-20 py-1 gap-1 bg-green-600  text-white rounded-md text-sm" onClick={handleSave}>
+                            <IconSquareCheck stroke={1.5} width={20} height={20} />
+                            <span>Save</span>
+                        </button>
+                    }
+                </div>
             </div>
         </div>
     )

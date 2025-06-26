@@ -20,23 +20,32 @@ export default function Login(){
         try {
             setIsLoading(true)
 
-            const usersAPIEndpoint = import.meta.env.VITE_USERS_API_ENDPOINT
+            const usersAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
             
-            const { data } = await axios.post(`${usersAPIEndpoint}/login`, {
-                email: emailInput.current.value,
-                password: passwordInput.current.value
+            const { data } = await axios.post(usersAPIEndpoint, {
+                query:
+                `mutation {
+                    login(
+                        email: "${emailInput.current.value}"
+                        password: "${passwordInput.current.value}"
+                    ){
+                        token
+                        user { id, name, email, phone, address, role }
+                    }
+                }`
             })
             
-            localStorage.setItem("token", data.token)
+            localStorage.setItem("token", data.data.login.token)
             setLogin(true)
-            setUser(data.user)
-            setIsAdmin(data.user.role === "admin")
+            setUser(data.data.login.user)
+            setIsAdmin(data.data.login.user.role === "admin")
 
             setIsLoading(false)
             
             navigate("/")
         } catch (error){
-            toast.error("Gagal login")
+            console.log(error)
+            toast.error("Login fail")
             setIsLoading(false)
         }
     }
@@ -91,13 +100,13 @@ export default function Login(){
                         </button>
                     }
                     <div className="extra">
-                        Belum punya akun? <Link to={"/register"} className="text-white link-hover">Register</Link>
+                        Do not have account yet? <Link to={"/register"} className="text-white link-hover">Register</Link>
                     </div>
                 </form>
                 <Link to="/" onClick={goTop} className="flex gap-2 items-center link-hover text-black">
                     <IconChevronLeft stroke={1.5} width={20} height={20} />
                     <IconHome stroke={1.5} />
-                    <span>Beranda</span>
+                    <span>Home</span>
                 </Link>
             </div>
         )
