@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AuthProvider from "./contexts/AuthContext";
 import LaundryProvider from "./contexts/LaundryContext";
+import UnseenLaundryProvider from "./contexts/UnseenLaundyContext";
 import About from "./pages/About";
 import Account from "./pages/Account";
 import DetailLaundry from "./pages/DetailLaundry";
@@ -21,6 +22,7 @@ export default function Router(){
         <BrowserRouter>
             <AuthProvider>
             <LaundryProvider>
+            <UnseenLaundryProvider>
                 <ToastContainer
                 position="top-center"
                 autoClose={1000}
@@ -44,6 +46,7 @@ export default function Router(){
                     <Route path="/history" element={<History />}></Route>
                     <Route path="*" element={<NotFound />}></Route>
                 </Routes>
+            </UnseenLaundryProvider>
             </LaundryProvider>
             </AuthProvider>
         </BrowserRouter>

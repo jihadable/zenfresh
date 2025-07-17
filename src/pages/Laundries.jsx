@@ -8,6 +8,7 @@ import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../contexts/AuthContext";
 import { LaundryContext } from "../contexts/LaundryContext";
+import { UnseenLaundryContext } from "../contexts/UnseenLaundyContext";
 import { getIdCurrency } from "../utils/getIdCurrency";
 import { getIdDate } from "../utils/getIdDate";
 import NotFound from "./NotFound";
@@ -36,6 +37,36 @@ export default function Laundries(){
 }
 
 function LaundryContainer({ laundries }){
+    const { setUnseenLaundries } = useContext(UnseenLaundryContext)
+
+    useEffect(() => {
+        const markAllSeen = async() => {
+            try {
+                const token = localStorage.getItem("token")
+                const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
+
+                await axios.post(graphqlEndpoint, 
+                    {
+                        query: 
+                        `mutation {
+                            mark_all_seen
+                        }`
+                    },
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    }
+                )
+
+                setUnseenLaundries(0)
+            } catch(error){
+                console.log(error)
+            }
+        }
+
+        markAllSeen()
+    }, [])
 
     const filterLabels = ["All", "Completed"]
     const [selectedFilter, setSelectedFilter] = useState("All")

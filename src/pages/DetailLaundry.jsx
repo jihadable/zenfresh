@@ -7,63 +7,21 @@ import { AuthContext } from "../contexts/AuthContext"
 import { LaundryContext } from "../contexts/LaundryContext"
 import { getIdCurrency } from "../utils/getIdCurrency"
 import { getIdDate } from "../utils/getIdDate"
-import { wsClient } from "../utils/graphqlws"
 import NotFound from "./NotFound"
 
 export default function DetailLaundry(){
     const { id } = useParams()
     const { login, isAdmin } = useContext(AuthContext)
     const { laundries } = useContext(LaundryContext)
-
-    const subscribeUpdateLaundry = (id, callback) => {
-        return wsClient.subscribe(
-            {
-                query: `
-                    subscription ($id: ID!) {
-                        order_updated(id: $id) {
-                            id, status, total_price, date, 
-                            category { id, name, price, description }
-                            user { id, name, email, phone, address }
-                        }
-                    }
-                `,
-                variables: { id },
-            },
-            {
-                next: ({ data }) => {
-                    if (data?.order_updated) {
-                        callback(data.order_updated)
-                    }
-                },
-                error: (err) => console.error("Subscription error:", err),
-                complete: () => console.log("Subscription complete")
-            }
-        )
-    }
     
     const [laundry, setLaundry] = useState(null)
     
     useEffect(() => {
+        console.log(laundries)
         if (laundries !== null){
-            setLaundry(laundries.filter(laundry => laundry.id === id)[0])
+            setLaundry(laundries.find(laundry => laundry.id === id))
         }
     }, [id, laundries])
-
-    useEffect(() => {
-        if (laundry){
-            const dispose = subscribeUpdateLaundry(laundry.id, (updatedLaundry) => {
-                setLaundry(updatedLaundry)
-            });
-
-            return () => {
-                if (typeof dispose === "function") {
-                    dispose()
-                } else if (dispose?.unsubscribe) {
-                    dispose.unsubscribe()
-                }
-            }
-        }
-    }, [laundry])
     
     if (login === false || isAdmin === false || (laundry === undefined && laundries !== null)){
         return <NotFound />

@@ -57,7 +57,7 @@ function MyAccount(){
                         <EditForm setEditTime={setEditTime} user={user} />
                     }
                     {
-                        isAdmin === false && !editTime &&
+                        !editTime &&
                         <>
                         <div className="item">
                             <div className="field text-sm">Name</div>

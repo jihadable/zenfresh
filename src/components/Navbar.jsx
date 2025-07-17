@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/logo.png"
 import { AuthContext } from "../contexts/AuthContext"
 import { LaundryContext } from "../contexts/LaundryContext"
+import { UnseenLaundryContext } from "../contexts/UnseenLaundyContext"
 import goTop from "../utils/goTop"
 
 export default function Navbar(){
@@ -49,6 +50,7 @@ export default function Navbar(){
     
     const { login, setLogin, isAdmin, user, setUser } = useContext(AuthContext)
     const { setLaundries } = useContext(LaundryContext)
+    const { unseenLaundries } = useContext(UnseenLaundryContext)
 
     const handleLogout = () => {
         localStorage.removeItem("token")
@@ -86,7 +88,7 @@ export default function Navbar(){
             {
                 isAdmin &&
                 <>
-                <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Order history</Link>
+                <Link to={"/laundries"} onClick={goTop} className="hidden mobile:block transition duration-100 hover:text-boldPurple">Order list {unseenLaundries > 0 ? `(${unseenLaundries})` : ""}</Link>
                 </>
             }
                 <button type="button" className="hidden mobile:block transition duration-100 text-red-600" onClick={handleLogout}>Logout</button>
@@ -104,6 +106,8 @@ export default function Navbar(){
                     <button type="button" tabIndex={0} role="button" className="flex items-center gap-1 bg-black/[.1] rounded-full p-1" >
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.name}`} alt="Image" className="w-8 rounded-full" />
                         <IconChevronDown width={16} height={16} />
+                        {unseenLaundries > 0 && isAdmin === true &&
+                        <div className="unseen absolute top-0 right-0 w-3 h-3 rounded-full bg-red-500 text-white text-xs"></div>}
                     </button>
                     <ul tabIndex={0} className="dropdown-content flex flex-col mt-1 rounded-md z-[1] bg-white shadow-[0_0_20px_rgb(0,0,0,.2)] overflow-hidden">
                         <Link to={"/account"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
@@ -120,9 +124,9 @@ export default function Navbar(){
                     {
                         isAdmin &&
                         <>
-                        <Link to={"/laundries"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20">
+                        <Link to={"/laundries"} onClick={goTop} className="flex items-center gap-1 px-2 py-2 hover:bg-boldPurple/20 relative">
                             <IconBottle stroke={1.5} className="text-boldPurple" />
-                            <span className="whitespace-nowrap">Order list</span>
+                            <span className="whitespace-nowrap">Order list {unseenLaundries > 0 ? `(${unseenLaundries})` : ""}</span>
                         </Link>
                         </>
                     }

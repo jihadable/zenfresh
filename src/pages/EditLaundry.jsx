@@ -138,31 +138,17 @@ function EditLaundryContent({ user, laundry }){
                         <div className="field text-sm">Category</div>
                         <div className="value font-bold">{laundry.category.name} ({getIdCurrency(laundry.category.price)}/kg)</div>
                     </div>
-                {
-                    // categories !== null &&   
-                    // <div className="info-item">
-                    //     <div className="field text-sm">Category</div>
-                    //     <select defaultValue={laundry.category.id} className="value select select-sm select-primary" ref={categoryInput}>
-                    //     {
-                    //         categories.map(category => (
-                    //             <option value={category.id} key={category.id}>{category.name} ({getIdCurrency(category.price)}/kg)</option>
-                    //         ))
-                    //     }
-                    //     </select>
-                    // </div>
-                }
                     <div className="info-item">
                         <div className="field text-sm">Total</div>
                         <div>
                             <span>Rp </span>
                             <input type="number" min={0} className="value border border-primary rounded-sm outline-none p-1" defaultValue={laundry.total_price || 0} ref={totalPriceInput} />
                         </div>
-                        {/* <div className="value font-bold text-boldPurple">{laundry.total_price ? getIdCurrency(laundry.total_price) : "Rp --"}</div> */}
                     </div>
                 </div>
                 <div className="user-info w-full flex flex-col gap-4">
                     <div className="info-item">
-                        <div className="field text-sm">Name</div>
+                        <div className="field text-sm">Customer</div>
                         <div className="value">{user.name}</div>
                     </div>
                     <div className="info-item">
