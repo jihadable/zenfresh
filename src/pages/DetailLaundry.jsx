@@ -17,7 +17,6 @@ export default function DetailLaundry(){
     const [laundry, setLaundry] = useState(null)
     
     useEffect(() => {
-        console.log(laundries)
         if (laundries !== null){
             setLaundry(laundries.find(laundry => laundry.id === id))
         }
@@ -39,6 +38,8 @@ export default function DetailLaundry(){
             </>
         )
     }
+
+    return null
 }
 
 function DetailLaundryContainer({ laundry }){

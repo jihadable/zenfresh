@@ -34,6 +34,8 @@ export default function Laundries(){
             </>
         )
     }
+
+    return null
 }
 
 function LaundryContainer({ laundries }){

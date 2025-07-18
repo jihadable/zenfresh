@@ -30,6 +30,8 @@ export default function History(){
             </>
         )
     }
+
+    return null
 }
 
 function OrderHistory({ laundries }){

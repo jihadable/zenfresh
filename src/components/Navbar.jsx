@@ -144,7 +144,7 @@ export default function Navbar(){
             {
                 login &&
                 <Link to={"/account"} onClick={goTop} className="mobile-account hidden mobile:flex">
-                    <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
+                    <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.name}`} alt="Image" className="w-10 rounded-full" />
                 </Link>
             }
                 <div className="mobile-menu-btn hidden relative hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>

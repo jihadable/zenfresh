@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getWSClient } from "../utils/graphqlws";
+import { pusher } from "../utils/pusher";
 import { AuthContext } from "./AuthContext";
 
 export const UnseenLaundryContext = createContext()
@@ -39,29 +39,13 @@ export default function UnseenLaundryProvider({ children }){
     }, [login, user])
 
     useEffect(() => {
-        const token = localStorage.getItem("token")
-        const wsClient = getWSClient({
-            "Authorization": `Bearer ${token}`
+        const channel = pusher.subscribe("order_channel")
+        channel.bind("unseen_orders", data => {
+            setUnseenLaundries(data)
         })
-        const unsubscribe = wsClient.subscribe(
-            {
-                query: `
-                    subscription {
-                        unseen_orders
-                    }
-                `
-            },
-            {
-                next: ({ data }) => {
-                    if (data?.unseen_orders) {
-                        setUnseenLaundries(data.unseen_orders)
-                    }
-                }
-            }
-        )
 
         return () => {
-            unsubscribe()
+            pusher.unsubscribe("order_channel")
         }
     }, [])
     

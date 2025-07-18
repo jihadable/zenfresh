@@ -22,7 +22,7 @@ export default function EditLaundry(){
     
     useEffect(() => {
         if (laundries !== null){
-            setLaundry(laundries.filter(laundry => laundry.id === id)[0])
+            setLaundry(laundries.find(laundry => laundry.id === id))
         }
     }, [id, laundries])
     
@@ -42,6 +42,8 @@ export default function EditLaundry(){
             </>
         )
     }
+
+    return null
 }
 
 function EditLaundryContainer({ laundry }){

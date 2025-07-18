@@ -165,4 +165,6 @@ export default function Register(){
             </div>
         )
     }
+
+    return null
 }

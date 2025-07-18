@@ -15,7 +15,7 @@ export default function Account(){
     if (login === false){
         return <NotFound />
     }
-    else if (login === true){
+    if (login === true){
         document.title = "ZenFresh | Account"
 
         return (
@@ -27,9 +27,7 @@ export default function Account(){
             </>
         )
     }
-    else {
-        return null
-    }
+    return null
 }
 
 function MyAccount(){
