@@ -53,12 +53,12 @@ export default function Navbar(){
     const { unseenLaundries } = useContext(UnseenLaundryContext)
 
     const handleLogout = () => {
-        localStorage.removeItem("token")
+        navigate("/")
+        
         setLogin(false)
         setUser(null)
         setLaundries(null)
-
-        navigate("/")
+        localStorage.removeItem("token")
 
         goTop()
     }

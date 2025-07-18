@@ -35,14 +35,14 @@ export default function Login(){
                 }`
             })
             
+            navigate("/")
+            
             localStorage.setItem("token", data.data.login.token)
             setLogin(true)
             setUser(data.data.login.user)
             setIsAdmin(data.data.login.user.role === "admin")
 
             setIsLoading(false)
-            
-            navigate("/")
         } catch (error){
             console.log(error)
             toast.error("Login fail")
