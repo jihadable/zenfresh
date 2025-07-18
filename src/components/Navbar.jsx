@@ -143,14 +143,14 @@ export default function Navbar(){
             }
             {
                 login &&
-                <Link to={"/account"} onClick={goTop} className="mobile-account hidden relative mobile:flex">
+                <Link to={"/account"} onClick={goTop} className="mobile-account hidden mobile:flex">
                     <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.fullname}`} alt="Image" className="w-10 rounded-full" />
-                    {unseenLaundries > 0 && isAdmin === true &&
-                    <div className="unseen absolute top-0 right-0 w-3 h-3 rounded-full bg-red-500 text-white text-xs"></div>}
                 </Link>
             }
-                <div className="mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>
+                <div className="mobile-menu-btn hidden relative hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => {setShowMobileMenu(!showMobileMenu)}} ref={mobileMenuBtn}>
                     <IconMenu2 stroke={1.5} />
+                    {unseenLaundries > 0 && isAdmin === true &&
+                    <div className="unseen absolute -top-2 -right-2 w-3 h-3 rounded-full bg-red-500 text-white text-xs"></div>}
                 </div>
             </div>
             <div className={`overlay absolute z-40 top-0 left-0 right-0 h-[100vh] bg-black/[.5] hidden ${showMobileMenu ? "active" : ""}`}></div>
