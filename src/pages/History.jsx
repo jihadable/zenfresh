@@ -64,7 +64,7 @@ function OrderHistory({ laundries }){
                     <div className="history-filter w-full flex items-center mobile:gap-4 mobile:overflow-x-auto">
                 {
                     filterLabels.map((label, index) => (
-                        <button type="button" className={`w-full py-2 border-b-2 whitespace-nowrap ${selectedFilter === label ? "border-b-boldPurple" : "border-b-neutral-content"}`} key={index} onClick={() => setSelectedFilter(label)}>{label}</button>
+                        <button type="button" className={`w-full py-2 border-b-2 rounded-t-md whitespace-nowrap ${selectedFilter === label ? "border-b-boldPurple bg-boldPurple/5" : "border-b-neutral-content"}`} key={index} onClick={() => setSelectedFilter(label)}>{label}</button>
                     ))
                 }
                     </div>
@@ -90,9 +90,6 @@ function OrderHistory({ laundries }){
 }
 
 function HistoryItem({ laundry }){
-    
-    const { setLaundries } = useContext(LaundryContext)
-
     return (
         <div className="history-item bg-white flex flex-col rounded-md border-b-2 border-b-boldPurple shadow-2xl text-sm mobile:text-xs">
             <div className="top flex items-center justify-between p-2 border-b">
