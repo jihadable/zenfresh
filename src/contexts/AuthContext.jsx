@@ -11,9 +11,9 @@ export default function AuthProvider({ children }){
     useEffect(() => {
         const auth = async() => {
 
-            const token = localStorage.getItem("token")
+            const jwt = localStorage.getItem("jwt")
     
-            if (!token){
+            if (!jwt){
                 setLogin(false)
                 setIsAdmin(null)
                 setUser(null)
@@ -28,12 +28,12 @@ export default function AuthProvider({ children }){
                     {
                         query:
                         `query {
-                            user { id, name, email, phone, address, role }
+                            user { id, name, email, phone, address, role, is_email_verified }
                         }`
                     },
                     {
                         headers: {
-                            "Authorization" : "Bearer " + token
+                            "Authorization" : `Bearer ${jwt}`
                         }
                     }
                 )
@@ -42,7 +42,7 @@ export default function AuthProvider({ children }){
                 setIsAdmin(data.data.user.role === "admin")
                 setUser(data.data.user)
             } catch (error){
-                localStorage.removeItem("token")
+                localStorage.removeItem("jwt")
     
                 setLogin(false)
                 setIsAdmin(false)

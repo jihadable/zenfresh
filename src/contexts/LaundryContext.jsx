@@ -17,7 +17,7 @@ export default function LaundryProvider({ children }){
 
             try {
                 const laundriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
-                const token = localStorage.getItem("token")
+                const jwt = localStorage.getItem("jwt")
 
                 let query
                 if (user.role === "admin"){
@@ -46,7 +46,7 @@ export default function LaundryProvider({ children }){
                     },
                     {
                         headers: {
-                            "Authorization": "Bearer " + token
+                            "Authorization": "Bearer " + jwt
                         }
                     }
                 )
@@ -70,7 +70,6 @@ export default function LaundryProvider({ children }){
             setLaundries(laundries => [data, ...laundries])
         })
         channel.bind("order_updated", data => {
-            console.log(data)
             setLaundries(laundries => laundries.map(l => l.id === data.id ? data : l))
         })
 

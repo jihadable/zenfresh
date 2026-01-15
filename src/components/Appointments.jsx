@@ -117,14 +117,20 @@ function Confirm({ laundry, setShowTab, setLaundry }){
 
     const [isLoading, setIsLoading] = useState(false)
     const { login, user } = useContext(AuthContext)
-    const { setLaundries } = useContext(LaundryContext)
+    const { laundries, setLaundries } = useContext(LaundryContext)
 
     const handleOrder = async() => {
         try {
+            if (user.is_email_verified === false){
+                toast.warn("Email not verified")
+
+                return
+            }
+
             setIsLoading(true)
 
             const laundriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
-            const token = localStorage.getItem("token")
+            const jwt = localStorage.getItem("jwt")
     
             const { data } = await axios.post(
                 laundriesAPIEndpoint, 
@@ -140,12 +146,16 @@ function Confirm({ laundry, setShowTab, setLaundry }){
                 }, 
                 {
                     headers: {
-                        "Authorization": "Bearer " + token
+                        "Authorization": "Bearer " + jwt
                     }
                 }
             )
 
-            setLaundries(laundries => ([data.data.post_order, ...laundries]))
+            if (data.errors){
+                const { message } = data.errors[0]
+                throw new Error(message)
+            }
+
             toast.success("Order placed")
 
             setTimeout(() => {

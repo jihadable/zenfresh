@@ -29,15 +29,15 @@ export default function Login(){
                         email: "${emailInput.current.value}"
                         password: "${passwordInput.current.value}"
                     ){
-                        token
-                        user { id, name, email, phone, address, role }
+                        jwt
+                        user { id, name, email, phone, address, role, is_email_verified }
                     }
                 }`
             })
             
             navigate("/")
             
-            localStorage.setItem("token", data.data.login.token)
+            localStorage.setItem("jwt", data.data.login.jwt)
             setLogin(true)
             setUser(data.data.login.user)
             setIsAdmin(data.data.login.user.role === "admin")

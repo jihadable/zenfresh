@@ -36,6 +36,36 @@ function MyAccount(){
 
     const [editTime, setEditTime] = useState(false)
 
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleSendEmailVerification = async() => {
+        try {
+            setIsLoading(true)
+            const jwt = localStorage.getItem("jwt")
+            const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
+
+            await axios.post(graphqlEndpoint,
+                {
+                    query:
+                    `mutation {
+                        send_email_verification { id }
+                    }`
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`
+                    }
+                }
+            )
+
+            toast.success("Email verification sent")
+            setIsLoading(false)
+        } catch(error){
+            setIsLoading(false)
+            console.log(error)
+        }
+    } 
+
     return (
         <section className="my-account w-[80vw] my-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
             <div className="title text-3xl font-bold text-center">My account</div>
@@ -45,11 +75,11 @@ function MyAccount(){
             }
             {
                 user && 
-                <div className="profile flex gap-4 mobile:w-full mobile:flex-col mobile:items-center">
+                <div className="profile flex gap-4 w-full mobile:w-full mobile:flex-col mobile:items-center">
                     <div className="img-profile">
                         <img src={`${import.meta.env.VITE_AVATAR_GENERATOR}&name=${isAdmin ? "_a" : user.name}`} alt="Image" className="w-48 rounded-full" />
                     </div>
-                    <div className="profile-items w-60 flex flex-col gap-4 mobile:w-full">
+                    <div className="profile-items w-full flex flex-col gap-4 mobile:w-full">
                     {
                         editTime &&
                         <EditForm setEditTime={setEditTime} user={user} />
@@ -64,6 +94,19 @@ function MyAccount(){
                         <div className="item">
                             <div className="field text-sm">Email</div>
                             <div className="value bg-white p-2 rounded-md shadow-lg">{user.email || "-"}</div>
+                        {
+                            user.is_email_verified === false &&
+                            <div className="text-sm mt-1">
+                                <p className="text-red-500">Email not verified</p>
+                            {
+                                isLoading ?
+                                <div className="py-1.5 text-white flex justify-center w-48 rounded-md bg-boldPurple">
+                                    <span className="loading loading-spinner loading-md"></span>
+                                </div> :
+                                <button type="button" className="py-2 w-48 rounded-md text-white bg-boldPurple text-sm" onClick={handleSendEmailVerification}>Send email verification</button>
+                            }
+                            </div>
+                        }
                         </div>
                         <div className="item">
                             <div className="field text-sm">Address</div>
@@ -123,7 +166,7 @@ function EditForm({ setEditTime, user }){
             setIsLoading(true)
 
             const usersAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
-            const token = localStorage.getItem("token")
+            const jwt = localStorage.getItem("jwt")
 
             await axios.post(usersAPIEndpoint, 
                 {
@@ -140,7 +183,7 @@ function EditForm({ setEditTime, user }){
                 },
                 {
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `Bearer ${jwt}`
                     }
                 }
             )

@@ -58,7 +58,7 @@ export default function Navbar(){
         setLogin(false)
         setUser(null)
         setLaundries(null)
-        localStorage.removeItem("token")
+        localStorage.removeItem("jwt")
 
         goTop()
     }

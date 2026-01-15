@@ -54,13 +54,13 @@ export default function Register(){
                         phone: "${phone}"
                         address: "${address}"
                     ){
-                        token
+                        jwt
                         user { id, name, email, phone, address, role }
                     }
                 }`
             })
             
-            localStorage.setItem("token", data.register.token)
+            localStorage.setItem("jwt", data.register.jwt)
             setLogin(true)
             setUser(data.register.user)
             

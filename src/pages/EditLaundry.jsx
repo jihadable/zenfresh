@@ -80,7 +80,7 @@ function EditLaundryContent({ user, laundry }){
             setIsLoading(true)
 
             const laundriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
-            const token = localStorage.getItem("token")
+            const jwt = localStorage.getItem("jwt")
 
             const { data } = await axios.post(laundriesAPIEndpoint,
                 {
@@ -99,7 +99,7 @@ function EditLaundryContent({ user, laundry }){
                 },
                 {
                     headers: {
-                        "Authorization": "Bearer " + token
+                        "Authorization": "Bearer " + jwt
                     }
                 }
             )

@@ -12,7 +12,7 @@ export default function UnseenLaundryProvider({ children }){
     useEffect(() => {
         const getUnseenLaundries = async() => {
             try {
-                const token = localStorage.getItem("token")
+                const jwt = localStorage.getItem("jwt")
                 const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
 
                 const { data } = await axios.post(graphqlEndpoint, 
@@ -24,7 +24,7 @@ export default function UnseenLaundryProvider({ children }){
                     },
                     {
                         headers: {
-                            "Authorization" : "Bearer " + token
+                            "Authorization" : "Bearer " + jwt
                         }
                     }
                 )
