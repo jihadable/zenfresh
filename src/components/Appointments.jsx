@@ -145,7 +145,7 @@ function Confirm({ laundry, setShowTab, setLaundry }){
                 }
             )
 
-            setLaundries(laundries => ([...laundries, data.data.post_order]))
+            setLaundries(laundries => ([data.data.post_order, ...laundries]))
             toast.success("Order placed")
 
             setTimeout(() => {
