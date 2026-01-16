@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
 import Register from "./pages/Register";
 import Services from "./pages/Services";
+import VerifyEmail from "./pages/VerifyEmail";
 
 export default function Router(){
 
@@ -44,6 +45,7 @@ export default function Router(){
                     <Route path="/detail/:id" element={<DetailLaundry />}></Route>
                     <Route path="/edit/:id" element={<EditLaundry />}></Route>
                     <Route path="/history" element={<History />}></Route>
+                    <Route path="/verify-email/:token" element={<VerifyEmail />}></Route>
                     <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </UnseenLaundryProvider>

@@ -59,14 +59,18 @@ export default function Register(){
                     }
                 }`
             })
+
+            if (data.errors){
+                const { message } = data.errors[0]
+                throw new Error(message)
+            }
             
             localStorage.setItem("jwt", data.register.jwt)
             setLogin(true)
             setUser(data.register.user)
             
-            setIsLoading(false)
-            
             navigate("/")
+            setIsLoading(false)
         } catch (error){
             toast.error("Register fail")
 

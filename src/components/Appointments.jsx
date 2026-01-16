@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import { AuthContext } from "../contexts/AuthContext"
-import { LaundryContext } from "../contexts/LaundryContext"
 import { getIdCurrency } from "../utils/getIdCurrency"
 import { getIdDate } from "../utils/getIdDate"
 import goTop from "../utils/goTop"
@@ -57,6 +56,11 @@ function ChooseCategories({ laundry, setLaundry, setShowTab }){
                         categories { id, name, price, description }
                     }`
                 })
+
+                if (data.errors){
+                    const { message } = data.errors[0]
+                    throw new Error(message)
+                }
 
                 setCategories(data.data.categories)
             } catch (error){
@@ -117,7 +121,6 @@ function Confirm({ laundry, setShowTab, setLaundry }){
 
     const [isLoading, setIsLoading] = useState(false)
     const { login, user } = useContext(AuthContext)
-    const { laundries, setLaundries } = useContext(LaundryContext)
 
     const handleOrder = async() => {
         try {

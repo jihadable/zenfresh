@@ -104,6 +104,11 @@ function EditLaundryContent({ user, laundry }){
                 }
             )
 
+            if (data.errors){
+                const { message } = data.errors[0]
+                throw new Error(message)
+            }
+
             setLaundries(laundries => laundries.map(l => l.id === laundry.id ? data.data.update_order : l))
             toast.success("Update order successfully")
 

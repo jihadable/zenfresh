@@ -44,7 +44,7 @@ function MyAccount(){
             const jwt = localStorage.getItem("jwt")
             const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
 
-            await axios.post(graphqlEndpoint,
+            const { data } = await axios.post(graphqlEndpoint,
                 {
                     query:
                     `mutation {
@@ -58,10 +58,16 @@ function MyAccount(){
                 }
             )
 
+            if (data.errors){
+                const { message } = data.errors[0]
+                throw new Error(message)
+            }
+
             toast.success("Email verification sent")
             setIsLoading(false)
         } catch(error){
             setIsLoading(false)
+            toast.error("Fail to send email verification")
             console.log(error)
         }
     } 
@@ -187,6 +193,11 @@ function EditForm({ setEditTime, user }){
                     }
                 }
             )
+
+            if (data.errors){
+                const { message } = data.errors[0]
+                throw new Error(message)
+            }
 
             setUser(user => ({...user, name, phone, address}))
             toast.success("Update user profile successfully")

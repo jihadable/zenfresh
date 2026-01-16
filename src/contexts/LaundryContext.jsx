@@ -51,6 +51,11 @@ export default function LaundryProvider({ children }){
                     }
                 )
 
+                if (data.errors){
+                    const { message } = data.errors[0]
+                    throw new Error(message)
+                }
+
                 if (user.role === "admin"){
                     setLaundries(data.data.orders)
                 } else if (user.role === "customer"){

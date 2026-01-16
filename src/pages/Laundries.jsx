@@ -47,7 +47,7 @@ function LaundryContainer({ laundries }){
                 const jwt = localStorage.getItem("jwt")
                 const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
 
-                await axios.post(graphqlEndpoint, 
+                const { data } = await axios.post(graphqlEndpoint, 
                     {
                         query: 
                         `mutation {
@@ -60,6 +60,11 @@ function LaundryContainer({ laundries }){
                         }
                     }
                 )
+
+                if (data.errors){
+                    const { message } = data.errors[0]
+                    throw new Error(message)
+                }
 
                 setUnseenLaundries(0)
             } catch(error){
@@ -187,7 +192,7 @@ function LaundryItem({ laundry }){
                 const laundriesAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
                 const jwt = localStorage.getItem("jwt")
     
-                await axios.post(laundriesAPIEndpoint, 
+                const { data } = await axios.post(laundriesAPIEndpoint, 
                     {
                         query:
                         `mutation {
@@ -200,6 +205,11 @@ function LaundryItem({ laundry }){
                         }
                     }
                 )
+
+                if (data.errors){
+                    const { message } = data.errors[0]
+                    throw new Error(message)
+                }
 
                 setLaundries(laundries => laundries.filter(l => l.id !== laundry.id))
                 toast.success("Delete order successfully")

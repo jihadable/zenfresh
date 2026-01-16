@@ -37,6 +37,11 @@ export default function AuthProvider({ children }){
                         }
                     }
                 )
+
+                if (data.errors){
+                    const { message } = data.errors[0]
+                    throw new Error(message)
+                }
     
                 setLogin(true)
                 setIsAdmin(data.data.user.role === "admin")

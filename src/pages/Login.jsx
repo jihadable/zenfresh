@@ -34,14 +34,18 @@ export default function Login(){
                     }
                 }`
             })
-            
-            navigate("/")
+
+            if (data.errors){
+                const { message } = data.errors[0]
+                throw new Error(message)
+            }
             
             localStorage.setItem("jwt", data.data.login.jwt)
             setLogin(true)
             setUser(data.data.login.user)
             setIsAdmin(data.data.login.user.role === "admin")
-
+            
+            navigate("/")
             setIsLoading(false)
         } catch (error){
             console.log(error)

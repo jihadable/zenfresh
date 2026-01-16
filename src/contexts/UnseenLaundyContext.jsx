@@ -29,6 +29,11 @@ export default function UnseenLaundryProvider({ children }){
                     }
                 )
 
+                if (data.errors){
+                    const { message } = data.errors[0]
+                    throw new Error(message)
+                }
+
                 setUnseenLaundries(data.data.unseen_orders)
             } catch(error){
                 console.log(error)
