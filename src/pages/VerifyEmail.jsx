@@ -53,7 +53,7 @@ export default function VerifyEmail(){
     }
     if (status == "error"){
         return (
-            <section className="flex flex-col h-screen w-screen items-center justify-center">
+            <section className="flex flex-col h-screen w-screen items-center justify-center p-2">
                 <div className="text-xl font-bold text-center">ZenFresh</div>
                 <img src={logo} alt="ZenFresh Logo" className="w-12" />
                 <div className="flex items-center mt-4 gap-1 text-center"><p>Verification failed</p> <IconX className="text-red-500" /></div>
@@ -67,7 +67,7 @@ export default function VerifyEmail(){
     }
     if (status == "success"){
         return (
-            <section className="flex flex-col h-screen w-screen items-center justify-center">
+            <section className="flex flex-col h-screen w-screen items-center justify-center p-2">
                 <div className="text-xl font-bold text-center">ZenFresh</div>
                 <img src={logo} alt="ZenFresh Logo" className="w-12" />
                 <div className="flex items-center mt-4 gap-1 text-center"><p>Email verified</p> <IconCheck className="text-green-500" /></div>

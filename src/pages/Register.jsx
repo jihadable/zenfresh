@@ -11,7 +11,7 @@ export default function Register(){
     
     const navigate = useNavigate()
     
-    const { login, setLogin, setUser } = useContext(AuthContext)
+    const { login, setLogin, setUser, setIsAdmin } = useContext(AuthContext)
     const [isLoading, setIsLoading] = useState(false)
 
     const handleRegister = async(e) => {
@@ -55,25 +55,28 @@ export default function Register(){
                         address: "${address}"
                     ){
                         jwt
-                        user { id, name, email, phone, address, role }
+                        user { id, name, email, phone, address, role, is_email_verified }
                     }
                 }`
             })
 
+            console.log(data)
             if (data.errors){
                 const { message } = data.errors[0]
                 throw new Error(message)
             }
             
-            localStorage.setItem("jwt", data.register.jwt)
+            localStorage.setItem("jwt", data.data.register.jwt)
             setLogin(true)
-            setUser(data.register.user)
+            setUser(data.data.register.user)
+            setIsAdmin(false)
+            toast.success("Email verification sent")
             
             navigate("/")
             setIsLoading(false)
         } catch (error){
             toast.error("Register fail")
-
+            console.log(error)
             setIsLoading(false)
         }
     }

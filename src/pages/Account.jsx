@@ -183,7 +183,7 @@ function EditForm({ setEditTime, user }){
                             phone: "${phone}",
                             address: "${address}"
                         ){
-                            id, name, email, phone, address, role    
+                            id, name, email, phone, address, role, is_email_verified
                         }
                     }`
                 },
@@ -199,7 +199,7 @@ function EditForm({ setEditTime, user }){
                 throw new Error(message)
             }
 
-            setUser(user => ({...user, name, phone, address}))
+            setUser(data.data.update_user)
             toast.success("Update user profile successfully")
 
             setIsLoading(false)
