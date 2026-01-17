@@ -1,4 +1,4 @@
-import { IconEdit } from "@tabler/icons-react";
+import { IconEdit, IconLockCog } from "@tabler/icons-react";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -34,7 +34,8 @@ function MyAccount(){
 
     const { isAdmin, user } = useContext(AuthContext)
 
-    const [editTime, setEditTime] = useState(false)
+    const [isShowUpdateProfileForm, setIsShowUpdateProfileForm] = useState(false)
+    const [isShowUpdatePasswordForm, setIsShowUpdatePasswordForm] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -87,11 +88,15 @@ function MyAccount(){
                     </div>
                     <div className="profile-items w-full flex flex-col gap-4 mobile:w-full">
                     {
-                        editTime &&
-                        <EditForm setEditTime={setEditTime} user={user} />
+                        isShowUpdateProfileForm &&
+                        <UpdateProfileForm setIsShowUpdateProfileForm={setIsShowUpdateProfileForm} user={user} />
                     }
                     {
-                        !editTime &&
+                        isShowUpdatePasswordForm &&
+                        <ChangePasswordForm setIsShowUpdatePasswordForm={setIsShowUpdatePasswordForm} user={user} />
+                    }
+                    {
+                        !isShowUpdateProfileForm && !isShowUpdatePasswordForm &&
                         <>
                         <div className="item">
                             <div className="field text-sm">Name</div>
@@ -122,11 +127,20 @@ function MyAccount(){
                             <div className="field text-sm">Phone number</div>
                             <div className="value bg-white p-2 rounded-md shadow-lg">{user.phone || "-"}</div>
                         </div>
+                    {
+                        isAdmin === false && !isShowUpdatePasswordForm &&
+                        <div className="item">
+                            <button type="button" className="flex rounded-md bg-red-500 text-white p-2 items-center gap-2" onClick={() => setIsShowUpdatePasswordForm(true)}>
+                                <IconLockCog stroke={1.5} />
+                                <span>Change password</span>
+                            </button>
+                        </div>
+                    }
                         </>
                     }
                     {
-                        isAdmin === false && !editTime &&
-                        <button type="button" className="bg-boldPurple flex items-center gap-2 justify-center mt-2 p-2 text-white rounded-md" onClick={() => setEditTime(true)}>
+                        isAdmin === false && !isShowUpdateProfileForm && !isShowUpdatePasswordForm &&
+                        <button type="button" className="bg-boldPurple flex items-center gap-2 justify-center mt-2 p-2 text-white rounded-md" onClick={() => setIsShowUpdateProfileForm(true)}>
                             <IconEdit stroke={1.5} />
                             <span>Edit profile</span>
                         </button>
@@ -138,7 +152,7 @@ function MyAccount(){
     )
 }
 
-function EditForm({ setEditTime, user }){
+function UpdateProfileForm({ setIsShowUpdateProfileForm, user }){
 
     const [isLoading, setIsLoading] = useState(false)
     const [nameInput, addressInput, phoneInput] = [useRef(null), useRef(null), useRef(null)]
@@ -203,11 +217,11 @@ function EditForm({ setEditTime, user }){
             toast.success("Update user profile successfully")
 
             setIsLoading(false)
-            setEditTime(false)
+            setIsShowUpdateProfileForm(false)
         } catch(error){
             toast.error("Update user profile failed")
             setIsLoading(false)
-            setEditTime(false)
+            setIsShowUpdateProfileForm(false)
         }
     }
 
@@ -230,7 +244,7 @@ function EditForm({ setEditTime, user }){
             <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" defaultValue={user.phone} required ref={phoneInput} />
         </div>
         <div className="btns flex gap-2 mt-2">
-            <button type="button" className="w-full bg-red-600 p-2 text-white rounded-md" onClick={() => setEditTime(false)}>Cancel</button>
+            <button type="button" className="w-full bg-red-600 p-2 text-white rounded-md" onClick={() => setIsShowUpdateProfileForm(false)}>Cancel</button>
             {
                 isLoading ?
                 <div className="w-full flex items-center justify-center p-2 h-full rounded-md text-white bg-green-600 self-end">
@@ -239,6 +253,109 @@ function EditForm({ setEditTime, user }){
                 <button type="button" className="w-full flex items-center justify-center bg-green-600 p-2 text-white rounded-md" onClick={handleSaveEditedData}>Save</button>
             }
         </div>
+        </>
+    )
+}
+
+function ChangePasswordForm({ setIsShowUpdatePasswordForm, user }){
+    const [isLoading, setIsLoading] = useState(false)
+    const [oldPasswordInput, newPasswordInput, newPasswordConfirmationInput] = [
+        useRef(null), useRef(null), useRef(null)
+    ]
+
+    const handleUpdatePassword = async(event) => {
+        event.preventDefault()
+
+        const oldPassword = oldPasswordInput.current.value
+        const newPassword = newPasswordInput.current.value
+        const newPasswordConfirmation = newPasswordConfirmationInput.current.value
+
+        if (newPassword != newPasswordConfirmation){
+            toast.warn("New password confirmation unmatched")
+
+            return
+        }
+
+        if (oldPassword == newPassword){
+            toast.warn("New password can not be same with old password")
+
+            return
+        }
+        
+        try {
+            setIsLoading(true)
+
+            const jwt = localStorage.getItem("jwt")
+            const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
+
+            const { data } = await axios.post(graphqlEndpoint,
+                {
+                    query:
+                    `mutation {
+                        update_user_password(password: "${oldPassword}", new_password: "${newPassword}"){ id }
+                    }`
+                },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${jwt}`
+                    }
+                }
+            )
+
+            if (data.errors){
+                const { message } = data.errors[0]
+                throw new Error(message)
+            }
+
+            setIsLoading(false)
+        } catch(error){
+            setIsLoading(false)
+            console.log(error)
+        }
+    }
+    
+    return (
+        <>
+        <div className="item">
+            <div className="field text-sm">Name</div>
+            <div className="value bg-white p-2 rounded-md shadow-lg">{user.name}</div>
+        </div>
+        <div className="item">
+            <div className="field text-sm">Email</div>
+            <div className="value bg-white p-2 rounded-md shadow-lg">{user.email}</div>
+        </div>
+        <div className="item">
+            <div className="field text-sm">Address</div>
+            <div className="value bg-white p-2 rounded-md shadow-lg">{user.address}</div>
+        </div>
+        <div className="item">
+            <div className="field text-sm">Phone number</div>
+            <div className="value bg-white p-2 rounded-md shadow-lg">{user.phone}</div>
+        </div>
+        <form action="" className="w-full flex flex-col gap-4 mobile:w-full">
+            <div className="item">
+                <div className="field text-sm">Old password</div>
+                <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" autoFocus required ref={oldPasswordInput} />
+            </div>
+            <div className="item">
+                <div className="field text-sm">New password</div>
+                <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" required ref={newPasswordInput} />
+            </div>
+            <div className="item">
+                <div className="field text-sm">New password (again)</div>
+                <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" required ref={newPasswordConfirmationInput} />
+            </div>
+            <div className="btns flex gap-2 mt-2">
+                <button type="button" className="w-full bg-red-600 p-2 text-white rounded-md" onClick={() => setIsShowUpdatePasswordForm(false)}>Cancel</button>
+                {
+                    isLoading ?
+                    <div className="w-full flex items-center justify-center p-2 h-full rounded-md text-white bg-green-600 self-end">
+                        <span className="loading loading-spinner loading-sm"></span>
+                    </div> :
+                    <button type="button" className="w-full flex items-center justify-center bg-green-600 p-2 text-white rounded-md" onClick={handleUpdatePassword}>Save</button>
+                }
+            </div>
+        </form>
         </>
     )
 }
