@@ -307,9 +307,12 @@ function ChangePasswordForm({ setIsShowUpdatePasswordForm, user }){
                 throw new Error(message)
             }
 
+            toast.success("Password changed successfully")
+            setIsShowUpdatePasswordForm(false)
             setIsLoading(false)
         } catch(error){
             setIsLoading(false)
+            toast.error("Fail to change password")
             console.log(error)
         }
     }
@@ -332,18 +335,18 @@ function ChangePasswordForm({ setIsShowUpdatePasswordForm, user }){
             <div className="field text-sm">Phone number</div>
             <div className="value bg-white p-2 rounded-md shadow-lg">{user.phone}</div>
         </div>
-        <form action="" className="w-full flex flex-col gap-4 mobile:w-full">
+        <form action="" className="w-full flex flex-col gap-4 mobile:w-full" onSubmit={handleUpdatePassword}>
             <div className="item">
                 <div className="field text-sm">Old password</div>
-                <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" autoFocus required ref={oldPasswordInput} />
+                <input type="password" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" autoFocus required ref={oldPasswordInput} />
             </div>
             <div className="item">
                 <div className="field text-sm">New password</div>
-                <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" required ref={newPasswordInput} />
+                <input type="password" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" required ref={newPasswordInput} />
             </div>
             <div className="item">
                 <div className="field text-sm">New password (again)</div>
-                <input type="text" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" required ref={newPasswordConfirmationInput} />
+                <input type="password" className="w-full bg-white p-2 rounded-md shadow-lg outline-boldPurple" required ref={newPasswordConfirmationInput} />
             </div>
             <div className="btns flex gap-2 mt-2">
                 <button type="button" className="w-full bg-red-600 p-2 text-white rounded-md" onClick={() => setIsShowUpdatePasswordForm(false)}>Cancel</button>
@@ -352,7 +355,7 @@ function ChangePasswordForm({ setIsShowUpdatePasswordForm, user }){
                     <div className="w-full flex items-center justify-center p-2 h-full rounded-md text-white bg-green-600 self-end">
                         <span className="loading loading-spinner loading-sm"></span>
                     </div> :
-                    <button type="button" className="w-full flex items-center justify-center bg-green-600 p-2 text-white rounded-md" onClick={handleUpdatePassword}>Save</button>
+                    <button type="submit" className="w-full flex items-center justify-center bg-green-600 p-2 text-white rounded-md">Save</button>
                 }
             </div>
         </form>

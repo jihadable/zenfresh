@@ -1,4 +1,4 @@
-import { IconArrowLeft, IconArrowRight, IconCheck, IconX } from "@tabler/icons-react"
+import { IconArrowLeft, IconCheck, IconX } from "@tabler/icons-react"
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
@@ -72,9 +72,9 @@ export default function VerifyEmail(){
                 <img src={logo} alt="ZenFresh Logo" className="w-12" />
                 <div className="flex items-center mt-4 gap-1 text-center"><p>Email verified</p> <IconCheck className="text-green-500" /></div>
                 <p className="text-center">Your email address has been successfully verified.</p>
-                <Link to={"/login"} className="mt-2 rounded-md bg-boldPurple p-2 text-white flex items-center gap-2">
-                    <span>Login page</span>
-                    <IconArrowRight stroke={1.5} />
+                <Link to={"/"} className="mt-2 rounded-md bg-boldPurple p-2 text-white flex items-center gap-2">
+                    <IconArrowLeft stroke={1.5} />
+                    <span>Back to home</span>
                 </Link>
             </section>
         )

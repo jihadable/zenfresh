@@ -65,9 +65,9 @@ export default function Navbar(){
 
     return (
         <nav className="navbar fixed z-30 top-0 left-0 right-0 flex items-center justify-between px-[10vw] py-2 bg-white shadow-md mobile:px-4 tablet:px-[5vw]">
-            <div className="logo flex">
+            <Link to={"/"} className="logo flex" onClick={goTop}>
                 <img src={logo} alt="Logo" className="w-12" />
-            </div>
+            </Link>
             <div className={`links flex items-center gap-8 mobile:absolute mobile:top-0 mobile:flex-col mobile:items-end mobile:p-4 mobile:bg-white mobile:z-50 mobile:transition mobile:duration-300 mobile:h-[100vh] mobile:w-[60%] ${showMobileMenu ? "active" : ""}`}>
                 <div className="close-mobile-menu-btn hidden hover:text-boldPurple cursor-pointer mobile:flex" onClick={() => setShowMobileMenu(false)}>
                     <IconX stroke={1.5} />
