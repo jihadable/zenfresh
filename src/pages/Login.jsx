@@ -94,6 +94,7 @@ export default function Login(){
                         <label htmlFor="password-input" className={`${fieldLabelStyle} ${isLabelPasswordInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>Password</label>
                         <input type="password" id="password-input" className={fieldInputStyle} required onFocus={() => setIsLabelPasswordInputOpen(true)} onBlur={() => handleFieldBlur("password")} ref={passwordInput} />
                     </div>
+                    <Link to={"/forget-password"} className="self-start hover:underline">Forget password?</Link>
                     {
                         isLoading ?
                         <div className="flex items-center justify-center w-20 py-2 rounded-md text-white bg-boldPurple">

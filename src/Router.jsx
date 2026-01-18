@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Account from "./pages/Account";
 import DetailLaundry from "./pages/DetailLaundry";
 import EditLaundry from "./pages/EditLaundry";
+import ForgetPassword from "./pages/ForgetPassword";
 import History from "./pages/History";
 import Home from "./pages/Home";
 import Laundries from "./pages/Laundries";
@@ -14,6 +15,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
 import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
 import Services from "./pages/Services";
 import VerifyEmail from "./pages/VerifyEmail";
 
@@ -46,6 +48,8 @@ export default function Router(){
                     <Route path="/edit/:id" element={<EditLaundry />}></Route>
                     <Route path="/history" element={<History />}></Route>
                     <Route path="/verify-email/:token" element={<VerifyEmail />}></Route>
+                    <Route path="/reset-password/:token" element={<ResetPassword />}></Route>
+                    <Route path="/forget-password" element={<ForgetPassword />}></Route>
                     <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </UnseenLaundryProvider>
