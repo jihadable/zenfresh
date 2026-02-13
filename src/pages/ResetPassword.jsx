@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -60,7 +61,7 @@ function ResetPasswordSection({ token }){
         try {
             setIsLoading(true)
 
-            const graphqlEndpoint = import.meta.VITE_GRAPHQL_ENDPOINT
+            const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
 
             const { data } = await axios.post(graphqlEndpoint, {
                 query:
@@ -74,7 +75,7 @@ function ResetPasswordSection({ token }){
                 throw new Error(message)
             }
 
-            toast.success("Password reset email sent")
+            toast.success("Password changed successfully")
             setIsLoading(false)
         } catch(error){
             setIsLoading(false)
@@ -87,11 +88,11 @@ function ResetPasswordSection({ token }){
             <form action="" onSubmit={handleUpdatePassword} className="flex flex-col gap-4 w-1/2 items-center">
                 <div className="text-xl font-bold text-center">Change password</div>
                 <div className={formFieldStyle}>
-                    <label htmlFor="new-password-input" className={`${fieldLabelStyle} ${isLabelEmailInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>New password</label>
+                    <label htmlFor="new-password-input" className={`${fieldLabelStyle} ${isLabelNewPasswordInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>New password</label>
                     <input type="password" id="new-password-input" className={fieldInputStyle} required onFocus={() => setIsLabelNewPasswordInputOpen(true)} onBlur={() => handleFieldBlur("new-password")} ref={newPasswordInput} />
                 </div>
                 <div className={formFieldStyle}>
-                    <label htmlFor="new-password-confirmarion-input" className={`${fieldLabelStyle} ${isLabelEmailInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>New password (again)</label>
+                    <label htmlFor="new-password-confirmarion-input" className={`${fieldLabelStyle} ${isLabelNewPasswordConfirmationInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>New password (again)</label>
                     <input type="password" id="new-password-confirmarion-input" className={fieldInputStyle} required onFocus={() => setIsLabelNewPasswordConfirmationInputOpen(true)} onBlur={() => handleFieldBlur("new-password-confirmarion")} ref={newPasswordConfirmationInput} />
                 </div>
             {

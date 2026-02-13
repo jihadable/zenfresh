@@ -40,7 +40,7 @@ function ForgetPasswordSection(){
             setIsLoading(true)
 
             const email = emailInput.current.value
-            const graphqlEndpoint = import.meta.VITE_GRAPHQL_ENDPOINT
+            const graphqlEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
 
             const { data } = await axios.post(graphqlEndpoint, {
                 query:
