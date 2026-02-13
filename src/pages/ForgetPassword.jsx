@@ -64,7 +64,7 @@ function ForgetPasswordSection(){
     
     return (
         <section className="w-[80vw] py-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <form action="" onSubmit={handleSendPasswordResetEmail} className="flex flex-col gap-4 w-1/2 items-center">
+            <form action="" onSubmit={handleSendPasswordResetEmail} className="flex flex-col gap-4 w-1/2 items-center mobile:w-full">
                 <div className="text-xl font-bold text-center">Password Reset</div>
                 <p className="text-center">Forgotten your password? Enter your email address below, and we'll send you an email allowing you to reset it.</p>
                 <div className={`email ${formFieldStyle}`}>
