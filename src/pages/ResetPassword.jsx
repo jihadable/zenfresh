@@ -78,6 +78,7 @@ function ResetPasswordSection({ token }){
             toast.success("Password changed successfully")
             setIsLoading(false)
         } catch(error){
+            toast.error("Fail to change password")
             setIsLoading(false)
             console.log(error)
         }
@@ -85,7 +86,7 @@ function ResetPasswordSection({ token }){
     
     return (
         <section className="w-[80vw] py-32 mx-auto flex flex-col items-center gap-8 mobile:w-full mobile:px-4 tablet:w-[90vw]">
-            <form action="" onSubmit={handleUpdatePassword} className="flex flex-col gap-4 w-1/2 items-center mobile:w-full">
+            <form onSubmit={handleUpdatePassword} className="flex flex-col gap-4 w-1/2 items-center mobile:w-full">
                 <div className="text-xl font-bold text-center">Change password</div>
                 <div className={formFieldStyle}>
                     <label htmlFor="new-password-input" className={`${fieldLabelStyle} ${isLabelNewPasswordInputOpen ? "top-0 left-2 text-sm" : 'top-4'}`}>New password</label>
