@@ -39,7 +39,7 @@ export default function Laundries(){
 }
 
 function LaundryContainer({ laundries }){
-    const { setUnseenLaundries } = useContext(UnseenLaundryContext)
+    const { unseenLaundries, setUnseenLaundries } = useContext(UnseenLaundryContext)
 
     useEffect(() => {
         const markAllSeen = async() => {
@@ -73,7 +73,7 @@ function LaundryContainer({ laundries }){
         }
 
         markAllSeen()
-    }, [])
+    }, [unseenLaundries])
 
     const filterLabels = ["All", "Completed"]
     const [selectedFilter, setSelectedFilter] = useState("All")

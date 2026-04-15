@@ -1,10 +1,10 @@
+import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Footer from "../components/Footer"
 import Hero from "../components/Hero"
 import Navbar from "../components/Navbar"
 import { AuthContext } from "../contexts/AuthContext"
-import { LaundryContext } from "../contexts/LaundryContext"
 import { getIdCurrency } from "../utils/getIdCurrency"
 import { getIdDate } from "../utils/getIdDate"
 import NotFound from "./NotFound"
@@ -12,27 +12,59 @@ import NotFound from "./NotFound"
 export default function DetailLaundry(){
     const { id } = useParams()
     const { login, isAdmin } = useContext(AuthContext)
-    const { laundries } = useContext(LaundryContext)
     
     const [laundry, setLaundry] = useState(null)
     
     useEffect(() => {
-        if (laundries !== null){
-            setLaundry(laundries.find(laundry => laundry.id === id))
+        const getLaundry = async() => {
+            try {
+                const graphQLAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
+                const jwt = localStorage.getItem("jwt")
+
+                const { data } = await axios.post(
+                    graphQLAPIEndpoint, 
+                    {
+                        query:
+                        `query {
+                            order(id: "${id}"){
+                                id, status, total_price, date, 
+                                category { id, name, price, description }
+                                user { id, name, email, phone, address }
+                            }
+                        }`
+                    }, 
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + jwt
+                        }
+                    }
+                )
+
+                if (data.errors){
+                    const { message } = data.errors[0]
+                    throw new Error(message)
+                }
+
+                setLaundry(data.data.order)
+            } catch(error){
+                console.log(error)
+            }
         }
-    }, [id, laundries])
+
+        getLaundry()
+    }, [id])
     
-    if (login === false || isAdmin === false || (laundry === undefined && laundries !== null)){
+    if (login === false || isAdmin === false || (laundry === undefined)){
         return <NotFound />
     }
 
-    if (login === true && isAdmin && laundries !== null && laundry !== undefined){
+    if (login === true && isAdmin && laundry !== undefined){
         document.title = "ZenFresh | Order Detail"
 
         return (
             <>
             <Navbar />
-            <Hero page={"Detail Pesanan"} path={"/edit/" + id} />
+            <Hero page={"Order Detail"} path={"/edit/" + id} />
             <DetailLaundryContainer laundry={laundry} />
             <Footer />
             </>
