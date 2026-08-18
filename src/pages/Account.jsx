@@ -188,7 +188,7 @@ function UpdateProfileForm({ setIsShowUpdateProfileForm, user }){
             const usersAPIEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT
             const jwt = localStorage.getItem("jwt")
 
-            await axios.post(usersAPIEndpoint, 
+            const { data } = await axios.post(usersAPIEndpoint, 
                 {
                     query:
                     `mutation {
